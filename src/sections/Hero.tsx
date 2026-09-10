@@ -32,7 +32,10 @@ export function Hero() {
           <p className="text-lede text-ink-muted mt-2 font-medium">{profile.positioning}</p>
           <p className="prose-measure mt-6">{profile.personalStatement}</p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          {/* A 2x2 grid rather than a wrapping row. Four buttons never fit on
+              one line in this column at any width, and free wrapping left a
+              lone third-row button that read as a mistake. */}
+          <div className="mt-8 grid max-w-md grid-cols-2 gap-3">
             <ActionLink href="#projects" variant="primary">
               View Projects
             </ActionLink>
