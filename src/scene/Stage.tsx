@@ -1,8 +1,11 @@
 import { Suspense, lazy, useRef } from 'react'
 import { SceneFallback } from '@/components/SceneFallback'
-import { heroSceneImage } from './heroSceneImage'
+import { SceneBoundary } from './SceneBoundary'
+import { heroSceneImage, heroSceneImageCompact } from './heroSceneImage'
 import { useInView } from '@/hooks/useInView'
 import { usePageVisible } from '@/hooks/usePageVisible'
+import { useCompactScene } from '@/hooks/useCompactScene'
+import { useFinePointer } from '@/hooks/useFinePointer'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { useWebGLSupport } from '@/hooks/useWebGLSupport'
 
@@ -27,19 +30,24 @@ export function Stage({ className = '' }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const reducedMotion = usePrefersReducedMotion()
   const webgl = useWebGLSupport()
+  const compact = useCompactScene()
+  const finePointer = useFinePointer()
   const inView = useInView(containerRef)
   const pageVisible = usePageVisible()
 
   const canRender = webgl && !reducedMotion
+  const fallback = compact ? heroSceneImageCompact : heroSceneImage
 
   return (
     <div ref={containerRef} aria-hidden="true" className={`relative ${className}`}>
       {canRender ? (
-        <Suspense fallback={<SceneFallback image={heroSceneImage} />}>
-          <HeroScene active={inView && pageVisible} />
-        </Suspense>
+        <SceneBoundary fallback={<SceneFallback image={fallback} />}>
+          <Suspense fallback={<SceneFallback image={fallback} />}>
+            <HeroScene active={inView && pageVisible} compact={compact} parallax={finePointer} />
+          </Suspense>
+        </SceneBoundary>
       ) : (
-        <SceneFallback image={heroSceneImage} />
+        <SceneFallback image={fallback} />
       )}
     </div>
   )

@@ -17,3 +17,14 @@ export const heroSceneImage: SceneImage = {
   width: 857,
   height: 857,
 }
+
+/**
+ * The narrow composition has fewer props and a tighter camera, so it gets its
+ * own still — a reduced-motion visitor on a phone should see the arrangement
+ * that was designed for a phone.
+ */
+export const heroSceneImageCompact: SceneImage = {
+  src: '/images/hero-scene-compact.webp',
+  width: 598,
+  height: 598,
+}

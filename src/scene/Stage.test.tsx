@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
+import { SceneFallback } from '@/components/SceneFallback'
+import { SceneBoundary } from '@/scene/SceneBoundary'
 import { Stage } from '@/scene/Stage'
-import { heroSceneImage } from '@/scene/heroSceneImage'
+import { heroSceneImage, heroSceneImageCompact } from '@/scene/heroSceneImage'
 import { mockMatchMedia } from '@/test/setup'
 
 /**
@@ -39,6 +41,12 @@ describe('Stage', () => {
     expect(container.querySelector('[tabindex]:not([tabindex="-1"])')).toBeNull()
   })
 
+  it('serves the narrow still when the compact composition is active', () => {
+    mockMatchMedia(true) // matches every query, including the compact breakpoint
+    const { container } = render(<Stage />)
+    expect(container.querySelector('img')).toHaveAttribute('src', heroSceneImageCompact.src)
+  })
+
   it('gives the fallback empty alt text — the scene carries no information', () => {
     const { container } = render(<Stage />)
     expect(container.querySelector('img')).toHaveAttribute('alt', '')
@@ -49,5 +57,23 @@ describe('Stage', () => {
     const image = container.querySelector('img')!
     expect(image).toHaveAttribute('width', String(heroSceneImage.width))
     expect(image).toHaveAttribute('height', String(heroSceneImage.height))
+  })
+})
+
+describe('SceneBoundary', () => {
+  it('falls back to the still instead of taking the page down with it', () => {
+    // A rejected lazy import throws during render. Unhandled, it unmounts the
+    // whole tree — the page would go blank because a decoration failed.
+    const Boom = () => {
+      throw new Error('chunk failed to load')
+    }
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { container } = render(
+      <SceneBoundary fallback={<SceneFallback image={heroSceneImage} />}>
+        <Boom />
+      </SceneBoundary>,
+    )
+    expect(container.querySelector('img')).toHaveAttribute('src', heroSceneImage.src)
+    spy.mockRestore()
   })
 })

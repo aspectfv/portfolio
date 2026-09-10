@@ -2,9 +2,19 @@
 
 ## 3D models
 
-| Asset | Source | Author | License |
-| --- | --- | --- | --- |
-| `public/models/tree.glb` | [Nature Kit](https://kenney.nl/assets/nature-kit) | [Kenney](https://kenney.nl) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+All from Kenney's [Nature Kit](https://kenney.nl/assets/nature-kit), by
+[Kenney](https://kenney.nl), under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
+
+| File | Kit model |
+| --- | --- |
+| `public/models/tree.glb` | `tree_default` |
+| `public/models/pine.glb` | `tree_pineDefaultA` |
+| `public/models/rock.glb` | `rock_smallA` |
+| `public/models/grass.glb` | `grass` |
+| `public/models/mushroom.glb` | `mushroom_red` |
+| `public/models/logs.glb` | `log_stack` |
+
+The island, workstation and monitor are built from primitives in code, not sourced.
 
 CC0 waives the attribution requirement. Recording provenance anyway is honest and costs
 nothing.
