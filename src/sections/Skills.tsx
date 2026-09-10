@@ -1,26 +1,53 @@
-import { Section } from '@/components/Section'
 import { ChipList } from '@/components/Chip'
+import { Panel, type PanelTone } from '@/components/Panel'
+import { Section } from '@/components/Section'
+import type { IconName } from '@/components/Icon'
 import { sections } from '@/content/profile'
 import { skillGroups } from '@/content/skills'
 
 const meta = sections.find((section) => section.id === 'skills')!
 
+/**
+ * Which glyph and tone represent a group is presentation, so the mapping lives
+ * here rather than in the content registry. Groups without an entry still
+ * render; they just get the default tone and no glyph.
+ */
+const groupGlyphs: Record<string, IconName> = {
+  languages: 'terminal',
+  backend: 'hammer',
+  frontend: 'gem',
+  data: 'chest',
+  ai: 'spark',
+  infrastructure: 'signpost',
+}
+
+const groupTones: Record<string, PanelTone> = {
+  languages: 'ember',
+  backend: 'leaf',
+  frontend: 'tide',
+  data: 'ember',
+  ai: 'leaf',
+  infrastructure: 'tide',
+}
+
+/**
+ * An inventory grid: each group is a framed case with a titled bar, and each
+ * skill is a slot inside it. Never a logo wall, never a percentage bar; a
+ * proficiency meter would be a number nobody can verify.
+ */
 export function Skills() {
   return (
-    <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} tone="sunken">
-      <div className="grid gap-6 sm:grid-cols-2">
+    <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} biome="sand">
+      <div className="grid items-start gap-6 sm:grid-cols-2">
         {skillGroups.map((group) => (
-          <div
+          <Panel
             key={group.id}
-            className="bg-surface border-hairline border-b-edge rounded-lg border border-b-[3px] p-5 shadow-card"
+            title={group.label}
+            tone={groupTones[group.id] ?? 'ember'}
+            {...(groupGlyphs[group.id] ? { icon: groupGlyphs[group.id] } : {})}
           >
-            <h3 className="font-display text-eyebrow text-ink-muted font-medium tracking-[0.08em] uppercase">
-              {group.label}
-            </h3>
-            <div className="mt-3">
-              <ChipList items={group.items} label={group.label} />
-            </div>
-          </div>
+            <ChipList items={group.items} label={group.label} />
+          </Panel>
         ))}
       </div>
     </Section>

@@ -39,7 +39,7 @@ export function Panel({
 
   return (
     <div
-      className={`bg-surface border-edge rounded-lg border-2 border-b-(length:--edge-lg) ${className}`}
+      className={`bg-surface border-edge flex flex-col rounded-lg border-2 border-b-(length:--edge-lg) ${className}`}
     >
       {title && (
         <div
@@ -59,7 +59,10 @@ export function Panel({
           </Heading>
         </div>
       )}
-      <div className="p-4 md:p-6">{children}</div>
+      {/* flex-1 plus flex-col so a caller can pin content to the bottom of the
+          panel with mt-auto, which is what keeps card actions aligned across a
+          grid row when the cards hold unequal amounts of text. */}
+      <div className="flex flex-1 flex-col p-4 md:p-6">{children}</div>
     </div>
   )
 }

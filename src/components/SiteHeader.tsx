@@ -20,7 +20,7 @@ export function SiteHeader() {
   }, [open])
 
   return (
-    <header className="bg-canvas/95 border-hairline sticky top-0 z-50 border-b backdrop-blur-[2px]">
+    <header className="bg-canvas border-edge sticky top-0 z-50 border-b-2">
       <div className="mx-auto flex max-w-content items-center gap-4 px-6 py-3">
         <a href="#top" className="font-display text-lg font-semibold whitespace-nowrap">
           Joshua Tating

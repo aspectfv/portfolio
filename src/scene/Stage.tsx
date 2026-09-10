@@ -8,6 +8,7 @@ import { usePageVisible } from '@/hooks/usePageVisible'
 import { useCompactScene } from '@/hooks/useCompactScene'
 import { useFinePointer } from '@/hooks/useFinePointer'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+import { useViewMode } from '@/hooks/useViewMode'
 import { useWebGLSupport } from '@/hooks/useWebGLSupport'
 
 /**
@@ -36,8 +37,12 @@ export function Stage({ className = '' }: { className?: string }) {
   const finePointer = useFinePointer()
   const inView = useInView(containerRef)
   const pageVisible = usePageVisible()
+  const [viewMode] = useViewMode()
 
-  const canRender = webgl && !reducedMotion
+  // Plain view is a request for the document without the game presentation, and
+  // a live 3D canvas is the loudest part of that presentation. It gets the same
+  // still every other declined path gets.
+  const canRender = webgl && !reducedMotion && viewMode === 'game'
   const fallback = compact ? heroSceneImageCompact : heroSceneImage
 
   return (
