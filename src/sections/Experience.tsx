@@ -1,5 +1,5 @@
 import { Section } from '@/components/Section'
-import { TagList } from '@/components/Tag'
+import { ChipList } from '@/components/Chip'
 import { sections } from '@/content/profile'
 import { education, experience } from '@/content/experience'
 
@@ -23,7 +23,7 @@ export function Experience() {
                 </p>
                 <p className="mt-3">{entry.summary}</p>
                 <div className="mt-3">
-                  <TagList items={entry.stack} label={`${entry.company} stack`} />
+                  <ChipList items={entry.stack} label={`${entry.company} stack`} />
                 </div>
               </li>
             ))}

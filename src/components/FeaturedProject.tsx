@@ -3,7 +3,7 @@ import { ProjectDetail } from '@/components/ProjectDetail'
 import { ProjectLinks } from '@/components/ProjectLinks'
 import { ProjectVisual } from '@/components/ProjectVisual'
 import { StatusPill } from '@/components/StatusPill'
-import { TagList } from '@/components/Tag'
+import { ChipList } from '@/components/Chip'
 import type { Project } from '@/content/types'
 
 /**
@@ -45,7 +45,7 @@ export function FeaturedProject({ project }: { project: Project }) {
           </dl>
 
           <div className="mt-5">
-            <TagList items={project.stack} label={`${project.name} stack`} />
+            <ChipList items={project.stack} label={`${project.name} stack`} />
           </div>
 
           <div className="mt-6">

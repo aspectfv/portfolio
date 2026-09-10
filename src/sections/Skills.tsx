@@ -1,5 +1,5 @@
 import { Section } from '@/components/Section'
-import { TagList } from '@/components/Tag'
+import { ChipList } from '@/components/Chip'
 import { sections } from '@/content/profile'
 import { skillGroups } from '@/content/skills'
 
@@ -18,7 +18,7 @@ export function Skills() {
               {group.label}
             </h3>
             <div className="mt-3">
-              <TagList items={group.items} label={group.label} />
+              <ChipList items={group.items} label={group.label} />
             </div>
           </div>
         ))}

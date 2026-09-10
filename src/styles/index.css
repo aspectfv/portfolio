@@ -15,11 +15,11 @@
 }
 
 @font-face {
-  font-family: 'Bricolage Variable';
+  font-family: 'Baloo Variable';
   font-style: normal;
   font-display: swap;
-  font-weight: 200 800;
-  src: url('/fonts/bricolage-latin-var.woff2') format('woff2-variations');
+  font-weight: 400 800;
+  src: url('/fonts/baloo2-latin-var.woff2') format('woff2-variations');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -38,18 +38,39 @@
   --color-ink: #16202e;
   --color-ink-muted: #4e5a6e;
   --color-hairline: #e3d9c9;
-  --color-edge: #e0d3be;
 
   /* ── Accents ─────────────────────────────────────────────────────────────
      Bright values are for illustration only; white text on them fails at
-     ~3.6:1. Use -strong for anything carrying a white label (5.00:1, 5.19:1)
-     and -ink for accent text on canvas (5.35:1, 5.63:1). */
+     ~3.6:1. Use -strong for anything carrying a white label and -ink for
+     accent text on a band. Every -strong has a matching -edge, the darker
+     shade its solid bottom edge is drawn in. */
   --color-ember: #e8552b;
   --color-ember-strong: #c6421c;
+  --color-ember-edge: #8f2f12;
   --color-ember-ink: #b93a15;
   --color-leaf: #17958c;
   --color-leaf-strong: #0e7a72;
+  --color-leaf-edge: #0a574f;
   --color-leaf-ink: #0e6f68;
+  --color-tide-strong: #2f6fa8;
+  --color-tide-edge: #245780;
+  --color-tide-ink: #245780;
+
+  /* ── Biomes ──────────────────────────────────────────────────────────────
+     Section bands. Tinted derivatives of the world palette, light enough to
+     carry body text: ink clears 13.5:1 and ink-muted 5.7:1 on every one of
+     them, so the AAA body target holds across the whole page. Each has an
+     -edge, a darker shade of itself, for solid structural depth. Panels sit
+     on a band in --color-surface; the band is never the panel. */
+  --color-sky: #dff0fa;
+  --color-sky-edge: #bfdcef;
+  --color-meadow: #e6f2dc;
+  --color-meadow-edge: #cbe2b8;
+  --color-sand: #f7ead0;
+  --color-sand-edge: #e6d3ab;
+  --color-dusk: #e8e9f2;
+  --color-dusk-edge: #cdd0e0;
+  --color-edge: #e0d3be;
 
   /* ── World palette (illustration and 3D only, never behind body text) ──── */
   --color-world-sky: #7ec4f2;
@@ -62,10 +83,11 @@
   --color-world-wood: #c98a4b;
 
   /* ── Type ────────────────────────────────────────────────────────────────
-     Display is for the hero name, eyebrows, and status pills only. Never for
-     paragraphs, never for navigation. No pixel font, ever. */
+     Display is for the hero name, area signs, ribbon headers, and small
+     decorative UI. Never for paragraphs, never for navigation. Baloo 2 has
+     no weight below 400; do not ask it for one. No pixel font, ever. */
   --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Bricolage Variable', 'Manrope Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Baloo Variable', 'Manrope Variable', ui-sans-serif, sans-serif;
 
   --text-hero: 2.75rem;
   --text-hero--line-height: 1.15;
@@ -87,17 +109,21 @@
   --text-meta: 0.875rem;
   --text-meta--line-height: 1.5;
 
-  /* ── Radii ───────────────────────────────────────────────────────────── */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1.25rem;
+  /* ── Radii ───────────────────────────────────────────────────────────────
+     Cozy UI is rounder than product UI. */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
 
   /* ── Depth ───────────────────────────────────────────────────────────────
-     Warm soft shadow plus a solid bottom edge; the low-poly equivalent of a
-     bevel. No backdrop blur, no translucency: glassmorphism is on the
-     product avoid-list. */
-  --shadow-card: 0 6px 18px -8px rgb(60 42 24 / 0.18);
-  --shadow-card-lift: 0 14px 28px -12px rgb(60 42 24 / 0.24);
+     Depth is structural, never atmospheric. There are no blurred shadows in
+     this system; a raised surface is drawn as a solid bottom edge in a darker
+     shade of its own colour, which is the low-poly equivalent of a bevel.
+     Controls press: on :active they translate down by their edge height and
+     the edge collapses. No backdrop blur, no translucency. */
+  --edge-sm: 3px;
+  --edge-md: 4px;
+  --edge-lg: 6px;
 
   /* ── Motion ──────────────────────────────────────────────────────────── */
   --dur-fast: 150ms;
@@ -106,7 +132,9 @@
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* ── Layout ──────────────────────────────────────────────────────────── */
+  /* ── Layout ──────────────────────────────────────────────────────────────
+     Spacing follows an 8px rhythm: use the even steps of Tailwind's 4px
+     scale (2, 4, 6, 8, 12, 16) and not the odd ones. */
   --spacing-section: 6rem;
   --container-content: 70rem;
 }
@@ -120,7 +148,7 @@
     --text-eyebrow: 0.8125rem;
     --text-card: 1.5rem;
     --text-body: 1.0625rem;
-    --spacing-section: 10rem;
+    --spacing-section: 8rem;
   }
 }
 
@@ -169,6 +197,23 @@
   max-width: 68ch;
 }
 
+/* Press physics. The single interaction that carries the most game feel: a
+   raised control sinks onto its own edge when held. Shared by anchors and
+   buttons, so it lives here rather than being retyped in each component.
+   Under reduce, the global block below collapses the transition but the
+   position change still lands, which is correct: it is feedback, not motion. */
+@utility press {
+  transition:
+    translate var(--dur-fast) var(--ease-standard),
+    border-bottom-width var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard);
+
+  &:active {
+    translate: 0 var(--edge-md);
+    border-bottom-width: 0;
+  }
+}
+
 /* Section reveal.
    The hidden state is scoped to no-preference on purpose: under reduce, or in a
    browser without IntersectionObserver, [data-revealed] is never set and the
@@ -184,6 +229,50 @@
   [data-reveal]:not([data-revealed]) {
     opacity: 0;
     transform: translateY(12px);
+  }
+}
+
+/* Plain view.
+   The visitor's escape hatch out of the game presentation, and the reason the
+   default is allowed to commit to it. Plain view is a stylesheet concern, not
+   a second component tree: game treatments are authored as ordinary classes
+   and neutralised here, so there is exactly one DOM and no chance of the two
+   views disagreeing about what content exists.
+
+   What it removes: biome bands, ribbon fills, solid edges, press physics,
+   decorative glyphs. What it must never remove: a word of content. */
+[data-view='plain'] {
+  --color-sky: var(--color-canvas);
+  --color-sky-edge: var(--color-hairline);
+  --color-meadow: var(--color-canvas);
+  --color-meadow-edge: var(--color-hairline);
+  --color-sand: var(--color-canvas);
+  --color-sand-edge: var(--color-hairline);
+  --color-dusk: var(--color-canvas);
+  --color-dusk-edge: var(--color-hairline);
+  --color-edge: var(--color-hairline);
+  --edge-sm: 1px;
+  --edge-md: 1px;
+  --edge-lg: 1px;
+  --font-display: var(--font-sans);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.5rem;
+
+  [data-ornament] {
+    display: none;
+  }
+
+  /* A ribbon becomes an ordinary recessed title bar. The heading inherits its
+     colour from here, so neutralising the bar neutralises the label with it. */
+  [data-ribbon] {
+    background-color: var(--color-sunken);
+    border-color: var(--color-hairline);
+    color: var(--color-ink);
+  }
+
+  .press:active {
+    translate: none;
   }
 }
 

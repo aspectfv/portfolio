@@ -26,7 +26,7 @@ so the files here are quantised derivatives rather than the originals.
 
 | Family | Source | License |
 | --- | --- | --- |
-| Inter | [rsms/inter](https://github.com/rsms/inter) via [Fontsource](https://fontsource.org) | [SIL OFL 1.1](https://openfontlicense.org) |
-| Fredoka | [hafontia/Fredoka](https://github.com/hafontia/Fredoka) via [Fontsource](https://fontsource.org) | [SIL OFL 1.1](https://openfontlicense.org) |
+| Manrope | [sharanda/manrope](https://github.com/sharanda/manrope) via [Fontsource](https://fontsource.org) | [SIL OFL 1.1](https://openfontlicense.org) |
+| Baloo 2 | [EkType/Baloo-2](https://github.com/EkType/Baloo-2) via [Fontsource](https://fontsource.org) | [SIL OFL 1.1](https://openfontlicense.org) |
 
 Only the latin subsets are vendored, in `public/fonts/`.

@@ -27,7 +27,7 @@ export function ProjectDetail({ detail, projectName }: { detail: Detail; project
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="border-ink-muted hover:bg-sunken text-meta inline-flex min-h-11 items-center gap-2 rounded-md border px-4 font-medium transition-colors duration-(--dur-fast) active:translate-y-px"
+        className="border-ink-muted bg-surface hover:bg-sunken text-meta press inline-flex min-h-11 items-center gap-2 rounded-sm border-2 border-b-(length:--edge-md) px-4 font-medium"
       >
         {open ? 'Hide details' : 'Read more'}
         <span

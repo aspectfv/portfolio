@@ -1,14 +1,20 @@
 type Variant = 'primary' | 'secondary' | 'ghost'
 
-const base =
-  'inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium ' +
-  'min-h-11 transition-[transform,box-shadow,background-color] duration-(--dur-base) ' +
-  'ease-(--ease-standard) active:translate-y-px'
+/**
+ * Raised controls sit on a solid bottom edge and sink onto it when held; the
+ * `press` utility in the stylesheet owns that behaviour. Ghost is flat on
+ * purpose, because a text link has no body to raise.
+ */
+export const pressBase =
+  'inline-flex items-center justify-center gap-2 rounded-sm px-5 py-2.5 font-medium ' +
+  'min-h-11 press border-2 border-b-(length:--edge-md)'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ember-strong text-white shadow-card hover:shadow-card-lift',
-  secondary: 'bg-surface text-ink border border-ink-muted hover:bg-sunken',
-  ghost: 'text-ink-muted hover:text-ink underline decoration-hairline underline-offset-4',
+  primary: 'bg-ember-strong border-ember-edge text-white hover:bg-ember',
+  secondary: 'bg-surface border-ink-muted text-ink hover:bg-sunken',
+  ghost:
+    'inline-flex items-center gap-2 min-h-11 font-medium text-ink-muted hover:text-ink ' +
+    'underline decoration-hairline underline-offset-4',
 }
 
 export function ActionLink({
@@ -27,7 +33,7 @@ export function ActionLink({
   return (
     <a
       href={href}
-      className={`${base} ${variants[variant]}`}
+      className={variant === 'ghost' ? variants.ghost : `${pressBase} ${variants[variant]}`}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       {...(download ? { download: '' } : {})}
     >

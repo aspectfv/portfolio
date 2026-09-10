@@ -2,7 +2,7 @@ import { ProjectDetail } from '@/components/ProjectDetail'
 import { ProjectLinks } from '@/components/ProjectLinks'
 import { ProjectVisual } from '@/components/ProjectVisual'
 import { StatusPill } from '@/components/StatusPill'
-import { TagList } from '@/components/Tag'
+import { ChipList } from '@/components/Chip'
 import type { Project } from '@/content/types'
 
 /**
@@ -28,7 +28,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <p className="text-ink-muted mt-3">{project.summary}</p>
 
       <div className="mt-4">
-        <TagList items={project.stack} label={`${project.name} stack`} />
+        <ChipList items={project.stack} label={`${project.name} stack`} />
       </div>
 
       {/* mt-auto pins the actions to the bottom so cards of unequal text length
