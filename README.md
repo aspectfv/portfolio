@@ -1,6 +1,6 @@
 # Portfolio
 
-Personal portfolio site for Joshua Tating — a single-page overview of projects, stack, and
+Personal portfolio site for Joshua Tating; a single-page overview of projects, stack, and
 experience, with a low-poly 3D scene as its visual signature.
 
 ## Stack
@@ -48,4 +48,4 @@ stays a separate lazily-loaded chunk and the page works without it.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT; see [LICENSE](LICENSE).

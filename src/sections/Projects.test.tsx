@@ -16,7 +16,7 @@ describe('flagship selection', () => {
   })
 
   // Rendering every project through the flagship layout proves the component
-  // reads the flag rather than knowing a project id — which is what makes
+  // reads the flag rather than knowing a project id, which is what makes
   // re-flagshipping a one-line data edit.
   it.each(projects.map((project) => [project.id, project] as const))(
     'renders %s through the flagship layout without special-casing',

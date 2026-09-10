@@ -8,7 +8,7 @@ const out = new URL('../dist/sitemap.xml', import.meta.url)
 
 if (!origin) {
   rmSync(out, { force: true })
-  console.log('sitemap: skipped — SITE_URL not set')
+  console.log('sitemap: skipped; SITE_URL not set')
   process.exit(0)
 }
 

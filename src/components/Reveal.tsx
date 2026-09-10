@@ -5,8 +5,8 @@ import { useEffect, useRef } from 'react'
  *
  * Deliberately not "hidden until revealed" in the default stylesheet. The
  * hidden state lives inside a `prefers-reduced-motion: no-preference` block, so
- * a visitor who asked for less motion — or a browser without
- * IntersectionObserver — gets the content outright rather than a blank page
+ * a visitor who asked for less motion, or a browser without
+ * IntersectionObserver; gets the content outright rather than a blank page
  * waiting for an observer that will never fire.
  */
 export function Reveal({

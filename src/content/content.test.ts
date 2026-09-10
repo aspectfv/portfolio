@@ -58,6 +58,45 @@ describe('projects', () => {
   })
 })
 
+describe('typography of the copy', () => {
+  const everyString = [
+    profile.personalStatement,
+    profile.positioning,
+    profile.contactStatement,
+    ...profile.about,
+    ...sections.flatMap((s) => [s.heading, s.eyebrow, s.navLabel]),
+    ...projects.flatMap((p) => [
+      p.name,
+      p.tagline,
+      p.summary,
+      p.role,
+      p.category,
+      ...(p.detail ? Object.values(p.detail) : []),
+    ]),
+    ...experience.flatMap((e) => [e.summary, e.role, e.company]),
+    ...education.flatMap((e) => [e.qualification, ...e.highlights]),
+    ...skillGroups.flatMap((g) => [g.label, ...g.items]),
+  ]
+
+  it('uses no em dashes', () => {
+    for (const text of everyString) {
+      expect(text, text.slice(0, 60)).not.toContain('\u2014')
+    }
+  })
+
+  it('uses typographic apostrophes, not straight ones', () => {
+    for (const text of everyString) {
+      expect(text, text.slice(0, 60)).not.toMatch(/[A-Za-z]'[A-Za-z]/)
+    }
+  })
+
+  it('uses an ellipsis character rather than three dots', () => {
+    for (const text of everyString) {
+      expect(text, text.slice(0, 60)).not.toContain('...')
+    }
+  })
+})
+
 describe('profile', () => {
   it('has the contact routes a recruiter needs', () => {
     expect(profile.email).toMatch(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
@@ -90,7 +129,7 @@ describe('profile', () => {
 })
 
 describe('skills', () => {
-  it('groups every skill — a flat list would be the logo wall the brief forbids', () => {
+  it('groups every skill; a flat list would be the logo wall the brief forbids', () => {
     expect(skillGroups.length).toBeGreaterThanOrEqual(4)
     for (const group of skillGroups) {
       expect(group.items.length).toBeGreaterThan(0)

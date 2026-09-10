@@ -8,7 +8,7 @@ export function SiteHeader() {
   const active = useActiveSection(sectionIds)
   const [open, setOpen] = useState(false)
 
-  // The mobile menu is a disclosure, not a modal — close it on Escape so a
+  // The mobile menu is a disclosure, not a modal; close it on Escape so a
   // keyboard user is never trapped behind it.
   useEffect(() => {
     if (!open) return

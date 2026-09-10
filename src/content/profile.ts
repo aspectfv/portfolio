@@ -8,14 +8,14 @@ export const profile: Profile = {
   email: 'josh10nathan@gmail.com',
   positioning: 'Backend · Full-Stack · AI Software Engineer',
   personalStatement:
-    'Currently building payment infrastructure at NGnair, and a 3D browser roguelite whose scores are re-verified in a different language. I like problems where correctness is provable and the result is still fun to look at.',
+    'I build backend systems for a living and games for the fun of it. Both pull me toward the same thing: the interesting work is usually the part you cannot see from the outside.',
   about: [
-    "I'm a Computer Science student at De La Salle University and a software engineer working on payment infrastructure. Most of my day job lives on the backend: service boundaries, authentication, and making a system that moves money fail in predictable ways instead of interesting ones.",
-    "The rest of my time goes to building games and the machinery around them. My current project is a 3D browser roguelite where the browser is not trusted — every run is replayed and re-scored by a separate service written in a different language, and the two have to agree exactly or the build fails. It's a game, but the interesting part is the contract underneath it.",
-    "I got into software because of games, and I've never really found a reason to pick a side. Backend, full-stack, or AI work — I'm mostly drawn to the parts of a system you can't see from the outside.",
+    'I’m a Computer Science student at De La Salle University and a software engineer working on payment infrastructure. Most of my day job lives on the backend: service boundaries, authentication, and making a system that moves money fail in predictable ways instead of interesting ones.',
+    'Outside of work I build games, and the machinery around them usually turns out to be the more interesting half. It is where I get to be rigorous about things nobody asked me to be rigorous about, which is a good way to learn what rigour actually costs.',
+    'I got into software because of games and never found a reason to pick a side. Backend, full-stack, AI: I’m drawn to whichever part of a system is doing the work nobody can see.',
   ],
   contactStatement:
-    'Open to Backend, Full-Stack, and AI Engineer roles, Junior through SWE II. The fastest way to reach me is email — I read everything.',
+    'Open to Backend, Full-Stack, and AI Engineer roles, Junior through SWE II. The fastest way to reach me is email, and I read everything.',
   links: {
     github: { label: 'GitHub', href: 'https://github.com/aspectfv', external: true },
     linkedin: {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 /**
- * Copying is a convenience beside the mailto — never the only way to get the
+ * Copying is a convenience beside the mailto; never the only way to get the
  * address, which is also rendered as text.
  */
 export function CopyEmail({ email }: { email: string }) {

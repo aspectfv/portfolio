@@ -20,7 +20,7 @@ function storeFor(query: string) {
 
 /**
  * Subscribes to a media query. Memoised per query string because
- * useSyncExternalStore compares the subscribe function by identity — a fresh
+ * useSyncExternalStore compares the subscribe function by identity; a fresh
  * closure each render would resubscribe on every render.
  */
 export function useMediaQuery(query: string): boolean {

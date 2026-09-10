@@ -4,7 +4,7 @@ import type { SceneImage } from '@/components/SceneFallback'
  * Static capture of the hero scene, shown whenever the canvas will not run.
  *
  * Regenerate after changing the scene: run the dev server, load the page in a
- * browser with WebGL, and export the canvas —
+ * browser with WebGL, and export the canvas ,
  *
  *   canvas.toDataURL('image/webp', 0.92)
  *
@@ -20,7 +20,7 @@ export const heroSceneImage: SceneImage = {
 
 /**
  * The narrow composition has fewer props and a tighter camera, so it gets its
- * own still — a reduced-motion visitor on a phone should see the arrangement
+ * own still; a reduced-motion visitor on a phone should see the arrangement
  * that was designed for a phone.
  */
 export const heroSceneImageCompact: SceneImage = {

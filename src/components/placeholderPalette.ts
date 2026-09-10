@@ -2,7 +2,7 @@ export interface Palette {
   readonly sky: string
   readonly ridge: string
   readonly ridgeFar: string
-  /** Must contrast with `sky` — a sun the colour of its own sky is invisible. */
+  /** Must contrast with `sky`; a sun the colour of its own sky is invisible. */
   readonly sun: string
 }
 

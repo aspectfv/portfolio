@@ -7,7 +7,7 @@ const labels: Record<string, string> = {
 }
 
 /**
- * A project with no public link renders a plain note. Never an anchor — a 404
+ * A project with no public link renders a plain note. Never an anchor; a 404
  * from a portfolio is worse than no link at all.
  */
 export function ProjectLinks({ project }: { project: Project }) {
@@ -15,7 +15,7 @@ export function ProjectLinks({ project }: { project: Project }) {
     return (
       <p className="text-meta text-ink-muted">
         Private repository
-        <span className="sr-only"> — no public link is available for {project.name}</span>
+        <span className="sr-only">. No public link is available for {project.name}.</span>
       </p>
     )
   }

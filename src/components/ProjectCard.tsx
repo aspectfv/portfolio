@@ -7,7 +7,7 @@ import type { Project } from '@/content/types'
 
 /**
  * A non-flagship project. Carries less visual weight than the flagship but the
- * same completeness — image, tagline, summary, stack, links, and the same
+ * same completeness; image, tagline, summary, stack, links, and the same
  * detail disclosure. Weight is the difference, not quality.
  *
  * focus-within lifts the card too, so the state is reachable without a pointer;

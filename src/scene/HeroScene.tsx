@@ -15,7 +15,7 @@ const MODELS = {
   logs: '/models/logs.glb',
 } as const
 
-/** Rotation ceiling for pointer parallax — a few pixels of apparent shift, no more. */
+/** Rotation ceiling for pointer parallax; a few pixels of apparent shift, no more. */
 const PARALLAX = 0.075
 
 function Diorama({
@@ -35,7 +35,7 @@ function Diorama({
     if (!active || !node) return
 
     // Idle bob and drift, driven by the clock so the motion is frame-rate
-    // independent — the island floats at the same speed at 30fps and 120fps.
+    // independent; the island floats at the same speed at 30fps and 120fps.
     const t = state.clock.getElapsedTime()
     node.position.y = Math.sin(t * 0.6) * 0.07
     const idleYaw = Math.sin(t * 0.22) * 0.09
@@ -83,7 +83,7 @@ function Diorama({
 /**
  * The hero diorama: a small floating island carrying a developer workstation.
  *
- * Flat shading, a warm key and a cool hemisphere fill, and nothing else — no
+ * Flat shading, a warm key and a cool hemisphere fill, and nothing else; no
  * HDRI, no PBR maps, no postprocessing, per docs/DESIGN.md.
  */
 export function HeroScene({
@@ -107,7 +107,7 @@ export function HeroScene({
       shadows
       gl={{ antialias: true, alpha: true }}
       // A <canvas> is not in the tab order by default, and Stage marks the whole
-      // subtree aria-hidden — so nothing extra is needed to keep it out of the
+      // subtree aria-hidden, so nothing extra is needed to keep it out of the
       // way of keyboard and screen-reader users.
       style={{ outline: 'none' }}
     >

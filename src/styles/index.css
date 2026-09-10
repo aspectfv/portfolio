@@ -1,25 +1,25 @@
 @import 'tailwindcss';
 
 /* Self-hosted latin subsets. Vendored from Fontsource (SIL OFL 1.1) into
-   public/fonts/ with stable names so index.html can preload them — the hashed
+   public/fonts/ with stable names so index.html can preload them; the hashed
    asset pipeline cannot give a preload a URL to point at. */
 @font-face {
-  font-family: 'Inter Variable';
+  font-family: 'Manrope Variable';
   font-style: normal;
   font-display: swap;
-  font-weight: 100 900;
-  src: url('/fonts/inter-latin-var.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  src: url('/fonts/manrope-latin-var.woff2') format('woff2-variations');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Fredoka Variable';
+  font-family: 'Bricolage Variable';
   font-style: normal;
   font-display: swap;
-  font-weight: 300 600;
-  src: url('/fonts/fredoka-latin-var.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  src: url('/fonts/bricolage-latin-var.woff2') format('woff2-variations');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -41,7 +41,7 @@
   --color-edge: #e0d3be;
 
   /* ── Accents ─────────────────────────────────────────────────────────────
-     Bright values are for illustration only — white text on them fails at
+     Bright values are for illustration only; white text on them fails at
      ~3.6:1. Use -strong for anything carrying a white label (5.00:1, 5.19:1)
      and -ink for accent text on canvas (5.35:1, 5.63:1). */
   --color-ember: #e8552b;
@@ -64,10 +64,10 @@
   /* ── Type ────────────────────────────────────────────────────────────────
      Display is for the hero name, eyebrows, and status pills only. Never for
      paragraphs, never for navigation. No pixel font, ever. */
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Fredoka Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Variable', 'Manrope Variable', ui-sans-serif, sans-serif;
 
-  --text-hero: 2.5rem;
+  --text-hero: 2.75rem;
   --text-hero--line-height: 1.15;
   --text-hero--letter-spacing: -0.02em;
   --text-lede: 1.25rem;
@@ -93,7 +93,7 @@
   --radius-lg: 1.25rem;
 
   /* ── Depth ───────────────────────────────────────────────────────────────
-     Warm soft shadow plus a solid bottom edge — the low-poly equivalent of a
+     Warm soft shadow plus a solid bottom edge; the low-poly equivalent of a
      bevel. No backdrop blur, no translucency: glassmorphism is on the
      product avoid-list. */
   --shadow-card: 0 6px 18px -8px rgb(60 42 24 / 0.18);
@@ -114,7 +114,7 @@
 /* Desktop type scale and section rhythm. */
 @media (width >= 48rem) {
   :root {
-    --text-hero: 4.5rem;
+    --text-hero: 5rem;
     --text-lede: 1.75rem;
     --text-section: 2.5rem;
     --text-eyebrow: 0.8125rem;
@@ -126,6 +126,11 @@
 
 @layer base {
   html {
+    /* Fixes native scrollbar and form-control rendering. */
+    color-scheme: light;
+    /* Removes the 300ms double-tap zoom delay on touch. */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
     /* Offset in-page jumps so a section heading isn't hidden under the header. */
     scroll-padding-top: 5rem;
@@ -139,6 +144,18 @@
     line-height: var(--text-body--line-height);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Headings set their own widow protection rather than relying on each caller. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   :focus-visible {
@@ -170,7 +187,7 @@
   }
 }
 
-/* Global reduced-motion contract. Applied once, here — never per component.
+/* Global reduced-motion contract. Applied once, here; never per component.
    Under reduce, the page must stay visually complete: reveals render in their
    final state, parallax is off, and every 3D canvas falls back to its image. */
 @media (prefers-reduced-motion: reduce) {

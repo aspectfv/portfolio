@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
  *
  * The 3D chunk is lazy, but a lazy import that starts the moment the component
  * mounts still parses and initialises three on the main thread while the page
- * is trying to paint — which shows up as blocking time, not as a smaller
+ * is trying to paint, which shows up as blocking time, not as a smaller
  * bundle. Waiting for idle honours the rule that the scene is an upgrade
  * applied afterwards, never something content competes with.
  *

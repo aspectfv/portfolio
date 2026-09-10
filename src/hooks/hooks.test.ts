@@ -9,7 +9,7 @@ import { createRef } from 'react'
  * These three decide whether the hero canvas renders at all, and whether it
  * keeps rendering once nobody is looking. The frame loop itself is R3F's
  * `frameloop` prop reacting to their output, which is not observable from
- * outside the canvas — so the gating is verified here, at the inputs.
+ * outside the canvas, so the gating is verified here, at the inputs.
  */
 describe('useInView', () => {
   let callback: (entries: { isIntersecting: boolean }[]) => void

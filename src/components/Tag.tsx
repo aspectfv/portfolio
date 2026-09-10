@@ -1,4 +1,4 @@
-/** A technology label. Text stays primary — this is never a logo wall. */
+/** A technology label. Text stays primary; this is never a logo wall. */
 export function Tag({ children }: { children: React.ReactNode }) {
   return (
     <li className="bg-canvas border-hairline text-meta text-ink-muted rounded-full border px-2.5 py-0.5">

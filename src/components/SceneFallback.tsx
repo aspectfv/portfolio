@@ -5,7 +5,7 @@ export interface SceneImage {
 }
 
 /**
- * The static stand-in for a scene that is not going to run — reduced motion, no
+ * The static stand-in for a scene that is not going to run; reduced motion, no
  * WebGL, or still loading. Intrinsic dimensions are declared so the box is
  * reserved before the bytes arrive and nothing shifts whichever path runs.
  *

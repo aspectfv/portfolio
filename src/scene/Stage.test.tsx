@@ -8,7 +8,7 @@ import { mockMatchMedia } from '@/test/setup'
 /**
  * jsdom provides no WebGL context, so the capability gate fails here exactly as
  * it would on a device without WebGL. That makes the fallback path the default
- * under test — which is the path that has to be right.
+ * under test, which is the path that has to be right.
  */
 describe('Stage', () => {
   afterEach(() => mockMatchMedia(false))
@@ -47,7 +47,7 @@ describe('Stage', () => {
     expect(container.querySelector('img')).toHaveAttribute('src', heroSceneImageCompact.src)
   })
 
-  it('gives the fallback empty alt text — the scene carries no information', () => {
+  it('gives the fallback empty alt text; the scene carries no information', () => {
     const { container } = render(<Stage />)
     expect(container.querySelector('img')).toHaveAttribute('alt', '')
   })
@@ -63,7 +63,7 @@ describe('Stage', () => {
 describe('SceneBoundary', () => {
   it('falls back to the still instead of taking the page down with it', () => {
     // A rejected lazy import throws during render. Unhandled, it unmounts the
-    // whole tree — the page would go blank because a decoration failed.
+    // whole tree; the page would go blank because a decoration failed.
     const Boom = () => {
       throw new Error('chunk failed to load')
     }

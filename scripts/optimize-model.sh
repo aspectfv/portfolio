@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Optimise a source .glb into public/models/.
 #
-# Every model entering the repo goes through this — source kits ship with
+# Every model entering the repo goes through this; source kits ship with
 # duplicate materials, unwelded vertices and oversized textures, none of which
 # the flat-shaded art direction needs.
 #
@@ -24,7 +24,7 @@ OUT="$OUT_DIR/$NAME.glb"
 mkdir -p "$OUT_DIR"
 
 # Quantisation, not Draco. Draco saves a few more kilobytes per model but needs
-# a ~200 KB wasm decoder that three fetches from a Google CDN by default — far
+# a ~200 KB wasm decoder that three fetches from a Google CDN by default; far
 # more than it saves at this scale, and an external dependency for the hero.
 # KHR_mesh_quantization is native to three and costs nothing to decode.
 # --simplify is off: these are already low-poly, and decimation ruins the

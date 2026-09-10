@@ -7,7 +7,7 @@ import { TagList } from '@/components/Tag'
 import type { Project } from '@/content/types'
 
 /**
- * The flagship. Rendered for whichever project carries `featured: true` — this
+ * The flagship. Rendered for whichever project carries `featured: true`; this
  * component never names a project, so promoting a different one is a single
  * data edit.
  */

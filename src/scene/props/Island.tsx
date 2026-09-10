@@ -2,7 +2,7 @@
  * The floating island the diorama sits on: a shallow grass disc over a tapering
  * underside of rock.
  *
- * Built from primitives rather than a model — a cylinder and two cones at eight
+ * Built from primitives rather than a model; a cylinder and two cones at eight
  * segments give the faceted silhouette the art direction wants for a few dozen
  * triangles, and no asset to download.
  */
@@ -22,7 +22,7 @@ export function Island() {
       </mesh>
 
       {/* Underside, tapering to a point. coneGeometry puts its apex at +Y, so
-          this is flipped — without the rotation the island sits on a flat base
+          this is flipped; without the rotation the island sits on a flat base
           and stops looking airborne. */}
       <mesh position={[0, -1.53, 0]} rotation={[Math.PI, 0, 0]}>
         <coneGeometry args={[1.3, 1.95, 8]} />

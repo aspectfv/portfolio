@@ -40,11 +40,11 @@ export interface Project {
   readonly status: ProjectStatus
   /** Exactly one project in the array carries `true`. Layout reads the flag. */
   readonly featured: boolean
-  /** Absent renders a low-poly placeholder panel — never a stretched or stock image. */
+  /** Absent renders a low-poly placeholder panel; never a stretched or stock image. */
   readonly image?: ProjectImage
-  /** Empty renders a plain "Private repository" note — never a dead anchor. */
+  /** Empty renders a plain "Private repository" note; never a dead anchor. */
   readonly links: readonly ProjectLink[]
-  /** Absent renders no expansion affordance — an empty expansion is worse than none. */
+  /** Absent renders no expansion affordance; an empty expansion is worse than none. */
   readonly detail?: ProjectDetail
 }
 
@@ -101,6 +101,6 @@ export interface SectionMeta {
   /** Conventional and immediately understandable. Never replaced by game flavor. */
   readonly navLabel: string
   readonly heading: string
-  /** Game flavor lives here, beside the label — never instead of it. */
+  /** Game flavor lives here, beside the label; never instead of it. */
   readonly eyebrow: string
 }

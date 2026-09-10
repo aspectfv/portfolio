@@ -18,9 +18,9 @@ export const projects: readonly Project[] = [
     tagline:
       'A 3D browser roguelite whose every run is re-simulated in another language to prove the score is real.',
     summary:
-      'A single-player browser roguelite backed by five services in five languages. The browser never gets to claim its own score — it submits a replay, and a separate Java service re-runs the same simulation independently to decide what actually happened.',
+      'A single-player browser roguelite backed by five services in five languages. The browser never gets to claim its own score. It submits a replay, and a separate Java service re-runs the same simulation independently to decide what actually happened.',
     category: 'Game + Distributed Systems',
-    role: 'Solo — design, simulation, and all services',
+    role: 'Solo: design, simulation, and all services',
     stack: [
       'TypeScript',
       'React Three Fiber',
@@ -40,7 +40,7 @@ export const projects: readonly Project[] = [
       built:
         'A fixed-timestep deterministic simulation in TypeScript driven by a seeded PRNG, so a run is fully described by game version, seed, run configuration, and input sequence. A Go gateway issues run configuration and ingests replays. A Java verifier re-runs the same simulation and produces the authoritative result. A .NET service owns player competitive state, and a Python service derives population-level statistics from verified runs only.',
       decision:
-        'Determinism had to become a cross-language contract rather than a TypeScript implementation detail. Player aim is quantized to a fixed set of directions built from precomputed double literals shared verbatim with Java, and no runtime trigonometry runs in gameplay at all — because two language runtimes are not guaranteed to agree on sin. When the two implementations diverge, the rule gets fixed; tolerances are never added to hide the divergence.',
+        'Determinism had to become a cross-language contract rather than a TypeScript implementation detail. Player aim is quantized to a fixed set of directions built from precomputed double literals shared verbatim with Java, and no runtime trigonometry runs in gameplay at all, because two language runtimes are not guaranteed to agree on sin. When the two implementations diverge, the rule gets fixed; tolerances are never added to hide the divergence.',
       result:
         'Cross-language replay fixtures run as a required CI gate. A replay verified in Java must produce the same authoritative result as the browser, or the build fails.',
     },
@@ -48,7 +48,7 @@ export const projects: readonly Project[] = [
   {
     id: 'socratic-ai-tutor',
     name: 'Socratic AI Tutor',
-    tagline: "An LLM tutor that diagnoses why a student's code is wrong instead of just fixing it.",
+    tagline: 'An LLM tutor that diagnoses why a student’s code is wrong instead of just fixing it.',
     summary:
       'An agentic tutoring system that detects programming misconceptions through structured tool-calling, with educators in the loop governing what context the model is allowed to see.',
     category: 'AI Engineering',
@@ -59,7 +59,7 @@ export const projects: readonly Project[] = [
     links: [],
     detail: {
       problem:
-        "An LLM tutor that confidently names a misconception the student doesn't actually have is worse than one that says nothing — the student is taught a mistake they never made.",
+        'An LLM tutor that confidently names a misconception the student does not actually have is worse than one that says nothing. The student is taught a mistake they never made.',
       built:
         'Structured tool-calling that moves the model from open-ended generation to deterministic misconception detection, sequential prompting with in-context reflection constraints, an evaluation pipeline to measure diagnostic quality, and a human-in-the-loop backend where educators govern dynamic context injection.',
       decision:
@@ -135,14 +135,14 @@ export const projects: readonly Project[] = [
       built:
         'Role-based authentication with Passport.js, regex-based search filtering, admin moderation tooling, and Mongoose cascading deletes so removing a post does not orphan its replies.',
       decision:
-        'Handling referential cleanup in the data layer rather than the controller, so every deletion path gets it — including the ones added later.',
+        'Handling referential cleanup in the data layer rather than the controller, so every deletion path gets it, including the ones added later.',
       result:
         'Served 100+ registered users across 1000+ posts and replies, cutting moderation time by roughly 40%.',
     },
   },
 ]
 
-/** The flagship. Layout reads this — it never hardcodes a project id. */
+/** The flagship. Layout reads this; it never hardcodes a project id. */
 export const featuredProject = projects.find((project) => project.featured)
 
 export const additionalProjects = projects.filter((project) => !project.featured)

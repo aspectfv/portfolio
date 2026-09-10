@@ -14,7 +14,7 @@ const sections = [
  * Focus deliberately stays on the trigger when the panel opens: the panel
  * follows the button in DOM order, so the next Tab lands inside it. Moving
  * focus into the panel would strand a keyboard user who only wanted to peek.
- * Collapsing therefore needs no focus restoration — focus never left.
+ * Collapsing therefore needs no focus restoration; focus never left.
  */
 export function ProjectDetail({ detail, projectName }: { detail: Detail; projectName: string }) {
   const [open, setOpen] = useState(false)

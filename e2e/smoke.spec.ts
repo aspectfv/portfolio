@@ -69,7 +69,7 @@ test('the project detail disclosure opens and closes by keyboard', async ({ page
   await page.goto('/')
   // Located by aria-controls, not by label. The label flips to "Hide details"
   // on open, so a name-based locator silently retargets to the next card's
-  // button — which is still collapsed, and the assertion fails against the
+  // button, which is still collapsed, and the assertion fails against the
   // wrong element.
   const article = page.locator('article').first()
   const trigger = article.locator('button[aria-controls]')

@@ -1,7 +1,7 @@
 import { Component, type ReactNode } from 'react'
 
 /**
- * Catches anything the 3D subtree throws — most importantly a failed chunk
+ * Catches anything the 3D subtree throws; most importantly a failed chunk
  * fetch.
  *
  * Without this, a rejected `React.lazy` import propagates to the root and

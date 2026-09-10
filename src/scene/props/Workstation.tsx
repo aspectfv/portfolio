@@ -1,5 +1,5 @@
 /**
- * A desk, a monitor and a mug — the developer-playground half of the motif,
+ * A desk, a monitor and a mug; the developer-playground half of the motif,
  * built from boxes so it stays in the same faceted language as the kit props.
  *
  * The screen is emissive rather than lit, so it reads as switched on without

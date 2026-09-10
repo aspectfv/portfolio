@@ -2,7 +2,7 @@ import { paletteFor } from '@/components/placeholderPalette'
 import type { ProjectImage } from '@/content/types'
 
 /**
- * A project without a capture gets a low-poly placeholder in the world palette —
+ * A project without a capture gets a low-poly placeholder in the world palette ,
  * never a stretched logo, a stock image, or a screenshot of source code.
  *
  * The placeholder is composed from positioned layers rather than one scaled SVG,
@@ -28,6 +28,8 @@ export function ProjectVisual({
         src={image.src}
         alt={image.alt}
         loading="lazy"
+        width={1600}
+        height={900}
         className="border-hairline aspect-video w-full rounded-md border object-cover"
       />
     )
