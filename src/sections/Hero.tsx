@@ -1,16 +1,19 @@
 import { ActionLink } from '@/components/ActionLink'
 import { Eyebrow } from '@/components/Eyebrow'
+import { Stage } from '@/scene/Stage'
 import { profile } from '@/content/profile'
 
 /**
- * Single column until the hero scene lands. Reserving an empty column for it
- * now would read as a broken layout, and the hero has to look finished at
- * every point — the scene is added beside this text, never in front of it.
+ * Text first, scene beside it. The grid collapses to one column below md, where
+ * the scene sits under the copy rather than competing with it.
+ *
+ * The scene is decoration: everything a recruiter needs is in the text column,
+ * and the page is complete if the canvas never runs.
  */
 export function Hero() {
   return (
     <section id="top" aria-labelledby="hero-heading" className="bg-canvas">
-      <div className="mx-auto max-w-content px-6 pt-16 pb-(--spacing-section) md:pt-28">
+      <div className="mx-auto grid max-w-content gap-10 px-6 pt-16 pb-(--spacing-section) md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:pt-24">
         <div>
           <Eyebrow>Portfolio</Eyebrow>
           <h1 id="hero-heading" className="text-hero font-display mt-3 font-semibold">
@@ -34,6 +37,8 @@ export function Hero() {
             </ActionLink>
           </div>
         </div>
+
+        <Stage className="aspect-square w-full" />
       </div>
     </section>
   )

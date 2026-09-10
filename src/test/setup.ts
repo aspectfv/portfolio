@@ -18,3 +18,24 @@ class IntersectionObserverStub implements IntersectionObserver {
 }
 
 vi.stubGlobal('IntersectionObserver', IntersectionObserverStub)
+
+// jsdom has no matchMedia. Default to "no preference"; tests that care about
+// reduced motion override this with mockMatchMedia below.
+export function mockMatchMedia(matches: boolean) {
+  vi.stubGlobal(
+    'matchMedia',
+    (query: string): MediaQueryList =>
+      ({
+        matches,
+        media: query,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList,
+  )
+}
+
+mockMatchMedia(false)
