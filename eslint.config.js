@@ -21,6 +21,13 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // Destructuring a key away to omit it is the only way to drop an optional
+      // property under exactOptionalPropertyTypes. The discarded binding is the
+      // point, so allow it when it is underscore-prefixed.
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true },
+      ],
     },
   },
   {
