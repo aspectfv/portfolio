@@ -152,6 +152,24 @@
   max-width: 68ch;
 }
 
+/* Section reveal.
+   The hidden state is scoped to no-preference on purpose: under reduce, or in a
+   browser without IntersectionObserver, [data-revealed] is never set and the
+   content must still be visible. Hiding by default would trade a nicety for a
+   blank page. */
+[data-reveal] {
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform var(--dur-slow) var(--ease-out-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
 /* Global reduced-motion contract. Applied once, here — never per component.
    Under reduce, the page must stay visually complete: reveals render in their
    final state, parallax is off, and every 3D canvas falls back to its image. */

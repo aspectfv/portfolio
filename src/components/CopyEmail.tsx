@@ -19,7 +19,7 @@ export function CopyEmail({ email }: { email: string }) {
       onClick={() => {
         void navigator.clipboard.writeText(email).then(() => setCopied(true))
       }}
-      className="border-ink-muted hover:bg-sunken inline-flex min-h-11 items-center rounded-md border px-5 py-2.5 font-medium"
+      className="border-ink-muted hover:bg-sunken inline-flex min-h-11 items-center rounded-md border px-5 py-2.5 font-medium transition-colors duration-(--dur-fast) active:translate-y-px"
     >
       {copied ? 'Copied' : 'Copy email'}
       <span aria-live="polite" className="sr-only">

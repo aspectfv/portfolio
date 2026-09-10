@@ -1,3 +1,4 @@
+import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 /**
@@ -23,10 +24,10 @@ export function Section({
       aria-labelledby={`${id}-heading`}
       className={tone === 'sunken' ? 'bg-sunken' : 'bg-canvas'}
     >
-      <div className="mx-auto max-w-content px-6 py-(--spacing-section)">
+      <Reveal className="mx-auto max-w-content px-6 py-(--spacing-section)">
         <SectionHeading id={id} eyebrow={eyebrow} heading={heading} />
         {children}
-      </div>
+      </Reveal>
     </section>
   )
 }

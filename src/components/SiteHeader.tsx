@@ -33,7 +33,7 @@ export function SiteHeader() {
                 <a
                   href={`#${section.id}`}
                   aria-current={active === section.id ? 'true' : undefined}
-                  className="text-meta hover:bg-sunken aria-[current]:text-ember-ink inline-flex min-h-11 items-center rounded-md px-3 font-medium aria-[current]:font-semibold"
+                  className="text-meta hover:bg-sunken aria-[current]:text-ember-ink inline-flex min-h-11 items-center rounded-md px-3 font-medium transition-colors duration-(--dur-fast) aria-[current]:font-semibold"
                 >
                   {section.navLabel}
                 </a>
@@ -54,7 +54,7 @@ export function SiteHeader() {
             href={profile.links.github.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-meta hover:bg-sunken inline-flex min-h-11 items-center rounded-md px-3 font-medium"
+            className="text-meta hover:bg-sunken inline-flex min-h-11 items-center rounded-md px-3 font-medium transition-colors duration-(--dur-fast)"
           >
             GitHub
           </a>
@@ -62,7 +62,7 @@ export function SiteHeader() {
             href={profile.links.linkedin.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-meta hover:bg-sunken inline-flex min-h-11 items-center rounded-md px-3 font-medium"
+            className="text-meta hover:bg-sunken inline-flex min-h-11 items-center rounded-md px-3 font-medium transition-colors duration-(--dur-fast)"
           >
             LinkedIn
           </a>

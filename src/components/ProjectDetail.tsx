@@ -27,10 +27,15 @@ export function ProjectDetail({ detail, projectName }: { detail: Detail; project
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="border-ink-muted hover:bg-sunken text-meta inline-flex min-h-11 items-center gap-2 rounded-md border px-4 font-medium"
+        className="border-ink-muted hover:bg-sunken text-meta inline-flex min-h-11 items-center gap-2 rounded-md border px-4 font-medium transition-colors duration-(--dur-fast) active:translate-y-px"
       >
         {open ? 'Hide details' : 'Read more'}
-        <span aria-hidden="true" className={open ? 'rotate-180' : ''}>
+        <span
+          aria-hidden="true"
+          className={`transition-transform duration-(--dur-base) ease-(--ease-standard) ${
+            open ? 'rotate-180' : ''
+          }`}
+        >
           ▾
         </span>
         <span className="sr-only">about {projectName}</span>
