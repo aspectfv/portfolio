@@ -18,6 +18,11 @@ test('every section is present', async ({ page }) => {
 })
 
 test('each nav item scrolls to its section', async ({ page, isMobile }) => {
+  // Five smooth scrolls across a tall page, and Playwright waits for each to
+  // settle before it will click the next link. That is the page behaving
+  // correctly, not the test hanging, so give it the room rather than
+  // disabling the scroll behaviour the assertion exists to check.
+  test.slow()
   await page.goto('/')
   if (isMobile) await page.getByRole('button', { name: /open menu/i }).click()
 
@@ -140,4 +145,98 @@ test('the noscript block carries the essentials', async ({ page }) => {
   expect(noscript).toContain('resume/joshua-tating-resume.pdf')
   expect(noscript).toContain('github.com/aspectfv')
   expect(noscript).toContain('mailto:josh10nathan@gmail.com')
+})
+
+/**
+ * The plain view is what makes committing to the game presentation safe, which
+ * only holds if it is genuinely equivalent. These guard the property that
+ * matters: switching presentation must never cost a visitor a word of content.
+ */
+test('the view toggle switches presentation and survives a reload', async ({ page }) => {
+  await page.goto('/')
+  const toggle = page.getByRole('switch', { name: /game view/i })
+
+  await expect(toggle).toHaveAttribute('aria-checked', 'true')
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'game')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-checked', 'false')
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+  await expect(page.getByRole('switch', { name: /game view/i })).toHaveAttribute(
+    'aria-checked',
+    'false',
+  )
+})
+
+test('the toggle is reachable and operable by keyboard', async ({ page }) => {
+  await page.goto('/')
+  const toggle = page.getByRole('switch', { name: /game view/i })
+  await toggle.focus()
+  await expect(toggle).toBeFocused()
+  await page.keyboard.press('Space')
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+})
+
+test('plain view still exposes every recruiter-critical route out of the page', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+
+  // At least one *visible* route to each, not the first in the DOM: the header
+  // copies are display:none below md, so on mobile the visible one is further
+  // down the page. The invariant is reachability, not position.
+  for (const selector of [
+    'a[href$="joshua-tating-resume.pdf"]',
+    'a[href*="github.com/aspectfv"]',
+    'a[href*="linkedin.com/in/joshuatating"]',
+    'a[href^="mailto:"]',
+  ]) {
+    await expect(page.locator(selector).filter({ visible: true }).first(), selector).toBeVisible()
+  }
+})
+
+test('plain view still lists every project and every section', async ({ page }) => {
+  await page.goto('/')
+  const names = await page.locator('#projects h3').allTextContents()
+  expect(names.length).toBeGreaterThan(0)
+
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+
+  expect(await page.locator('#projects h3').allTextContents()).toEqual(names)
+  for (const id of SECTIONS) {
+    await expect(page.locator(`#${id}`)).toBeVisible()
+  }
+})
+
+test('plain view drops the decoration and the canvas, not the content', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+
+  await expect(page.locator('canvas')).toHaveCount(0)
+  // Ornaments stay in the DOM and are hidden by the stylesheet, so assert on
+  // what the visitor can actually see rather than on element count.
+  for (const ornament of await page.locator('[data-ornament]').all()) {
+    await expect(ornament).toBeHidden()
+  }
+})
+
+test('the meta-game is absent in plain view and gates nothing in either', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByText(/found along the way/i)).toBeVisible()
+
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.getByText(/found along the way/i)).toHaveCount(0)
+
+  // The detail disclosure is the one thing an achievement is attached to, so it
+  // is the one that must still work with the meta-game switched off.
+  const trigger = page.locator('#projects button[aria-expanded]').first()
+  await trigger.click()
+  await expect(page.locator(`#${await trigger.getAttribute('aria-controls')}`)).toBeVisible()
 })
