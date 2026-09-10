@@ -1,3 +1,4 @@
+import { useAchievements } from '@/hooks/useAchievements'
 import { useViewMode } from '@/hooks/useViewMode'
 
 /**
@@ -10,6 +11,7 @@ import { useViewMode } from '@/hooks/useViewMode'
  */
 export function ViewModeToggle() {
   const [mode, setMode] = useViewMode()
+  const { unlock } = useAchievements()
   const game = mode === 'game'
 
   return (
@@ -17,7 +19,12 @@ export function ViewModeToggle() {
       type="button"
       role="switch"
       aria-checked={game}
-      onClick={() => setMode(game ? 'plain' : 'game')}
+      onClick={() => {
+        // Unlock before switching: in plain view the writer is a no-op, so
+        // leaving game view is the only moment this can be recorded.
+        unlock('found-plain-view')
+        setMode(game ? 'plain' : 'game')
+      }}
       className="border-ink-muted bg-surface hover:bg-sunken text-meta press inline-flex min-h-11 items-center gap-2 rounded-sm border-2 border-b-(length:--edge-md) px-3 font-medium"
     >
       <span

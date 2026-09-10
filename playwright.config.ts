@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Smoke test only. Runs against the production build, not the dev server , 
+ * Smoke test only. Runs against the production build, not the dev server ,
  * the things worth checking here (asset paths, the built HTML head, chunk
  * loading) are exactly the things dev-mode papers over.
  */

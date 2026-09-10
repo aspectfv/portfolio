@@ -1,4 +1,5 @@
 import { useId, useState } from 'react'
+import { useAchievements } from '@/hooks/useAchievements'
 import type { ProjectDetail as Detail } from '@/content/types'
 
 const sections = [
@@ -19,12 +20,16 @@ const sections = [
 export function ProjectDetail({ detail, projectName }: { detail: Detail; projectName: string }) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
+  const { unlock } = useAchievements()
 
   return (
     <div>
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          setOpen((value) => !value)
+          if (!open) unlock('read-a-project')
+        }}
         aria-expanded={open}
         aria-controls={panelId}
         className="border-ink-muted bg-surface hover:bg-sunken text-meta press inline-flex min-h-11 items-center gap-2 rounded-sm border-2 border-b-(length:--edge-md) px-4 font-medium"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { pressBase } from './ActionLink'
+import { useAchievements } from '@/hooks/useAchievements'
 
 /**
  * Copying is a convenience beside the mailto; never the only way to get the
@@ -7,6 +8,7 @@ import { pressBase } from './ActionLink'
  */
 export function CopyEmail({ email }: { email: string }) {
   const [copied, setCopied] = useState(false)
+  const { unlock } = useAchievements()
 
   useEffect(() => {
     if (!copied) return
@@ -18,7 +20,10 @@ export function CopyEmail({ email }: { email: string }) {
     <button
       type="button"
       onClick={() => {
-        void navigator.clipboard.writeText(email).then(() => setCopied(true))
+        void navigator.clipboard.writeText(email).then(() => {
+          setCopied(true)
+          unlock('copied-email')
+        })
       }}
       className={`${pressBase} bg-surface border-ink-muted hover:bg-sunken`}
     >
