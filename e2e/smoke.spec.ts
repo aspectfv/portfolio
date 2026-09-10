@@ -1,0 +1,143 @@
+import { expect, test } from '@playwright/test'
+
+const SECTIONS = ['about', 'projects', 'skills', 'experience', 'contact'] as const
+const NAV_LABELS = ['About', 'Projects', 'Skills', 'Experience', 'Contact'] as const
+
+test('the page loads with its heading and positioning', async ({ page }) => {
+  await page.goto('/')
+  await expect(page).toHaveTitle(/Joshua Tating/)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Joshua Tating')
+  await expect(page.getByText('Backend · Full-Stack · AI Software Engineer').first()).toBeVisible()
+})
+
+test('every section is present', async ({ page }) => {
+  await page.goto('/')
+  for (const id of SECTIONS) {
+    await expect(page.locator(`#${id}`)).toBeAttached()
+  }
+})
+
+test('each nav item scrolls to its section', async ({ page, isMobile }) => {
+  await page.goto('/')
+  if (isMobile) await page.getByRole('button', { name: /open menu/i }).click()
+
+  for (const label of NAV_LABELS) {
+    const nav = page.getByRole('navigation', { name: 'Sections' })
+    await nav.getByRole('link', { name: label, exact: true }).first().click()
+    const id = label.toLowerCase()
+    await expect(page.locator(`#${id}`)).toBeInViewport({ ratio: 0.05 })
+    if (isMobile) await page.getByRole('button', { name: /open menu/i }).click()
+  }
+})
+
+test('the résumé resolves and is served as a PDF', async ({ page, request }) => {
+  await page.goto('/')
+  const link = page.locator('a[download]').first()
+  const href = await link.getAttribute('href')
+  expect(href).toBe('/resume/joshua-tating-resume.pdf')
+
+  const response = await request.get(href!)
+  expect(response.status()).toBe(200)
+  expect(response.headers()['content-type']).toContain('pdf')
+})
+
+test('every external link opens safely', async ({ page }) => {
+  await page.goto('/')
+  const external = page.locator('a[target="_blank"]')
+  const count = await external.count()
+  expect(count).toBeGreaterThan(0)
+
+  for (let i = 0; i < count; i++) {
+    const link = external.nth(i)
+    expect(await link.getAttribute('rel')).toContain('noopener')
+    expect(await link.getAttribute('href')).toMatch(/^https:\/\//)
+  }
+})
+
+test('no link points somewhere that cannot resolve', async ({ page }) => {
+  await page.goto('/')
+  const hrefs = await page
+    .locator('a')
+    .evaluateAll((links) => links.map((l) => l.getAttribute('href')))
+  for (const href of hrefs) {
+    expect(href, 'every anchor needs a destination').toBeTruthy()
+    expect(href).not.toBe('#')
+  }
+})
+
+test('the project detail disclosure opens and closes by keyboard', async ({ page }) => {
+  await page.goto('/')
+  // Located by aria-controls, not by label. The label flips to "Hide details"
+  // on open, so a name-based locator silently retargets to the next card's
+  // button — which is still collapsed, and the assertion fails against the
+  // wrong element.
+  const article = page.locator('article').first()
+  const trigger = article.locator('button[aria-controls]')
+  const panelId = await trigger.getAttribute('aria-controls')
+  const panel = page.locator(`#${panelId}`)
+
+  await trigger.scrollIntoViewIfNeeded()
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  await expect(panel).toBeHidden()
+
+  // press() focuses the element and dispatches the key to it, which is what a
+  // keyboard user does; a bare page.keyboard.press races the focus call.
+  await trigger.press('Enter')
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  await expect(panel).toBeVisible()
+  await expect(trigger).toBeFocused()
+
+  await trigger.press('Space')
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  await expect(panel).toBeHidden()
+  await expect(trigger).toBeFocused()
+})
+
+test('a private project states so instead of linking nowhere', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByText('Private repository').first()).toBeVisible()
+})
+
+test('the page makes no external network requests', async ({ page }) => {
+  const external: string[] = []
+  page.on('request', (request) => {
+    const url = request.url()
+    if (!url.startsWith('http://localhost:4327') && !url.startsWith('data:')) external.push(url)
+  })
+  await page.goto('/', { waitUntil: 'networkidle' })
+  expect(external).toEqual([])
+})
+
+test('the head carries the metadata a link preview needs', async ({ page }) => {
+  await page.goto('/')
+  const content = (name: string) =>
+    page.locator(`meta[property="${name}"], meta[name="${name}"]`).first().getAttribute('content')
+
+  expect(await content('description')).toBeTruthy()
+  expect(await content('og:title')).toContain('Joshua Tating')
+  expect(await content('og:description')).toBeTruthy()
+  expect(await content('og:image')).toContain('og.png')
+  expect(await content('twitter:card')).toBe('summary_large_image')
+})
+
+test('the og image and icons are actually served', async ({ request }) => {
+  for (const [path, type] of [
+    ['/og.png', 'image/png'],
+    ['/apple-touch-icon.png', 'image/png'],
+    ['/favicon.svg', 'image/svg'],
+    ['/robots.txt', 'text/plain'],
+  ] as const) {
+    const response = await request.get(path)
+    expect(response.status(), path).toBe(200)
+    expect(response.headers()['content-type'], path).toContain(type)
+  }
+})
+
+test('the noscript block carries the essentials', async ({ page }) => {
+  await page.goto('/')
+  const noscript = await page.locator('noscript').innerHTML()
+  expect(noscript).toContain('Joshua Tating')
+  expect(noscript).toContain('resume/joshua-tating-resume.pdf')
+  expect(noscript).toContain('github.com/aspectfv')
+  expect(noscript).toContain('mailto:josh10nathan@gmail.com')
+})

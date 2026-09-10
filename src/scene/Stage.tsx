@@ -2,6 +2,7 @@ import { Suspense, lazy, useRef } from 'react'
 import { SceneFallback } from '@/components/SceneFallback'
 import { SceneBoundary } from './SceneBoundary'
 import { heroSceneImage, heroSceneImageCompact } from './heroSceneImage'
+import { useIdle } from '@/hooks/useIdle'
 import { useInView } from '@/hooks/useInView'
 import { usePageVisible } from '@/hooks/usePageVisible'
 import { useCompactScene } from '@/hooks/useCompactScene'
@@ -29,7 +30,8 @@ const HeroScene = lazy(() =>
 export function Stage({ className = '' }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const reducedMotion = usePrefersReducedMotion()
-  const webgl = useWebGLSupport()
+  const idle = useIdle()
+  const webgl = useWebGLSupport(idle)
   const compact = useCompactScene()
   const finePointer = useFinePointer()
   const inView = useInView(containerRef)
