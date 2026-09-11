@@ -56,6 +56,10 @@ export const projects: readonly Project[] = [
     stack: ['Next.js', 'PostgreSQL', 'Vercel AI SDK', 'Groq', 'LLM tool calling'],
     status: 'in-progress',
     featured: false,
+    image: {
+      src: '/images/socratic-ai-tutor.webp',
+      alt: 'A course page listing instructor-defined topics such as Problem Analysis and Iterative Statements, each with its own button to open a tutoring chat.',
+    },
     links: [],
     detail: {
       problem:
@@ -80,6 +84,10 @@ export const projects: readonly Project[] = [
     stack: ['Java', 'Spring Boot', 'gRPC', 'WebSockets / STOMP', 'React', 'TypeScript', 'GraphQL'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/chronocritters.webp',
+      alt: 'A trainer roster of four critters beside a detail panel for Aqualing, showing its type, level and experience bar, base stats, and an ability with the damage it deals.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/chronocritters' }],
     detail: {
       problem:
@@ -104,6 +112,10 @@ export const projects: readonly Project[] = [
     stack: ['TypeScript', 'Express', 'Prisma', 'PostgreSQL', 'OpenAPI'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/plaza-transpo.webp',
+      alt: 'A list of transportation bookings in three different lifecycle states, where only the pending booking offers edit and cancel actions.',
+    },
     links: [],
     detail: {
       problem:
@@ -128,6 +140,10 @@ export const projects: readonly Project[] = [
     stack: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'EJS', 'Passport.js'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/nexushub.webp',
+      alt: 'A retro pixel-art forum index with a neon NexusHub banner over grouped discussion boards listing post and reply counts and the most recent post in each.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/NexusHub' }],
     detail: {
       problem:
