@@ -13,36 +13,31 @@ import type { Project } from './types'
  */
 export const projects: readonly Project[] = [
   {
-    id: 'arcforge',
-    name: 'ArcForge',
+    id: 'chronocritters',
+    name: 'ChronoCritters',
     tagline:
-      'A 3D browser roguelite whose every run is re-simulated in another language to prove the score is real.',
+      'A turn-based creature battler split across Spring Boot microservices with real-time matchmaking.',
     summary:
-      'A single-player browser roguelite backed by five services in five languages. The browser never gets to claim its own score. It submits a replay, and a separate Java service re-runs the same simulation independently to decide what actually happened.',
-    category: 'Game + Distributed Systems',
-    role: 'Solo: design, simulation, and all services',
-    stack: [
-      'TypeScript',
-      'React Three Fiber',
-      'Go',
-      'Java / Spring',
-      'C# / .NET',
-      'Python / FastAPI',
-      'PostgreSQL',
-      'Docker',
-    ],
-    status: 'in-progress',
+      'Three Spring Boot services talking over gRPC, a STOMP WebSocket lobby for matchmaking and live battle state, and a type-safe React client generated from the backend schema.',
+    category: 'Game + Microservices',
+    role: 'Backend and battle engine',
+    stack: ['Java', 'Spring Boot', 'gRPC', 'WebSockets / STOMP', 'React', 'TypeScript', 'GraphQL'],
+    status: 'complete',
     featured: true,
-    links: [],
+    image: {
+      src: '/images/chronocritters.webp',
+      alt: 'A trainer roster of four critters beside a detail panel for Aqualing, showing its type, level and experience bar, base stats, and an ability with the damage it deals.',
+    },
+    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/chronocritters' }],
     detail: {
       problem:
-        'Any score a browser submits can be fabricated. A competitive leaderboard built on client-reported results is decoration, not a leaderboard.',
+        'Turn execution had grown into one long branching method. Adding an ability meant editing the same function everyone else was editing, and effects interacted in ways nobody could trace.',
       built:
-        'A fixed-timestep deterministic simulation in TypeScript driven by a seeded PRNG, so a run is fully described by game version, seed, run configuration, and input sequence. A Go gateway issues run configuration and ingests replays. A Java verifier re-runs the same simulation and produces the authoritative result. A .NET service owns player competitive state, and a Python service derives population-level statistics from verified runs only.',
+        'A modular battle engine using Chain of Responsibility, so abilities and effects became independent links instead of branches. gRPC between services, a STOMP WebSocket lobby and matchmaking service, and a React frontend built on auto-generated GraphQL hooks so the client cannot drift from the schema.',
       decision:
-        'Determinism had to become a cross-language contract rather than a TypeScript implementation detail. Player aim is quantized to a fixed set of directions built from precomputed double literals shared verbatim with Java, and no runtime trigonometry runs in gameplay at all, because two language runtimes are not guaranteed to agree on sin. When the two implementations diverge, the rule gets fixed; tolerances are never added to hide the divergence.',
+        'Making turn resolution a chain rather than a switch. Each ability and effect handles what it understands and passes the rest along, which turns "add an ability" into adding a link rather than editing shared control flow.',
       result:
-        'Cross-language replay fixtures run as a required CI gate. A replay verified in Java must produce the same authoritative result as the browser, or the build fails.',
+        'Sub-150ms gameplay latency, roughly 40% less duplicated code across services, and a turn pipeline 143 lines shorter where adding an ability became additive rather than invasive.',
     },
   },
   {
@@ -70,34 +65,6 @@ export const projects: readonly Project[] = [
         'Constraining the model with tools rather than trusting its prose. Free-form explanation is where a tutor invents misconceptions; forcing every diagnosis through a tool call makes the output checkable against a fixed set of known misconceptions instead of merely plausible.',
       result:
         'Diagnostic false-positive rate fell from 13.3% to 1.3%, with 98.0% precision on code-misconception detection.',
-    },
-  },
-  {
-    id: 'chronocritters',
-    name: 'ChronoCritters',
-    tagline:
-      'A turn-based creature battler split across Spring Boot microservices with real-time matchmaking.',
-    summary:
-      'Three Spring Boot services talking over gRPC, a STOMP WebSocket lobby for matchmaking and live battle state, and a type-safe React client generated from the backend schema.',
-    category: 'Game + Microservices',
-    role: 'Backend and battle engine',
-    stack: ['Java', 'Spring Boot', 'gRPC', 'WebSockets / STOMP', 'React', 'TypeScript', 'GraphQL'],
-    status: 'complete',
-    featured: false,
-    image: {
-      src: '/images/chronocritters.webp',
-      alt: 'A trainer roster of four critters beside a detail panel for Aqualing, showing its type, level and experience bar, base stats, and an ability with the damage it deals.',
-    },
-    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/chronocritters' }],
-    detail: {
-      problem:
-        'Turn execution had grown into one long branching method. Adding an ability meant editing the same function everyone else was editing, and effects interacted in ways nobody could trace.',
-      built:
-        'A modular battle engine using Chain of Responsibility, so abilities and effects became independent links instead of branches. gRPC between services, a STOMP WebSocket lobby and matchmaking service, and a React frontend built on auto-generated GraphQL hooks so the client cannot drift from the schema.',
-      decision:
-        'Making turn resolution a chain rather than a switch. Each ability and effect handles what it understands and passes the rest along, which turns "add an ability" into adding a link rather than editing shared control flow.',
-      result:
-        'Sub-150ms gameplay latency, roughly 40% less duplicated code across services, and a turn pipeline 143 lines shorter where adding an ability became additive rather than invasive.',
     },
   },
   {
