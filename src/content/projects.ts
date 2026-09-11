@@ -26,7 +26,7 @@ export const projects: readonly Project[] = [
     featured: true,
     image: {
       src: '/images/chronocritters.webp',
-      alt: 'A trainer roster of four critters beside a detail panel for Aqualing, showing its type, level and experience bar, base stats, and an ability with the damage it deals.',
+      alt: 'A live battle between two trainers, each with an active critter showing its type badge, health bar, and attack and defence stats. A log down the middle records the last moves and how effective they were, and each side lists its remaining team with the fainted critters greyed out.',
     },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/chronocritters' }],
     detail: {
