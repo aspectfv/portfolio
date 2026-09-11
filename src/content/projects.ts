@@ -49,7 +49,7 @@ export const projects: readonly Project[] = [
     category: 'AI Engineering',
     role: 'Backend and evaluation pipeline',
     stack: ['Next.js', 'PostgreSQL', 'Vercel AI SDK', 'Groq', 'LLM tool calling'],
-    status: 'in-progress',
+    status: 'complete',
     featured: false,
     image: {
       src: '/images/socratic-ai-tutor.webp',
