@@ -111,7 +111,10 @@ export const projects: readonly Project[] = [
       src: '/images/nexushub.webp',
       alt: 'A retro pixel-art forum index with a neon NexusHub banner over grouped discussion boards listing post and reply counts and the most recent post in each.',
     },
-    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/NexusHub' }],
+    links: [
+      { kind: 'demo', url: 'https://nexushub-3snn.onrender.com/' },
+      { kind: 'repo', url: 'https://github.com/aspectfv/NexusHub' },
+    ],
     detail: {
       problem:
         'Deleting a post left its replies behind, so threads accumulated orphaned content that moderators had to clean up by hand.',
