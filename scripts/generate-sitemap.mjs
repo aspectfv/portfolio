@@ -2,8 +2,9 @@
 // Without an origin an empty sitemap is worse than none: it tells crawlers the
 // site has no pages.
 import { writeFileSync, rmSync } from 'node:fs'
+import { siteOrigin } from './site-origin.mjs'
 
-const origin = (process.env.SITE_URL ?? '').replace(/\/$/, '')
+const origin = siteOrigin()
 const out = new URL('../dist/sitemap.xml', import.meta.url)
 
 if (!origin) {
