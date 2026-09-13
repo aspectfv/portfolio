@@ -5,6 +5,9 @@ import type { Group } from 'three'
 import { Island } from './props/Island'
 import { Prop } from './props/Prop'
 import { Workstation } from './props/Workstation'
+import { ArcadeCabinet } from './props/ArcadeCabinet'
+import { Signpost } from './props/Signpost'
+import { Chest } from './props/Chest'
 
 const MODELS = {
   tree: '/models/tree.glb',
@@ -52,18 +55,31 @@ function Diorama({
   return (
     <group ref={group}>
       <Island />
-      <Workstation position={[-0.22, 0, 0.34]} rotation={0.42} scale={1.25} />
-      <Prop url={MODELS.tree} position={[0.95, 0.04, -0.15]} scale={0.92} rotation={0.5} />
-      <Prop url={MODELS.rock} position={[0.42, 0.02, 1.12]} scale={1.15} rotation={1.1} />
-      <Prop url={MODELS.grass} position={[0.5, 0.03, 0.82]} scale={1.0} rotation={0.2} />
+
+      {/* Layout note: the camera sits out at +X +Z, so larger x and z read as
+          nearer and further right on screen. The desk and the cabinet are kept
+          a full unit apart along that axis; closer together they overlap in
+          screen space however far apart they are in world space. */}
+      <Workstation position={[-0.5, 0, 0.02]} rotation={0.5} scale={1.18} />
+
+      {/* The cabinet is the positioning made into an object: a desk alone reads
+          "developer". It is identity, not density, so it stays at 390px while
+          the scatter props below drop away. */}
+      <ArcadeCabinet position={[0.86, 0, 0.82]} rotation={-0.62} scale={1.1} animate={active} />
+
+      <Prop url={MODELS.tree} position={[1.18, 0.04, -0.52]} scale={0.92} rotation={0.5} />
+      <Prop url={MODELS.rock} position={[-0.28, 0.02, 1.24]} scale={1.1} rotation={1.1} />
+      <Prop url={MODELS.grass} position={[0.52, 0.03, -0.75]} scale={1.0} rotation={0.2} />
 
       {/* Density the 390px composition deliberately does without. */}
       {!compact && (
         <>
-          <Prop url={MODELS.pine} position={[-1.32, 0.04, 0.18]} scale={0.82} rotation={-0.4} />
-          <Prop url={MODELS.logs} position={[1.0, 0.03, 0.62]} scale={0.72} rotation={-0.9} />
-          <Prop url={MODELS.mushroom} position={[-0.78, 0.03, 0.95]} scale={1.7} rotation={0.8} />
+          <Prop url={MODELS.pine} position={[-1.42, 0.04, -0.38]} scale={0.82} rotation={-0.4} />
+          <Prop url={MODELS.logs} position={[1.34, 0.03, 0.26]} scale={0.72} rotation={-0.9} />
+          <Prop url={MODELS.mushroom} position={[-1.3, 0.03, 0.3]} scale={1.7} rotation={0.8} />
           <Prop url={MODELS.grass} position={[0.12, 0.03, -1.15]} scale={0.85} rotation={2.1} />
+          <Signpost position={[-1.08, 0.03, 0.88]} rotation={0.6} scale={1.05} />
+          <Chest position={[0.02, 0.03, 0.98]} rotation={-0.4} scale={1.0} />
         </>
       )}
 

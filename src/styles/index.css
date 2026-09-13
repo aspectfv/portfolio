@@ -131,6 +131,10 @@
   --dur-slow: 400ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Passes its target and settles back. That overshoot is most of what
+     separates a control that feels physical from one that feels toggled. */
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --stagger-step: 40ms;
 
   /* ── Layout ──────────────────────────────────────────────────────────────
      Spacing follows an 8px rhythm: use the even steps of Tailwind's 4px
@@ -204,7 +208,7 @@
    position change still lands, which is correct: it is feedback, not motion. */
 @utility press {
   transition:
-    translate var(--dur-fast) var(--ease-standard),
+    translate var(--dur-base) var(--ease-overshoot),
     border-bottom-width var(--dur-fast) var(--ease-standard),
     background-color var(--dur-fast) var(--ease-standard);
 
@@ -230,6 +234,65 @@
     opacity: 0;
     transform: translateY(12px);
   }
+}
+
+/* Stagger.
+   A section's children arriving in sequence is what makes it read as assembled
+   rather than switched on. Deliberately free of JavaScript: the ancestor
+   [data-revealed] that the reveal observer already sets is the only trigger, so
+   this costs one selector and no runtime.
+
+   The cascade is clamped at the eighth child. Past that the last item lands
+   late enough to read as broken rather than as sequence. */
+[data-stagger] > * {
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform var(--dur-slow) var(--ease-out-soft);
+}
+
+[data-stagger] > *:nth-child(2) {
+  transition-delay: calc(var(--stagger-step) * 1);
+}
+[data-stagger] > *:nth-child(3) {
+  transition-delay: calc(var(--stagger-step) * 2);
+}
+[data-stagger] > *:nth-child(4) {
+  transition-delay: calc(var(--stagger-step) * 3);
+}
+[data-stagger] > *:nth-child(5) {
+  transition-delay: calc(var(--stagger-step) * 4);
+}
+[data-stagger] > *:nth-child(6) {
+  transition-delay: calc(var(--stagger-step) * 5);
+}
+[data-stagger] > *:nth-child(7) {
+  transition-delay: calc(var(--stagger-step) * 6);
+}
+[data-stagger] > *:nth-child(n + 8) {
+  transition-delay: calc(var(--stagger-step) * 7);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-revealed]) [data-stagger] > * {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Glyph reaction. The drawn objects acknowledge the pointer, which is the
+   cheapest way to make an icon feel like a thing rather than a picture. Scoped
+   to interactive ancestors so a decorative glyph sitting in a ribbon stays
+   still. Plain view removes ornaments outright, so it needs no branch here. */
+[data-ornament] {
+  transition:
+    rotate var(--dur-base) var(--ease-overshoot),
+    scale var(--dur-base) var(--ease-overshoot);
+}
+
+:is(a, button):hover [data-ornament],
+:is(a, button):focus-visible [data-ornament] {
+  rotate: -7deg;
+  scale: 1.08;
 }
 
 /* Plain view.
@@ -286,6 +349,9 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Without this a staggered block would still arrive in sequence, just
+       instantly per item, which is the stutter reduce exists to prevent. */
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 

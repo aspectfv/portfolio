@@ -44,7 +44,7 @@ export function Experience() {
       <div className="grid gap-10 md:grid-cols-2 md:gap-8">
         <div>
           <TrackHeading>Work</TrackHeading>
-          <ol className="space-y-6">
+          <ol data-stagger="" className="space-y-6">
             {experience.map((entry) => (
               <TimelineItem key={entry.id}>
                 <div className="flex items-start gap-3">
@@ -73,7 +73,7 @@ export function Experience() {
 
         <div>
           <TrackHeading>Education</TrackHeading>
-          <ol className="space-y-6">
+          <ol data-stagger="" className="space-y-6">
             {education.map((entry) => (
               <TimelineItem key={entry.id}>
                 <div className="flex items-start gap-3">

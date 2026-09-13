@@ -38,7 +38,7 @@ const groupTones: Record<string, PanelTone> = {
 export function Skills() {
   return (
     <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} biome="sand">
-      <div className="grid items-start gap-6 sm:grid-cols-2">
+      <div data-stagger="" className="grid items-start gap-6 sm:grid-cols-2">
         {skillGroups.map((group) => (
           <Panel
             key={group.id}

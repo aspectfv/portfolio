@@ -11,7 +11,7 @@ export function Projects() {
     <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading}>
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div data-stagger="" className="grid gap-6 md:grid-cols-2">
         {additionalProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
