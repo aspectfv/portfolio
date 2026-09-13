@@ -1,4 +1,5 @@
 import { ChipList } from '@/components/Chip'
+import { CratePile } from '@/scenery/CratePile'
 import { Panel, type PanelTone } from '@/components/Panel'
 import { Section } from '@/components/Section'
 import type { IconName } from '@/components/Icon'
@@ -57,6 +58,7 @@ export function Skills() {
           </Panel>
         ))}
       </div>
+      <CratePile />
     </Section>
   )
 }

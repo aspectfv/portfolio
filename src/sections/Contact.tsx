@@ -2,6 +2,7 @@ import { ActionLink } from '@/components/ActionLink'
 import { CopyEmail } from '@/components/CopyEmail'
 import { Panel } from '@/components/Panel'
 import { Campfire } from '@/scenery/Campfire'
+import { Clouds } from '@/scenery/Clouds'
 import { Section } from '@/components/Section'
 import { profile, sections } from '@/content/profile'
 
@@ -14,7 +15,13 @@ const meta = sections.find((section) => section.id === 'contact')!
  */
 export function Contact() {
   return (
-    <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} biome="sky">
+    <Section
+      id={meta.id}
+      eyebrow={meta.eyebrow}
+      heading={meta.heading}
+      biome="sky"
+      backdrop={<Clouds />}
+    >
       <Panel className="max-w-3xl">
         <p className="prose-measure">{profile.contactStatement}</p>
 

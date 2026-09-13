@@ -1,3 +1,4 @@
+import { Camp } from '@/scenery/Camp'
 import { Panel } from '@/components/Panel'
 import { Section } from '@/components/Section'
 import { StatBlock } from '@/components/StatBlock'
@@ -45,6 +46,7 @@ export function About() {
           <StatBlock stats={stats} label="Portfolio at a glance" />
         </Panel>
       </div>
+      <Camp />
     </Section>
   )
 }

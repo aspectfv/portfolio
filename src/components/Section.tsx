@@ -32,6 +32,7 @@ export function Section({
   biome = 'canvas',
   nextBiome,
   ridge,
+  backdrop,
   children,
 }: {
   id: string
@@ -41,14 +42,22 @@ export function Section({
   /** The band below. Set it to grow a ridge down into the next biome. */
   nextBiome?: Biome
   ridge?: Ridge
+  /**
+   * Scenery painted behind the content, inside the band. A sibling of the
+   * content rather than a child of it, so it can position against the section
+   * without sitting inside the reading column.
+   */
+  backdrop?: React.ReactNode
   children: React.ReactNode
 }) {
   return (
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className={`border-b-(length:--edge-lg) ${biomes[biome]}`}
+      className={`relative isolate border-b-(length:--edge-lg) ${biomes[biome]}`}
     >
+      {backdrop}
+
       <Reveal className="mx-auto max-w-content px-6 py-(--spacing-section)">
         <SectionHeading id={id} eyebrow={eyebrow} heading={heading} />
         {children}

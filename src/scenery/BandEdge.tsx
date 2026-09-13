@@ -1,4 +1,5 @@
 import type { Biome } from '@/components/Section'
+import { Prop2D, type PropName } from './Prop2D'
 
 /**
  * The faceted ridge where one biome meets the next.
@@ -46,20 +47,71 @@ const ridges: Record<Ridge, { back: string; front: string }> = {
   },
 }
 
+/**
+ * Objects standing on the horizon.
+ *
+ * On their own layer because the ridge below spans the viewport with
+ * `preserveAspectRatio="none"`, which would stretch anything recognisable into
+ * a smear. Each boundary gets its own cast so the descent passes through
+ * places rather than through four repaints of one place.
+ */
+const scatters: Record<Ridge, { name: PropName; left: number; size: string }[]> = {
+  treeline: [
+    { name: 'conifer', left: 5, size: 'w-10 md:w-16' },
+    { name: 'bush', left: 17, size: 'w-8 md:w-11' },
+    { name: 'stump', left: 27, size: 'w-7 md:w-9' },
+    { name: 'mushroom', left: 46, size: 'w-6 md:w-8' },
+    { name: 'conifer', left: 58, size: 'w-9 md:w-13' },
+    { name: 'bush', left: 72, size: 'w-7 md:w-10' },
+    { name: 'conifer', left: 88, size: 'w-11 md:w-16' },
+  ],
+  dunes: [
+    { name: 'rock', left: 8, size: 'w-9 md:w-12' },
+    { name: 'crate', left: 22, size: 'w-9 md:w-12' },
+    { name: 'bush', left: 38, size: 'w-7 md:w-10' },
+    { name: 'rock', left: 57, size: 'w-8 md:w-11' },
+    { name: 'stump', left: 74, size: 'w-7 md:w-9' },
+    { name: 'crate', left: 89, size: 'w-10 md:w-14' },
+  ],
+  peaks: [
+    { name: 'crystal', left: 9, size: 'w-8 md:w-11' },
+    { name: 'rock', left: 24, size: 'w-10 md:w-14' },
+    { name: 'conifer', left: 41, size: 'w-9 md:w-12' },
+    { name: 'crystal', left: 56, size: 'w-7 md:w-9' },
+    { name: 'rock', left: 71, size: 'w-8 md:w-11' },
+    { name: 'conifer', left: 90, size: 'w-10 md:w-14' },
+  ],
+  hills: [
+    { name: 'bush', left: 7, size: 'w-9 md:w-12' },
+    { name: 'stump', left: 21, size: 'w-7 md:w-9' },
+    { name: 'mushroom', left: 35, size: 'w-6 md:w-8' },
+    { name: 'rock', left: 52, size: 'w-9 md:w-12' },
+    { name: 'bush', left: 68, size: 'w-8 md:w-11' },
+    { name: 'crate', left: 85, size: 'w-9 md:w-12' },
+  ],
+}
+
 export function BandEdge({ into, ridge = 'hills' }: { into: Biome; ridge?: Ridge | undefined }) {
   const tone = tones[into]
   const shape = ridges[ridge]
 
   return (
-    <svg
-      data-ornament=""
-      aria-hidden="true"
-      viewBox="0 0 1440 80"
-      preserveAspectRatio="none"
-      className="block h-10 w-full md:h-16"
-    >
-      <polygon points={shape.back} fill={tone.fill} />
-      <polygon points={shape.front} fill={tone.edge} />
-    </svg>
+    <div data-ornament="" aria-hidden="true" className="relative">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="block h-10 w-full md:h-16">
+        <polygon points={shape.back} fill={tone.fill} />
+        <polygon points={shape.front} fill={tone.edge} />
+      </svg>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-[42%] hidden h-0 sm:block">
+        {scatters[ridge].map((item, index) => (
+          <Prop2D
+            key={`${item.name}-${index}`}
+            name={item.name}
+            className={`absolute bottom-0 ${item.size}`}
+            style={{ left: `${item.left}%` }}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

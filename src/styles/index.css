@@ -82,6 +82,16 @@
   --color-world-water: #4fa9d8;
   --color-world-wood: #c98a4b;
 
+  /* Shade planes. Low-poly reads as low-poly because an object shows two or
+     three flat faces at different values, never because of its outline; a
+     single-tone silhouette reads as an icon. Every faceted prop pairs a base
+     with the darker face below. */
+  --color-world-grass-light: #8ed372;
+  --color-world-stone-dark: #6e7787;
+  --color-world-soil-dark: #6b4429;
+  --color-world-wood-dark: #a06a34;
+  --color-world-sun-deep: #d8902a;
+
   /* ── Type ────────────────────────────────────────────────────────────────
      Display is for the hero name, area signs, ribbon headers, and small
      decorative UI. Never for paragraphs, never for navigation. Baloo 2 has
