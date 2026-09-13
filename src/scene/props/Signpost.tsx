@@ -2,10 +2,10 @@
  * A signpost with two blank boards.
  *
  * Deliberately wordless. Text in the scene would be a second, unreadable copy
- * of navigation that already exists in the header, and `CLAUDE.md` is explicit
- * that the canvas carries identity rather than information. The shape alone is
- * the adventure-game cue; it also rhymes with the signpost glyph the interface
- * already uses, so the scene and the UI reference the same object.
+ * of navigation that already exists in the header; the canvas carries identity,
+ * never information. The shape alone is the adventure-game cue, and it rhymes
+ * with the signpost glyph the interface already uses, so the scene and the UI
+ * reference the same object.
  */
 export function Signpost({
   position = [0, 0, 0] as [number, number, number],

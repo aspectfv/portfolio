@@ -1,3 +1,4 @@
+import { BandEdge, type Ridge } from '@/scenery/BandEdge'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
@@ -29,12 +30,17 @@ export function Section({
   eyebrow,
   heading,
   biome = 'canvas',
+  nextBiome,
+  ridge,
   children,
 }: {
   id: string
   eyebrow: string
   heading: string
   biome?: Biome
+  /** The band below. Set it to grow a ridge down into the next biome. */
+  nextBiome?: Biome
+  ridge?: Ridge
   children: React.ReactNode
 }) {
   return (
@@ -47,6 +53,8 @@ export function Section({
         <SectionHeading id={id} eyebrow={eyebrow} heading={heading} />
         {children}
       </Reveal>
+
+      {nextBiome && <BandEdge into={nextBiome} ridge={ridge} />}
     </section>
   )
 }

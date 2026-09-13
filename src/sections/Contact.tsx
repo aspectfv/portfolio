@@ -1,6 +1,7 @@
 import { ActionLink } from '@/components/ActionLink'
 import { CopyEmail } from '@/components/CopyEmail'
 import { Panel } from '@/components/Panel'
+import { Campfire } from '@/scenery/Campfire'
 import { Section } from '@/components/Section'
 import { profile, sections } from '@/content/profile'
 
@@ -42,6 +43,7 @@ export function Contact() {
           </ActionLink>
         </div>
       </Panel>
+      <Campfire />
     </Section>
   )
 }

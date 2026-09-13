@@ -35,9 +35,9 @@ export function StatBlock({
   label: string
 }) {
   const ref = useRef<HTMLDListElement>(null)
-  // No root margin: a number that finishes counting before it is on screen has
-  // animated for nobody.
-  const inView = useInView(ref, '0px')
+  // No root margin, and false until the observer says otherwise: a number that
+  // finishes counting before it is on screen has animated for nobody.
+  const inView = useInView(ref, '0px', false)
 
   return (
     <dl ref={ref} aria-label={label} className="grid grid-cols-3 gap-2">

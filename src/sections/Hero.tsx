@@ -1,5 +1,6 @@
 import { ActionLink } from '@/components/ActionLink'
 import { Icon } from '@/components/Icon'
+import { Clouds } from '@/scenery/Clouds'
 import { Stage } from '@/scene/Stage'
 import { profile } from '@/content/profile'
 
@@ -16,7 +17,8 @@ import { profile } from '@/content/profile'
  */
 export function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-heading" className="bg-sky">
+    <section id="top" aria-labelledby="hero-heading" className="bg-sky relative isolate">
+      <Clouds />
       <div className="mx-auto grid max-w-content gap-10 px-6 pt-16 pb-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:pt-24 md:pb-16">
         <div>
           <div className="bg-surface border-edge inline-flex items-center gap-2 rounded-full border-2 border-b-(length:--edge-sm) px-3 py-1.5">

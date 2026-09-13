@@ -240,3 +240,45 @@ test('the meta-game is absent in plain view and gates nothing in either', async 
   await trigger.click()
   await expect(page.locator(`#${await trigger.getAttribute('aria-controls')}`)).toBeVisible()
 })
+
+test('ambient scenery stops in every condition that should stop it', async ({ page }) => {
+  await page.goto('/')
+
+  // The gate is an attribute rather than a computed animation state on purpose:
+  // it makes the decision assertable instead of requiring a test to guess
+  // whether a compositor animation happens to be ticking.
+  const ambient = page.locator('[data-ambient]')
+  await expect(ambient.first()).toBeAttached()
+
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+  await expect(ambient).toHaveCount(0)
+
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'game')
+  // Back to the top: on mobile the switch sits inside the menu, so toggling can
+  // leave the page scrolled past the only scenery that is on screen at rest.
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await expect(ambient.first()).toBeAttached()
+
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(ambient).toHaveCount(0)
+})
+
+test('scenery is decorative only, so it never reaches the tab order', async ({ page }) => {
+  await page.goto('/')
+
+  // The invariant that matters: decoration may be skipped by the accessibility
+  // tree, but it must never be something a keyboard visitor has to tab through.
+  await expect(
+    page.locator('[data-ornament] :is(a, button, input, select, textarea, [tabindex])'),
+  ).toHaveCount(0)
+
+  // Every scenery surface is explicitly hidden rather than merely unlabelled.
+  for (const svg of await page.locator('svg[data-ornament]').all()) {
+    await expect(svg).toHaveAttribute('aria-hidden', 'true')
+  }
+  for (const layer of await page.locator('[data-ambient]').all()) {
+    await expect(layer).toHaveAttribute('aria-hidden', 'true')
+  }
+})

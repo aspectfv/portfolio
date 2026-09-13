@@ -24,7 +24,14 @@ const stats = [
 
 export function About() {
   return (
-    <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} biome="meadow">
+    <Section
+      id={meta.id}
+      eyebrow={meta.eyebrow}
+      heading={meta.heading}
+      biome="meadow"
+      nextBiome="canvas"
+      ridge="treeline"
+    >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
         <Panel title="Field notes" icon="scroll" tone="leaf">
           <div className="prose-measure space-y-5">

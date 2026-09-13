@@ -37,7 +37,14 @@ export function useCountUp(target: number, active: boolean): number {
 
     setValue(0)
     frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
+
+    // Snapping to the target on teardown is not tidiness, it is the invariant:
+    // an interrupted count must never leave a number on screen that the site
+    // does not mean. Zero is a lie as surely as any invented statistic.
+    return () => {
+      cancelAnimationFrame(frame)
+      setValue(target)
+    }
   }, [target, active, reduced])
 
   return value

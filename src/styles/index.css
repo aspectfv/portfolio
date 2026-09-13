@@ -295,6 +295,92 @@
   scale: 1.08;
 }
 
+/* Ambient scenery motion.
+   Paused by construction: an animation only runs inside a subtree whose root
+   carries [data-ambient], which useAmbient sets when the scenery is on screen,
+   the tab is foregrounded, motion is not reduced, and game view is on. Making
+   the gate an attribute rather than a conditional class means the decision is
+   visible in the DOM and can be asserted in a test.
+
+   Every keyframe below moves only translate, rotate, or opacity, so the whole
+   layer stays on the compositor. */
+@keyframes scenery-drift {
+  from {
+    translate: -1.5% 0;
+  }
+  to {
+    translate: 1.5% 0;
+  }
+}
+
+@keyframes scenery-sway {
+  from {
+    rotate: -1.1deg;
+  }
+  to {
+    rotate: 1.1deg;
+  }
+}
+
+@keyframes scenery-bob {
+  from {
+    translate: 0 -3px;
+  }
+  to {
+    translate: 0 3px;
+  }
+}
+
+@keyframes scenery-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+    scale: 1;
+  }
+  45% {
+    opacity: 1;
+    scale: 1.06;
+  }
+  70% {
+    opacity: 0.72;
+    scale: 0.97;
+  }
+}
+
+.ambient {
+  animation-play-state: paused;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: var(--ease-standard);
+}
+
+[data-ambient] .ambient {
+  animation-play-state: running;
+}
+
+.ambient-drift {
+  animation-name: scenery-drift;
+  animation-duration: 34s;
+}
+
+.ambient-sway {
+  animation-name: scenery-sway;
+  animation-duration: 7s;
+  transform-origin: bottom center;
+}
+
+.ambient-bob {
+  animation-name: scenery-bob;
+  animation-duration: 9s;
+}
+
+.ambient-flicker {
+  animation-name: scenery-flicker;
+  animation-duration: 2.6s;
+  animation-direction: normal;
+  transform-origin: bottom center;
+}
+
 /* Plain view.
    The visitor's escape hatch out of the game presentation, and the reason the
    default is allowed to commit to it. Plain view is a stylesheet concern, not

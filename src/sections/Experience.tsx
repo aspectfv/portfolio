@@ -40,7 +40,14 @@ function TimelineItem({ children }: { children: React.ReactNode }) {
 
 export function Experience() {
   return (
-    <Section id={meta.id} eyebrow={meta.eyebrow} heading={meta.heading} biome="dusk">
+    <Section
+      id={meta.id}
+      eyebrow={meta.eyebrow}
+      heading={meta.heading}
+      biome="dusk"
+      nextBiome="sky"
+      ridge="hills"
+    >
       <div className="grid gap-10 md:grid-cols-2 md:gap-8">
         <div>
           <TrackHeading>Work</TrackHeading>
