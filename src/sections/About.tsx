@@ -1,4 +1,3 @@
-import { Panel } from '@/components/Panel'
 import { SectionShard } from '@/scenery/SectionShard'
 import { CampPiece } from '@/scenery/setPieces'
 import { Section } from '@/components/Section'
@@ -24,32 +23,47 @@ const stats = [
   { label: 'Roles', value: String(experience.length) },
 ]
 
+/**
+ * No panel. This is the one place on the page that is only a person talking,
+ * and a frame around it made it look like another module in a stack of modules.
+ * The prose sits on the meadow at reading measure, the island takes the margin
+ * beside it, and the numbers are tags underneath rather than a third box.
+ */
 export function About() {
+  const [lede, ...rest] = profile.about
+
   return (
     <Section
       id={meta.id}
       eyebrow={meta.eyebrow}
       heading={meta.heading}
+      headingStyle="open"
       biome="meadow"
       nextBiome="canvas"
       ridge="treeline"
     >
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
-        <Panel title="Field notes" icon="scroll" tone="leaf">
-          <div className="prose-measure space-y-5">
-            {profile.about.map((paragraph) => (
+      <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12">
+        <div>
+          {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
+          <div className="prose-measure text-ink-muted mt-6 space-y-5">
+            {rest.map((paragraph) => (
               <p key={paragraph.slice(0, 32)}>{paragraph}</p>
             ))}
           </div>
-        </Panel>
+          <div className="mt-8">
+            <StatBlock stats={stats} label="Portfolio at a glance" />
+          </div>
+        </div>
 
-        <Panel title="At a glance" icon="gem" tone="tide">
-          <StatBlock stats={stats} label="Portfolio at a glance" />
-        </Panel>
+        <SectionShard
+          shape="plateau"
+          phase="-1.2s"
+          size="w-32 md:w-64"
+          className="justify-self-center md:justify-self-end md:pt-8"
+        >
+          <CampPiece />
+        </SectionShard>
       </div>
-      <SectionShard side="left" phase="-1.2s">
-        <CampPiece />
-      </SectionShard>
     </Section>
   )
 }

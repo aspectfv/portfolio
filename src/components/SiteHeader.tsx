@@ -7,8 +7,14 @@ import { useScrollProgress } from '@/hooks/useScrollProgress'
 const sectionIds = sections.map((section) => section.id)
 
 /**
- * A slim HUD: a name plate, the current area, the ordinary navigation, and a
- * progress meter along the bottom edge.
+ * A slim HUD: a name plate, the current area, the route, and a progress meter
+ * along the bottom edge.
+ *
+ * The navigation is drawn as stations on a line. It is the same five links with
+ * the same five labels, the same roles and the same `aria-current`; the line
+ * and the nodes are marked as ornament, so plain view strips them back to text
+ * links without touching the markup. Anything that required reading a map to
+ * navigate would be the clever-navigation trap the product brief forbids.
  *
  * Everything here that reads as game UI is a restatement of something the page
  * already provides. The area readout repeats `aria-current` on the nav; the
@@ -55,15 +61,26 @@ export function SiteHeader() {
         )}
 
         <nav aria-label="Sections" className="ml-auto hidden md:block">
-          <ul className="flex items-center gap-1">
+          <ul className="relative flex items-end">
+            {/* The route itself, drawn behind the nodes at their centre line. */}
+            <span
+              data-ornament=""
+              aria-hidden="true"
+              className="bg-hairline absolute inset-x-3 bottom-[8px] h-0.5"
+            />
             {sections.map((section) => (
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
                   aria-current={active === section.id ? 'true' : undefined}
-                  className="text-meta hover:bg-sunken aria-[current]:text-ember-ink inline-flex min-h-11 items-center rounded-sm px-3 font-medium transition-colors duration-(--dur-fast) aria-[current]:font-semibold"
+                  className="group text-meta hover:text-ember-ink aria-[current]:text-ember-ink inline-flex min-h-11 flex-col items-center justify-end gap-1.5 px-3 pb-1 font-medium underline-offset-4 transition-colors duration-(--dur-fast) hover:underline aria-[current]:font-semibold"
                 >
                   {section.navLabel}
+                  <span
+                    data-ornament=""
+                    aria-hidden="true"
+                    className="bg-canvas border-ink-muted group-hover:border-ember-strong group-aria-[current]:bg-ember-strong group-aria-[current]:border-ember-edge size-2.5 rotate-45 border-2 transition-colors duration-(--dur-fast)"
+                  />
                 </a>
               </li>
             ))}

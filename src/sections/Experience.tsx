@@ -12,26 +12,38 @@ const meta = sections.find((section) => section.id === 'experience')!
  * A track heading. Small, and not part of the document outline's main spine:
  * these are h3 because the entries beneath them are h4.
  */
-function TrackHeading({ children }: { children: React.ReactNode }) {
+function TrackHeading({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   return (
-    <h3 className="font-display text-eyebrow text-ink-muted mb-4 font-medium tracking-[0.08em] uppercase">
+    <h3
+      className={`font-display text-eyebrow text-ink-muted mb-4 font-medium tracking-[0.08em] uppercase ${className}`}
+    >
       {children}
     </h3>
   )
 }
 
 /**
- * A timeline entry: a framed card sitting to the right of a rail, with a node
- * marker on the rail beside it. The marker is decorative; the ordered list and
- * the printed period carry the sequence on their own.
+ * A station on the route: a framed card beside the rail, with a node marking
+ * where it sits. The marker is decorative; the ordered list and the printed
+ * period carry the sequence on their own.
+ *
+ * The offset puts the node on the rail, which is the container's left border.
+ * A border rather than a drawn line, so the rail is continuous by construction
+ * and cannot break at a gap between two lists.
  */
-function TimelineItem({ children }: { children: React.ReactNode }) {
+function Station({ children }: { children: React.ReactNode }) {
   return (
-    <li className="border-edge relative border-l-2 pl-6">
+    <li className="relative">
       <span
         data-ornament=""
         aria-hidden="true"
-        className="bg-surface border-ember-strong absolute top-5 -left-[9px] size-4 rounded-full border-4"
+        className="bg-surface border-ember-strong absolute top-5 -left-[35px] size-4 rounded-full border-4"
       />
       <div className="bg-surface border-edge rounded-md border-2 border-b-(length:--edge-md) p-4 md:p-5">
         {children}
@@ -40,6 +52,14 @@ function TimelineItem({ children }: { children: React.ReactNode }) {
   )
 }
 
+/**
+ * The night band, and the only section that runs as one continuous route.
+ *
+ * Two parallel columns made the reader choose a side and read one of them; a
+ * single line through work and then study is the actual shape of the thing
+ * being described. Dark is a token scope on the section, so nothing in here
+ * knows about it.
+ */
 export function Experience() {
   return (
     <Section
@@ -47,70 +67,73 @@ export function Experience() {
       eyebrow={meta.eyebrow}
       heading={meta.heading}
       biome="dusk"
+      dark
       nextBiome="sky"
       ridge="hills"
     >
-      <div className="grid gap-10 md:grid-cols-2 md:gap-8">
-        <div>
-          <TrackHeading>Work</TrackHeading>
-          <ol data-stagger="" className="space-y-6">
-            {experience.map((entry) => (
-              <TimelineItem key={entry.id}>
-                <div className="flex items-start gap-3">
-                  <span
-                    data-ornament=""
-                    className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
-                  >
-                    <Icon name="hammer" className="size-5" />
-                  </span>
-                  <div>
-                    <h4 className="text-card font-display font-semibold">{entry.role}</h4>
-                    <p className="text-ember-ink font-medium">{entry.company}</p>
-                  </div>
+      <div className="border-edge max-w-3xl border-l-2 pl-7">
+        <TrackHeading>Work</TrackHeading>
+        <ol data-stagger="" className="space-y-5">
+          {experience.map((entry) => (
+            <Station key={entry.id}>
+              <div className="flex items-start gap-3">
+                <span
+                  data-ornament=""
+                  className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+                >
+                  <Icon name="hammer" className="size-5" />
+                </span>
+                <div>
+                  <h4 className="text-card font-display font-semibold">{entry.role}</h4>
+                  <p className="text-ember-ink font-medium">{entry.company}</p>
                 </div>
-                <p className="text-meta text-ink-muted mt-2">
-                  {entry.period} · {entry.location}
-                </p>
-                <p className="mt-3">{entry.summary}</p>
-                <div className="mt-4">
-                  <ChipList items={entry.stack} label={`${entry.company} stack`} />
-                </div>
-              </TimelineItem>
-            ))}
-          </ol>
-        </div>
+              </div>
+              <p className="text-meta text-ink-muted mt-2">
+                {entry.period} · {entry.location}
+              </p>
+              <p className="prose-measure mt-3">{entry.summary}</p>
+              <div className="mt-4">
+                <ChipList items={entry.stack} label={`${entry.company} stack`} />
+              </div>
+            </Station>
+          ))}
+        </ol>
 
-        <div>
-          <TrackHeading>Education</TrackHeading>
-          <ol data-stagger="" className="space-y-6">
-            {education.map((entry) => (
-              <TimelineItem key={entry.id}>
-                <div className="flex items-start gap-3">
-                  <span
-                    data-ornament=""
-                    className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
-                  >
-                    <Icon name="scroll" className="size-5" />
-                  </span>
-                  <div>
-                    <h4 className="text-card font-display font-semibold">{entry.institution}</h4>
-                    <p className="text-leaf-ink font-medium">{entry.qualification}</p>
-                  </div>
+        <TrackHeading className="mt-10">Education</TrackHeading>
+        <ol data-stagger="" className="space-y-5">
+          {education.map((entry) => (
+            <Station key={entry.id}>
+              <div className="flex items-start gap-3">
+                <span
+                  data-ornament=""
+                  className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+                >
+                  <Icon name="scroll" className="size-5" />
+                </span>
+                <div>
+                  <h4 className="text-card font-display font-semibold">{entry.institution}</h4>
+                  <p className="text-leaf-ink font-medium">{entry.qualification}</p>
                 </div>
-                <p className="text-meta text-ink-muted mt-2">
-                  {entry.period} · {entry.location}
-                </p>
-                <ul className="mt-3 list-disc space-y-1 pl-5">
-                  {entry.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
-              </TimelineItem>
-            ))}
-          </ol>
-        </div>
+              </div>
+              <p className="text-meta text-ink-muted mt-2">
+                {entry.period} · {entry.location}
+              </p>
+              <ul className="prose-measure mt-3 list-disc space-y-1 pl-5">
+                {entry.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            </Station>
+          ))}
+        </ol>
       </div>
-      <SectionShard side="right" phase="-2.1s">
+
+      <SectionShard
+        shape="crag"
+        phase="-2.1s"
+        size="w-28 md:w-44"
+        className="mt-6 flex justify-center md:mt-10 md:justify-end"
+      >
         <MarkerPiece />
       </SectionShard>
     </Section>

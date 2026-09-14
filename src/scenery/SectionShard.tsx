@@ -1,31 +1,34 @@
 import { SceneryLayer } from './SceneryLayer'
-import { Shard } from './Shard'
+import { Shard, type ShardShape } from './Shard'
 
 /**
- * Places a shard beside a section's content.
+ * Places an island inside a section's composition.
  *
- * In the flow rather than absolutely positioned, so it can never overlap text
- * at a width nobody tested. Desktop pushes it into the empty margin on one
- * side; mobile centres it, which keeps the identity on the narrow layout
- * instead of deleting it, per the mobile rule in the product brief.
+ * Always in the flow, never absolutely positioned, so it can never overlap text
+ * at a width nobody tested. Where it sits is the caller's decision, because the
+ * compositions differ: a section with no panel can give an island a column of
+ * its own, and one built from panels puts it in the margin below them.
+ *
+ * Sizes differ per island and are smaller at narrow widths, where height is the
+ * scarce resource.
  */
 export function SectionShard({
-  side = 'right',
+  shape,
   phase = '0s',
+  size,
+  className = '',
   children,
 }: {
-  side?: 'left' | 'right'
+  shape: ShardShape
   /** A distinct value per section; see Shard. */
   phase?: string
+  size: string
+  className?: string
   children?: React.ReactNode
 }) {
   return (
-    <SceneryLayer
-      className={`pointer-events-none mt-10 flex justify-center ${
-        side === 'right' ? 'md:justify-end' : 'md:justify-start'
-      }`}
-    >
-      <Shard className="w-40 md:w-56" phase={phase}>
+    <SceneryLayer className={`pointer-events-none ${className}`}>
+      <Shard shape={shape} className={size} phase={phase}>
         {children}
       </Shard>
     </SceneryLayer>

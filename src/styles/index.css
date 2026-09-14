@@ -57,19 +57,27 @@
   --color-tide-ink: #245780;
 
   /* ── Biomes ──────────────────────────────────────────────────────────────
-     Section bands. Tinted derivatives of the world palette, light enough to
-     carry body text: ink clears 13.5:1 and ink-muted 5.7:1 on every one of
-     them, so the AAA body target holds across the whole page. Each has an
-     -edge, a darker shade of itself, for solid structural depth. Panels sit
-     on a band in --color-surface; the band is never the panel. */
+     Section bands. Each has an -edge, a darker shade of itself, for solid
+     structural depth. Panels sit on a band in --color-surface; the band is
+     never the panel.
+
+     The light bands are tinted derivatives of the world palette: ink clears
+     13.5:1 and ink-muted 5.7:1 on every one of them.
+
+     Dusk is the exception and is dark on purpose, so one band in the sequence
+     is night. It is declared dark here rather than inside the [data-band]
+     scope below because the edge that descends into it is drawn by the section
+     above, outside that scope, and would otherwise resolve light. Ratios for
+     everything that sits on it are in the dark band block at the foot of this
+     file. */
   --color-sky: #dff0fa;
   --color-sky-edge: #bfdcef;
   --color-meadow: #e6f2dc;
   --color-meadow-edge: #cbe2b8;
   --color-sand: #f7ead0;
   --color-sand-edge: #e6d3ab;
-  --color-dusk: #e8e9f2;
-  --color-dusk-edge: #cdd0e0;
+  --color-dusk: #1c2534;
+  --color-dusk-edge: #131b28;
   --color-edge: #e0d3be;
 
   /* ── World palette (illustration and 3D only, never behind body text) ──── */
@@ -108,6 +116,12 @@
   --text-section: 1.75rem;
   --text-section--line-height: 1.3;
   --text-section--letter-spacing: -0.02em;
+  /* An open heading, set straight onto a band with no plate behind it, needs
+     more weight than a plated one to hold the same position in the hierarchy.
+     Kept clear of --text-hero so a section can never rival the name. */
+  --text-title: 2.25rem;
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.02em;
   --text-eyebrow: 0.75rem;
   --text-eyebrow--line-height: 1.3;
   --text-eyebrow--letter-spacing: 0.08em;
@@ -150,7 +164,9 @@
   /* ── Layout ──────────────────────────────────────────────────────────────
      Spacing follows an 8px rhythm: use the even steps of Tailwind's 4px
      scale (2, 4, 6, 8, 12, 16) and not the odd ones. */
-  --spacing-section: 6rem;
+  /* Narrow widths get the tighter rhythm. Height is the scarce resource on a
+     phone, and the desktop step restores the air where there is room for it. */
+  --spacing-section: 4.5rem;
   --container-content: 70rem;
 }
 
@@ -162,6 +178,7 @@
     --text-section: 2.5rem;
     --text-eyebrow: 0.8125rem;
     --text-card: 1.5rem;
+    --text-title: 3.25rem;
     --text-body: 1.0625rem;
     --spacing-section: 8rem;
   }
@@ -169,6 +186,13 @@
 
 @layer base {
   html {
+    /* A composition may deliberately run past the content width; clipping here
+       means it can never hand the page a horizontal scrollbar. It belongs on
+       the document rather than on a section, because Chromium applies an
+       element's own clip when computing its IntersectionObserver rect, and a
+       clipped <section> stops reporting itself to the nav's active-section
+       observer. */
+    overflow-x: clip;
     /* Fixes native scrollbar and form-control rendering. */
     color-scheme: light;
     /* Removes the 300ms double-tap zoom delay on touch. */
@@ -424,6 +448,41 @@
   animation-duration: 2.6s;
   animation-direction: normal;
   transform-origin: bottom center;
+}
+
+/* The dark band.
+   One section in the sequence is night. It is built the same way plain view is,
+   as scoped token overrides, so no component below it learns that it is on a
+   dark band and there is nothing to keep in sync when a component changes.
+
+   `color` is redeclared here as well as the token: body resolved
+   var(--color-ink) once and every descendant inherits that computed value, so
+   redefining the token alone would leave dark text on a dark band.
+
+   Scoped to game view rather than duplicated under plain view. The bootstrap in
+   index.html sets data-view before first paint, so this never flashes.
+
+   Contrast against the band #1c2534 / cards #27344a / wells #1c2739:
+     ink        14.33 / 11.66 / 13.97
+     ink-muted   8.56 /  6.97 /  8.35
+     ember-ink   7.62 /  6.20 /  7.43
+     leaf-ink    8.77 /  7.13 /  8.55
+   Every one clears AAA for body text. --color-edge is 1.85:1 against a card and
+   is DECORATIVE ONLY, which is the same rule and a slightly better ratio than
+   the light theme's edge at 1.48:1. Nothing interactive sits on this band; if
+   something ever does, its border takes ink-muted or an accent. */
+[data-view='game'] [data-band='dark'] {
+  --color-canvas: #1c2739;
+  --color-surface: #27344a;
+  --color-sunken: #31405a;
+  --color-ink: #f4f7fb;
+  --color-ink-muted: #b6c2d6;
+  --color-hairline: #3a4763;
+  --color-edge: #4a5b80;
+  --color-ember-ink: #ff9e73;
+  --color-leaf-ink: #62d6c6;
+
+  color: var(--color-ink);
 }
 
 /* Plain view.

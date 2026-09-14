@@ -283,3 +283,48 @@ test('scenery is decorative only, so it never reaches the tab order', async ({ p
     await expect(layer).toHaveAttribute('aria-hidden', 'true')
   }
 })
+
+/** Mean channel value of a computed `rgb(...)`, enough to order two tones. */
+async function brightness(page: import('@playwright/test').Page, selector: string) {
+  return page.locator(selector).evaluate((element) => {
+    const [r, g, b] = getComputedStyle(element)
+      .backgroundColor.match(/\d+/g)!
+      .slice(0, 3)
+      .map(Number) as [number, number, number]
+    return (r + g + b) / 3
+  })
+}
+
+test('the night band is dark in game view and flattens in plain view', async ({ page }) => {
+  await page.goto('/')
+
+  // The mechanism under test is a scoped token override, not a component
+  // variant, so the assertion is on what the section resolves to rather than
+  // on any class it happens to carry.
+  const night = await brightness(page, '#experience')
+  const day = await brightness(page, '#about')
+  expect(night, 'the night band must be darker than a day band').toBeLessThan(day - 60)
+
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+
+  expect(
+    Math.abs((await brightness(page, '#experience')) - (await brightness(page, '#about'))),
+    'plain view must leave every band the same tone',
+  ).toBeLessThan(4)
+})
+
+test('no composition runs past the viewport', async ({ page }) => {
+  await page.goto('/')
+
+  // The flagship deliberately breaks its container. Clipping happens on the
+  // document, so the guarantee is a measurement rather than a class: whatever
+  // a section chooses to do, the page never scrolls sideways.
+  const overflow = () =>
+    page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+
+  expect(await overflow()).toBe(0)
+  await page.getByRole('switch', { name: /game view/i }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+  expect(await overflow()).toBe(0)
+})

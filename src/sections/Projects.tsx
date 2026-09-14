@@ -19,14 +19,24 @@ export function Projects() {
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
+      {/* The island is a cell of the card grid rather than a row beneath it.
+          An odd number of cards leaves a hole in the last row, and an island
+          standing in it costs no height at all; an even number simply puts it
+          on a row of its own, which is where it would have gone anyway. */}
       <div data-stagger="" className="grid gap-6 md:grid-cols-2">
         {additionalProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
+
+        <SectionShard
+          shape="spire"
+          phase="-3.4s"
+          size="w-28 md:w-44"
+          className="flex items-center justify-center"
+        >
+          <WaypostPiece />
+        </SectionShard>
       </div>
-      <SectionShard side="right" phase="-3.4s">
-        <WaypostPiece />
-      </SectionShard>
     </Section>
   )
 }

@@ -1,6 +1,7 @@
 import { ActionLink } from '@/components/ActionLink'
 import { Icon } from '@/components/Icon'
 import { Clouds } from '@/scenery/Clouds'
+import { SectionShard } from '@/scenery/SectionShard'
 import { Stage } from '@/scene/Stage'
 import { profile } from '@/content/profile'
 
@@ -14,12 +15,19 @@ import { profile } from '@/content/profile'
  * The hero sits on the sky band and hands off to About's meadow through a
  * faceted horizon, so the world reads as continuing past the fold instead of
  * stopping at the edge of a 490px sticker in the corner.
+ *
+ * A second island sits behind that horizon, half cut off by the ridge. It is
+ * the whole statement of the idea and it costs no copy: one island is scenery,
+ * two of them heading the same way is a chain. Desktop only, because the first
+ * screen on a phone has no room to spare and the next island is one scroll
+ * away regardless, and below lg the two columns are close enough together
+ * that an island between them would land on the buttons.
  */
 export function Hero() {
   return (
     <section id="top" aria-labelledby="hero-heading" className="bg-sky relative isolate">
       <Clouds />
-      <div className="mx-auto grid max-w-content gap-10 px-6 pt-16 pb-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:pt-24 md:pb-16">
+      <div className="mx-auto grid max-w-content gap-8 px-6 pt-12 pb-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-10 md:pt-24 md:pb-16">
         <div>
           <div className="bg-surface border-edge inline-flex items-center gap-2 rounded-full border-2 border-b-(length:--edge-sm) px-3 py-1.5">
             <Icon name="spark" className="size-4" />
@@ -55,6 +63,15 @@ export function Hero() {
 
         <Stage className="aspect-square w-full" />
       </div>
+
+      {/* Behind the ridge below, which crops it. -z-10 puts it under the
+          horizon without taking it out of the band. */}
+      <SectionShard
+        shape="spire"
+        phase="-2.6s"
+        size="w-40"
+        className="absolute bottom-0 left-1/2 -z-10 hidden lg:block"
+      />
 
       {/* Straight-edged on purpose: a smooth bezier hill would be the one curved
           form in a system built entirely from flat planes. */}
