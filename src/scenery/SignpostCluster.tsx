@@ -1,31 +1,25 @@
+import { Prop2D } from './Prop2D'
 import { SceneryLayer } from './SceneryLayer'
 
 /**
- * A quest signpost standing at the foot of the projects section.
+ * A signpost planted where the projects band ends.
  *
- * Projects is the highest-priority section in the product brief, and the only
- * one where a flourish draws attention to the content rather than away from it.
- * Wordless on purpose: lettering here would be a second, unreadable copy of a
- * heading that already exists, and the scenery layer may not carry information.
- *
- * It rhymes with the signpost on the island and the signpost glyph in the
- * interface, which is what makes the three read as one world rather than three
- * decorations.
+ * Wordless on purpose. Lettering here would be a second, unreadable copy of a
+ * heading that already exists, and scenery may not carry information. The shape
+ * alone is the cue, and it rhymes with the signpost on the island and the
+ * signpost glyph in the interface, so all three read as one world.
  */
 export function SignpostCluster() {
   return (
-    <SceneryLayer className="pointer-events-none mt-10 flex justify-end pr-2 md:pr-10">
-      <svg viewBox="0 0 200 120" className="h-24 w-36 md:h-32 md:w-48">
-        <g className="ambient ambient-sway" style={{ transformOrigin: '104px 112px' }}>
-          <rect x="98" y="34" width="10" height="78" fill="var(--color-world-soil)" />
-          <polygon points="108,42 168,48 178,58 168,68 108,62" fill="var(--color-world-wood)" />
-          <polygon points="98,70 44,76 34,86 44,96 98,90" fill="var(--color-world-wood)" />
-          <polygon points="108,42 168,48 178,58 108,52" fill="var(--color-world-soil)" />
-        </g>
-        <ellipse cx="104" cy="114" rx="34" ry="5" fill="var(--color-edge)" opacity="0.18" />
-        <polygon points="150,114 164,102 180,114" fill="var(--color-world-grass-dark)" />
-        <polygon points="24,114 38,100 52,114" fill="var(--color-world-grass-dark)" />
+    <SceneryLayer className="pointer-events-none flex items-end gap-1">
+      <svg viewBox="0 0 54 46" className="ambient ambient-sway w-12 md:w-16">
+        <rect x="24" y="10" width="6" height="34" fill="var(--color-world-soil)" />
+        <polygon points="30,13 50,16 54,22 50,28 30,25" fill="var(--color-world-wood)" />
+        <polygon points="30,13 50,16 54,22 30,19" fill="var(--color-world-wood-dark)" />
+        <polygon points="24,28 6,31 2,36 6,41 24,38" fill="var(--color-world-wood)" />
+        <polygon points="24,28 6,31 2,36 24,33" fill="var(--color-world-wood-dark)" />
       </svg>
+      <Prop2D name="bush" className="w-6 md:w-8" />
     </SceneryLayer>
   )
 }

@@ -32,6 +32,8 @@ export function About() {
       biome="meadow"
       nextBiome="canvas"
       ridge="treeline"
+      feature={<Camp />}
+      featureLeft={14}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
         <Panel title="Field notes" icon="scroll" tone="leaf">
@@ -46,7 +48,6 @@ export function About() {
           <StatBlock stats={stats} label="Portfolio at a glance" />
         </Panel>
       </div>
-      <Camp />
     </Section>
   )
 }

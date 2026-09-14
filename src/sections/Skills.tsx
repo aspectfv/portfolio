@@ -45,6 +45,8 @@ export function Skills() {
       biome="sand"
       nextBiome="dusk"
       ridge="peaks"
+      feature={<CratePile />}
+      featureLeft={78}
     >
       <div data-stagger="" className="grid items-start gap-6 sm:grid-cols-2">
         {skillGroups.map((group) => (
@@ -58,7 +60,6 @@ export function Skills() {
           </Panel>
         ))}
       </div>
-      <CratePile />
     </Section>
   )
 }

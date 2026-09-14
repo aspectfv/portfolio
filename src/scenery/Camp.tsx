@@ -2,24 +2,24 @@ import { Prop2D } from './Prop2D'
 import { SceneryLayer } from './SceneryLayer'
 
 /**
- * A small camp beside the About panel: a tent, a stump to sit on, and a bush.
+ * A camp pitched at the treeline: a tent, a stump to sit on, a bush.
  *
  * About is the personal half of the page, and a camp is where a person stops
- * rather than where they work. Built from the shared faceted props plus a tent
- * drawn here, so it belongs to the same world as the island without adding a
- * one-off vocabulary.
+ * rather than where they work. Everything shares one baseline and is sized
+ * against the props scattered along the same ridge, so the tent reads as a tent
+ * standing in the same world rather than as a large triangle nearby.
  */
 export function Camp() {
   return (
-    <SceneryLayer className="pointer-events-none mt-8 flex items-end justify-start gap-3 pl-1">
-      <svg viewBox="0 0 60 40" className="ambient ambient-bob w-20 md:w-24">
-        <polygon points="6,36 30,6 54,36" fill="var(--color-world-wood)" />
-        <polygon points="30,6 54,36 36,36" fill="var(--color-world-wood-dark)" />
-        <polygon points="30,14 40,36 20,36" fill="var(--color-world-soil-dark)" />
+    <SceneryLayer className="pointer-events-none flex items-end gap-1.5">
+      <Prop2D name="bush" className="w-6 md:w-8" />
+      <svg viewBox="0 0 60 42" className="w-14 md:w-20">
+        <polygon points="4,40 30,6 44,40" fill="var(--color-world-wood)" />
+        <polygon points="30,6 44,40 34,40" fill="var(--color-world-wood-dark)" />
+        <polygon points="30,15 38,40 22,40" fill="var(--color-world-soil-dark)" />
+        <polygon points="44,40 52,22 56,40" fill="var(--color-world-soil)" />
       </svg>
-      <Prop2D name="stump" className="w-7 md:w-8" />
-      <Prop2D name="bush" className="w-8 md:w-10" />
-      <Prop2D name="mushroom" className="w-5 md:w-6" />
+      <Prop2D name="stump" className="w-6 md:w-8" />
     </SceneryLayer>
   )
 }

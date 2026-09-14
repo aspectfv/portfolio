@@ -15,6 +15,8 @@ export function Projects() {
       heading={meta.heading}
       nextBiome="sand"
       ridge="dunes"
+      feature={<SignpostCluster />}
+      featureLeft={72}
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
@@ -23,7 +25,6 @@ export function Projects() {
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
-      <SignpostCluster />
     </Section>
   )
 }
