@@ -1,6 +1,7 @@
 import { FeaturedProject } from '@/components/FeaturedProject'
+import { SectionShard } from '@/scenery/SectionShard'
+import { WaypostPiece } from '@/scenery/setPieces'
 import { ProjectCard } from '@/components/ProjectCard'
-import { SignpostCluster } from '@/scenery/SignpostCluster'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
 import { additionalProjects, featuredProject } from '@/content/projects'
@@ -15,8 +16,6 @@ export function Projects() {
       heading={meta.heading}
       nextBiome="sand"
       ridge="dunes"
-      feature={<SignpostCluster />}
-      featureLeft={72}
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
@@ -25,6 +24,9 @@ export function Projects() {
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
+      <SectionShard side="right">
+        <WaypostPiece />
+      </SectionShard>
     </Section>
   )
 }

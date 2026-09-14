@@ -1,5 +1,6 @@
 import { ChipList } from '@/components/Chip'
-import { CratePile } from '@/scenery/CratePile'
+import { SectionShard } from '@/scenery/SectionShard'
+import { CachePiece } from '@/scenery/setPieces'
 import { Panel, type PanelTone } from '@/components/Panel'
 import { Section } from '@/components/Section'
 import type { IconName } from '@/components/Icon'
@@ -45,8 +46,6 @@ export function Skills() {
       biome="sand"
       nextBiome="dusk"
       ridge="peaks"
-      feature={<CratePile />}
-      featureLeft={78}
     >
       <div data-stagger="" className="grid items-start gap-6 sm:grid-cols-2">
         {skillGroups.map((group) => (
@@ -60,6 +59,9 @@ export function Skills() {
           </Panel>
         ))}
       </div>
+      <SectionShard side="left">
+        <CachePiece />
+      </SectionShard>
     </Section>
   )
 }

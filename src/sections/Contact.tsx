@@ -1,7 +1,8 @@
 import { ActionLink } from '@/components/ActionLink'
+import { SectionShard } from '@/scenery/SectionShard'
+import { CampfirePiece } from '@/scenery/setPieces'
 import { CopyEmail } from '@/components/CopyEmail'
 import { Panel } from '@/components/Panel'
-import { Campfire } from '@/scenery/Campfire'
 import { Clouds } from '@/scenery/Clouds'
 import { Section } from '@/components/Section'
 import { profile, sections } from '@/content/profile'
@@ -50,7 +51,9 @@ export function Contact() {
           </ActionLink>
         </div>
       </Panel>
-      <Campfire />
+      <SectionShard side="right">
+        <CampfirePiece />
+      </SectionShard>
     </Section>
   )
 }

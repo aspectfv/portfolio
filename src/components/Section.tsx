@@ -33,8 +33,6 @@ export function Section({
   nextBiome,
   ridge,
   backdrop,
-  feature,
-  featureLeft,
   children,
 }: {
   id: string
@@ -50,9 +48,6 @@ export function Section({
    * without sitting inside the reading column.
    */
   backdrop?: React.ReactNode
-  /** A set piece standing on the ridge, rather than floating in the band. */
-  feature?: React.ReactNode
-  featureLeft?: number
   children: React.ReactNode
 }) {
   return (
@@ -68,9 +63,7 @@ export function Section({
         {children}
       </Reveal>
 
-      {nextBiome && (
-        <BandEdge into={nextBiome} ridge={ridge} feature={feature} featureLeft={featureLeft} />
-      )}
+      {nextBiome && <BandEdge into={nextBiome} ridge={ridge} />}
     </section>
   )
 }

@@ -1,5 +1,6 @@
-import { Camp } from '@/scenery/Camp'
 import { Panel } from '@/components/Panel'
+import { SectionShard } from '@/scenery/SectionShard'
+import { CampPiece } from '@/scenery/setPieces'
 import { Section } from '@/components/Section'
 import { StatBlock } from '@/components/StatBlock'
 import { profile, sections } from '@/content/profile'
@@ -32,8 +33,6 @@ export function About() {
       biome="meadow"
       nextBiome="canvas"
       ridge="treeline"
-      feature={<Camp />}
-      featureLeft={14}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
         <Panel title="Field notes" icon="scroll" tone="leaf">
@@ -48,6 +47,9 @@ export function About() {
           <StatBlock stats={stats} label="Portfolio at a glance" />
         </Panel>
       </div>
+      <SectionShard side="left">
+        <CampPiece />
+      </SectionShard>
     </Section>
   )
 }

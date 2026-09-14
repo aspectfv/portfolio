@@ -1,4 +1,6 @@
 import { ChipList } from '@/components/Chip'
+import { SectionShard } from '@/scenery/SectionShard'
+import { MarkerPiece } from '@/scenery/setPieces'
 import { Icon } from '@/components/Icon'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
@@ -108,6 +110,9 @@ export function Experience() {
           </ol>
         </div>
       </div>
+      <SectionShard side="right">
+        <MarkerPiece />
+      </SectionShard>
     </Section>
   )
 }
