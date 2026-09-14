@@ -47,7 +47,7 @@ export function About() {
           <StatBlock stats={stats} label="Portfolio at a glance" />
         </Panel>
       </div>
-      <SectionShard side="left">
+      <SectionShard side="left" phase="-1.2s">
         <CampPiece />
       </SectionShard>
     </Section>

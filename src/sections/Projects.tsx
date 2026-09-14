@@ -24,7 +24,7 @@ export function Projects() {
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
-      <SectionShard side="right">
+      <SectionShard side="right" phase="-3.4s">
         <WaypostPiece />
       </SectionShard>
     </Section>

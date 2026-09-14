@@ -144,6 +144,7 @@
   /* Passes its target and settles back. That overshoot is most of what
      separates a control that feels physical from one that feels toggled. */
   --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-ambient: cubic-bezier(0.45, 0, 0.55, 1);
   --stagger-step: 40ms;
 
   /* ── Layout ──────────────────────────────────────────────────────────────
@@ -334,10 +335,23 @@
 
 @keyframes scenery-bob {
   from {
-    translate: 0 -3px;
+    translate: 0 -8px;
   }
   to {
-    translate: 0 3px;
+    translate: 0 8px;
+  }
+}
+
+/* Paired with the bob on the same element. `translate` and `rotate` are
+   independent CSS properties, so two animations can drive one object without
+   fighting over a shared transform, and giving them durations that do not
+   divide evenly means the combined motion never visibly repeats. */
+@keyframes scenery-tilt {
+  from {
+    rotate: -1.8deg;
+  }
+  to {
+    rotate: 1.8deg;
   }
 }
 
@@ -361,7 +375,11 @@
   animation-play-state: paused;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  animation-timing-function: var(--ease-standard);
+  /* Symmetric ease-in-out, not the interface easing. `--ease-standard`
+     decelerates hard, so an alternating loop parks at the extremes and reads as
+     still with an occasional twitch. A sine-like curve keeps the object moving
+     through the middle, which is what makes it look adrift. */
+  animation-timing-function: var(--ease-ambient);
 }
 
 [data-ambient] .ambient {
@@ -374,6 +392,7 @@
 }
 
 .ambient-sway {
+  transform-box: fill-box;
   animation-name: scenery-sway;
   animation-duration: 7s;
   transform-origin: bottom center;
@@ -384,7 +403,23 @@
   animation-duration: 9s;
 }
 
+/* A floating object: rising and falling while tipping slowly, the flat
+   equivalent of the idle the hero island runs in the canvas. `--float-phase`
+   offsets each instance so the shards down the page never move in lockstep,
+   which is what would make them read as one animation rather than as several
+   things adrift. */
+.ambient-float {
+  /* Without fill-box an SVG group rotates about the viewBox origin, which
+     swings the shard across the page rather than tipping it in place. */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: scenery-bob, scenery-tilt;
+  animation-duration: 7s, 11s;
+  animation-delay: var(--float-phase, 0s), calc(var(--float-phase, 0s) * 1.7);
+}
+
 .ambient-flicker {
+  transform-box: fill-box;
   animation-name: scenery-flicker;
   animation-duration: 2.6s;
   animation-direction: normal;

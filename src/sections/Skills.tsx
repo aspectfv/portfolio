@@ -59,7 +59,7 @@ export function Skills() {
           </Panel>
         ))}
       </div>
-      <SectionShard side="left">
+      <SectionShard side="left" phase="-0.6s">
         <CachePiece />
       </SectionShard>
     </Section>

@@ -8,15 +8,15 @@ import { Shard } from './Shard'
  * at a width nobody tested. Desktop pushes it into the empty margin on one
  * side; mobile centres it, which keeps the identity on the narrow layout
  * instead of deleting it, per the mobile rule in the product brief.
- *
- * The bob is the same slow idle the hero island has, so every floating thing on
- * the page moves the same way.
  */
 export function SectionShard({
   side = 'right',
+  phase = '0s',
   children,
 }: {
   side?: 'left' | 'right'
+  /** A distinct value per section; see Shard. */
+  phase?: string
   children?: React.ReactNode
 }) {
   return (
@@ -25,7 +25,9 @@ export function SectionShard({
         side === 'right' ? 'md:justify-end' : 'md:justify-start'
       }`}
     >
-      <Shard className="ambient ambient-bob w-40 md:w-56">{children}</Shard>
+      <Shard className="w-40 md:w-56" phase={phase}>
+        {children}
+      </Shard>
     </SceneryLayer>
   )
 }

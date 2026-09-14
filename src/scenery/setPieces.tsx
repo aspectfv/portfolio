@@ -15,9 +15,11 @@ export function CampPiece() {
       <polygon points="34,36 46,14 58,36" fill="var(--color-world-wood)" />
       <polygon points="46,14 58,36 50,36" fill="var(--color-world-wood-dark)" />
       <polygon points="46,20 52,36 40,36" fill="var(--color-world-soil-dark)" />
-      <polygon points="62,36 70,16 78,36" fill="var(--color-world-grass-dark)" />
-      <polygon points="70,16 78,36 72,36" fill="var(--color-world-grass)" />
       <rect x="68" y="34" width="4" height="6" fill="var(--color-world-soil-dark)" />
+      <g className="ambient ambient-sway">
+        <polygon points="62,36 70,16 78,36" fill="var(--color-world-grass-dark)" />
+        <polygon points="70,16 78,36 72,36" fill="var(--color-world-grass)" />
+      </g>
     </>
   )
 }
@@ -27,10 +29,14 @@ export function WaypostPiece() {
   return (
     <>
       <rect x="56" y="8" width="6" height="30" fill="var(--color-world-soil)" />
-      <polygon points="62,12 88,15 94,21 88,27 62,24" fill="var(--color-world-wood)" />
-      <polygon points="62,12 88,15 94,21 62,18" fill="var(--color-world-wood-dark)" />
-      <polygon points="56,26 34,29 28,34 34,39 56,36" fill="var(--color-world-wood)" />
-      <polygon points="56,26 34,29 28,34 56,31" fill="var(--color-world-wood-dark)" />
+      <g className="ambient ambient-sway" style={{ animationDuration: '5.5s' }}>
+        <polygon points="62,12 88,15 94,21 88,27 62,24" fill="var(--color-world-wood)" />
+        <polygon points="62,12 88,15 94,21 62,18" fill="var(--color-world-wood-dark)" />
+      </g>
+      <g className="ambient ambient-sway" style={{ animationDuration: '6.5s' }}>
+        <polygon points="56,26 34,29 28,34 34,39 56,36" fill="var(--color-world-wood)" />
+        <polygon points="56,26 34,29 28,34 56,31" fill="var(--color-world-wood-dark)" />
+      </g>
     </>
   )
 }
@@ -45,8 +51,10 @@ export function CachePiece() {
       <polygon points="62,28 72,23 84,28 74,33" fill="var(--color-world-wood)" />
       <polygon points="62,28 74,33 74,41 62,36" fill="var(--color-world-wood-dark)" />
       <polygon points="74,33 84,28 84,36 74,41" fill="var(--color-world-soil)" />
-      <polygon points="86,38 84,26 90,18 96,26 94,38" fill="var(--color-world-water)" />
-      <polygon points="90,18 96,26 94,38 90,30" fill="var(--color-world-sky)" />
+      <g className="ambient ambient-flicker" style={{ animationDuration: '4.2s' }}>
+        <polygon points="86,38 84,26 90,18 96,26 94,38" fill="var(--color-world-water)" />
+        <polygon points="90,18 96,26 94,38 90,30" fill="var(--color-world-sky)" />
+      </g>
     </>
   )
 }

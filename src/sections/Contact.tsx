@@ -51,7 +51,7 @@ export function Contact() {
           </ActionLink>
         </div>
       </Panel>
-      <SectionShard side="right">
+      <SectionShard side="right" phase="-4.3s">
         <CampfirePiece />
       </SectionShard>
     </Section>

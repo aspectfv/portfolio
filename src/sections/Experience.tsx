@@ -110,7 +110,7 @@ export function Experience() {
           </ol>
         </div>
       </div>
-      <SectionShard side="right">
+      <SectionShard side="right" phase="-2.1s">
         <MarkerPiece />
       </SectionShard>
     </Section>

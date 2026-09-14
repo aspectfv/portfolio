@@ -21,8 +21,9 @@ test('each nav item scrolls to its section', async ({ page, isMobile }) => {
   // Five smooth scrolls across a tall page, and Playwright waits for each to
   // settle before it will click the next link. That is the page behaving
   // correctly, not the test hanging, so give it the room rather than
-  // disabling the scroll behaviour the assertion exists to check.
-  test.slow()
+  // disabling the scroll behaviour the assertion exists to check. The page has
+  // only grown since, so the allowance is trebled rather than doubled.
+  test.setTimeout(90_000)
   await page.goto('/')
   if (isMobile) await page.getByRole('button', { name: /open menu/i }).click()
 
