@@ -1,5 +1,6 @@
-import { SectionShard } from '@/scenery/SectionShard'
-import { CampPiece } from '@/scenery/setPieces'
+import { CampShard } from '@/scenery/props/CampShard'
+import { Motes } from '@/scenery/Motes'
+import { SceneryProp } from '@/scenery/SceneryProp'
 import { Section } from '@/components/Section'
 import { StatBlock } from '@/components/StatBlock'
 import { profile, sections } from '@/content/profile'
@@ -41,6 +42,7 @@ export function About() {
       biome="meadow"
       nextBiome="canvas"
       ridge="treeline"
+      backdrop={<Motes variant="leaves" />}
     >
       <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12">
         <div>
@@ -55,14 +57,13 @@ export function About() {
           </div>
         </div>
 
-        <SectionShard
-          shape="plateau"
-          phase="-1.2s"
+        <SceneryProp
+          viewBox="0 0 120 132"
           size="w-32 md:w-64"
           className="justify-self-center md:justify-self-end md:pt-8"
         >
-          <CampPiece />
-        </SectionShard>
+          <CampShard />
+        </SceneryProp>
       </div>
     </Section>
   )

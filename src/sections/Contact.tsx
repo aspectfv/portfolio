@@ -1,6 +1,6 @@
 import { ActionLink } from '@/components/ActionLink'
-import { SectionShard } from '@/scenery/SectionShard'
-import { CampfirePiece } from '@/scenery/setPieces'
+import { Dock } from '@/scenery/props/Dock'
+import { SceneryProp } from '@/scenery/SceneryProp'
 import { CopyEmail } from '@/components/CopyEmail'
 import { Clouds } from '@/scenery/Clouds'
 import { Section } from '@/components/Section'
@@ -9,10 +9,13 @@ import { profile, sections } from '@/content/profile'
 const meta = sections.find((section) => section.id === 'contact')!
 
 /**
- * Bookends the hero on the same sky band, and ends the chain on open ground
+ * Bookends the hero on the same sky band, and ends the trail on open water
  * rather than inside one last box. The address is large, in plain text, and is
  * a link as well: a recruiter copying it by hand must never have to hunt for
  * it, and it is never only inside a button.
+ *
+ * The traveller sits on the dock here, which is their second and last
+ * appearance. A beginning and an end is the whole statement.
  */
 export function Contact() {
   return (
@@ -56,14 +59,13 @@ export function Contact() {
           </div>
         </div>
 
-        <SectionShard
-          shape="atoll"
-          phase="-4.3s"
-          size="w-36 md:w-56"
+        <SceneryProp
+          viewBox="0 0 140 100"
+          size="w-44 md:w-64"
           className="justify-self-center md:justify-self-end"
         >
-          <CampfirePiece />
-        </SectionShard>
+          <Dock />
+        </SceneryProp>
       </div>
     </Section>
   )

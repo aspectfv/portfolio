@@ -1,7 +1,8 @@
 import { ChipList } from '@/components/Chip'
 import { Icon, type IconName } from '@/components/Icon'
-import { SectionShard } from '@/scenery/SectionShard'
-import { CachePiece } from '@/scenery/setPieces'
+import { Motes } from '@/scenery/Motes'
+import { SceneryProp } from '@/scenery/SceneryProp'
+import { SupplyCluster } from '@/scenery/props/SupplyCluster'
 import { Panel } from '@/components/Panel'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
@@ -44,6 +45,7 @@ export function Skills() {
       biome="sand"
       nextBiome="dusk"
       ridge="peaks"
+      backdrop={<Motes variant="dust" />}
     >
       <Panel title="Kit" icon="chest" tone="tide">
         <dl className="divide-hairline divide-y-2">
@@ -67,14 +69,13 @@ export function Skills() {
         </dl>
       </Panel>
 
-      <SectionShard
-        shape="terrace"
-        phase="-0.6s"
-        size="w-32 md:w-48"
+      <SceneryProp
+        viewBox="0 0 140 110"
+        size="w-40 md:w-56"
         className="mt-6 flex justify-center md:mt-10 md:justify-start"
       >
-        <CachePiece />
-      </SectionShard>
+        <SupplyCluster />
+      </SceneryProp>
     </Section>
   )
 }

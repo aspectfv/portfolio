@@ -1,6 +1,6 @@
 import { FeaturedProject } from '@/components/FeaturedProject'
-import { SectionShard } from '@/scenery/SectionShard'
-import { WaypostPiece } from '@/scenery/setPieces'
+import { SceneryProp } from '@/scenery/SceneryProp'
+import { Workshop } from '@/scenery/props/Workshop'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
@@ -19,8 +19,8 @@ export function Projects() {
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
-      {/* The island is a cell of the card grid rather than a row beneath it.
-          An odd number of cards leaves a hole in the last row, and an island
+      {/* The workshop is a cell of the card grid rather than a row beneath it.
+          An odd number of cards leaves a hole in the last row, and a prop
           standing in it costs no height at all; an even number simply puts it
           on a row of its own, which is where it would have gone anyway. */}
       <div data-stagger="" className="grid gap-6 md:grid-cols-2">
@@ -28,14 +28,13 @@ export function Projects() {
           <ProjectCard key={project.id} project={project} />
         ))}
 
-        <SectionShard
-          shape="spire"
-          phase="-3.4s"
-          size="w-28 md:w-44"
+        <SceneryProp
+          viewBox="0 0 140 120"
+          size="w-36 md:w-56"
           className="flex items-center justify-center"
         >
-          <WaypostPiece />
-        </SectionShard>
+          <Workshop />
+        </SceneryProp>
       </div>
     </Section>
   )

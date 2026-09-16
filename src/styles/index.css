@@ -89,6 +89,7 @@
   --color-world-stone: #98a0ae;
   --color-world-water: #4fa9d8;
   --color-world-wood: #c98a4b;
+  --color-world-sand: #e8cf9c;
 
   /* Shade planes. Low-poly reads as low-poly because an object shows two or
      three flat faces at different values, never because of its outline; a
@@ -98,6 +99,7 @@
   --color-world-stone-dark: #6e7787;
   --color-world-soil-dark: #6b4429;
   --color-world-wood-dark: #a06a34;
+  --color-world-sand-dark: #c4a670;
   --color-world-sun-deep: #d8902a;
 
   /* ── Type ────────────────────────────────────────────────────────────────
@@ -357,12 +359,16 @@
   }
 }
 
+/* Extent is a custom property rather than a constant: how far a thing travels
+   is part of what it is. The bound is 14px and 3 degrees, and it lives in
+   src/scenery/ambient.ts where a test can assert it rather than here where it
+   could only be reviewed. */
 @keyframes scenery-bob {
   from {
-    translate: 0 -8px;
+    translate: 0 calc(var(--bob-range, 7px) * -1);
   }
   to {
-    translate: 0 8px;
+    translate: 0 var(--bob-range, 7px);
   }
 }
 
@@ -372,10 +378,43 @@
    divide evenly means the combined motion never visibly repeats. */
 @keyframes scenery-tilt {
   from {
-    rotate: -1.8deg;
+    rotate: calc(var(--tilt-range, 1.8deg) * -1);
   }
   to {
-    rotate: 1.8deg;
+    rotate: var(--tilt-range, 1.8deg);
+  }
+}
+
+/* A mote rising and fading out. Continuous by nature: it never resolves, never
+   fires, and looks the same whether or not anybody just did something. The
+   burst is what the vocabulary forbids, not the particle. */
+@keyframes scenery-rise {
+  0% {
+    translate: 0 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    translate: var(--rise-drift, 3px) calc(var(--rise-range, 12px) * -1);
+    opacity: 0;
+  }
+}
+
+/* Opacity only, for a screen or a shimmer on water. Distinct from the flicker
+   below, which also scales: a lit rectangle that changes size is a rectangle
+   that is moving, and a screen does not move. */
+@keyframes scenery-blink {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.8;
   }
 }
 
@@ -422,24 +461,28 @@
   transform-origin: bottom center;
 }
 
-.ambient-bob {
-  animation-name: scenery-bob;
-  animation-duration: 9s;
-}
-
 /* A floating object: rising and falling while tipping slowly, the flat
-   equivalent of the idle the hero island runs in the canvas. `--float-phase`
-   offsets each instance so the shards down the page never move in lockstep,
-   which is what would make them read as one animation rather than as several
-   things adrift. */
+   equivalent of the idle the hero island runs in the canvas. One island uses
+   this now rather than five, so the duration comes from the caller instead of
+   from a pair of custom properties that existed to keep five of them apart. */
 .ambient-float {
   /* Without fill-box an SVG group rotates about the viewBox origin, which
      swings the shard across the page rather than tipping it in place. */
   transform-box: fill-box;
   transform-origin: center;
   animation-name: scenery-bob, scenery-tilt;
-  animation-duration: 7s, 11s;
-  animation-delay: var(--float-phase, 0s), calc(var(--float-phase, 0s) * 1.7);
+}
+
+.ambient-rise {
+  transform-box: fill-box;
+  animation-name: scenery-rise;
+  animation-direction: normal;
+  animation-timing-function: linear;
+}
+
+.ambient-blink {
+  animation-name: scenery-blink;
+  animation-direction: normal;
 }
 
 .ambient-flicker {

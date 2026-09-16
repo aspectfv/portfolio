@@ -1,6 +1,6 @@
 import { ChipList } from '@/components/Chip'
-import { SectionShard } from '@/scenery/SectionShard'
-import { MarkerPiece } from '@/scenery/setPieces'
+import { SceneryProp } from '@/scenery/SceneryProp'
+import { Waymarker } from '@/scenery/props/Waymarker'
 import { Icon } from '@/components/Icon'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
@@ -128,14 +128,13 @@ export function Experience() {
         </ol>
       </div>
 
-      <SectionShard
-        shape="crag"
-        phase="-2.1s"
+      <SceneryProp
+        viewBox="0 0 120 112"
         size="w-28 md:w-44"
         className="mt-6 flex justify-center md:mt-10 md:justify-end"
       >
-        <MarkerPiece />
-      </SectionShard>
+        <Waymarker />
+      </SceneryProp>
     </Section>
   )
 }
