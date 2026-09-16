@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Meter } from './Meter'
+import { ViewModeToggle } from './ViewModeToggle'
 import { profile, sections } from '@/content/profile'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
@@ -111,6 +112,10 @@ export function SiteHeader() {
           >
             LinkedIn
           </a>
+          {/* Plain view is what licenses the game presentation to commit as hard
+              as it does, so it needs to be findable. From lg only: at md the
+              cluster beside it is already three links wide. */}
+          <ViewModeToggle className="hidden lg:inline-flex" />
         </div>
 
         <button
@@ -154,6 +159,9 @@ export function SiteHeader() {
               <a href={profile.links.linkedin.href} target="_blank" rel="noopener noreferrer">
                 LinkedIn
               </a>
+            </li>
+            <li className="pt-3">
+              <ViewModeToggle />
             </li>
           </ul>
         </nav>

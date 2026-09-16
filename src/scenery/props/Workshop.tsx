@@ -31,7 +31,10 @@ export function Workshop() {
 
       {/* The window, and the one lit thing in the section about built software. */}
       <rect x="72" y="76" width="16" height="14" fill="var(--color-world-stone-dark)" />
-      <g className="ambient ambient-blink" style={{ animationDuration: ambientActors.screen.duration }}>
+      <g
+        className="ambient ambient-blink"
+        style={{ animationDuration: ambientActors.screen.duration }}
+      >
         <rect x="74" y="78" width="12" height="10" fill="var(--color-world-water)" />
         <rect x="76" y="80" width="8" height="2" fill="var(--color-world-sky)" />
       </g>

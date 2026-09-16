@@ -130,7 +130,7 @@ export function Experience() {
 
       <SceneryProp
         viewBox="0 0 120 112"
-        size="w-28 md:w-44"
+        size="w-28 md:w-52"
         className="mt-6 flex justify-center md:mt-10 md:justify-end"
       >
         <Waymarker />

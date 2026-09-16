@@ -27,11 +27,13 @@ export function CampShard() {
     <>
       <g
         className="ambient ambient-float"
-        style={{
-          animationDuration: idle.duration,
-          '--bob-range': `${idle.travel}px`,
-          '--tilt-range': `${idle.rotation}deg`,
-        } as React.CSSProperties}
+        style={
+          {
+            animationDuration: idle.duration,
+            '--bob-range': `${idle.travel}px`,
+            '--tilt-range': `${idle.rotation}deg`,
+          } as React.CSSProperties
+        }
       >
         <polygon points="14,44 60,54 106,44 60,92" fill="var(--color-world-soil-dark)" />
         <polygon points="60,92 106,44 60,54" fill="var(--color-world-soil)" />
@@ -39,10 +41,7 @@ export function CampShard() {
           points="12,38 40,48 80,48 108,38 108,44 80,54 40,54 12,44"
           fill="var(--color-world-grass-dark)"
         />
-        <polygon
-          points="12,38 40,28 80,28 108,38 80,48 40,48"
-          fill="var(--color-world-grass)"
-        />
+        <polygon points="12,38 40,28 80,28 108,38 80,48 40,48" fill="var(--color-world-grass)" />
         <polygon points="12,38 40,28 62,28 34,44" fill="var(--color-world-grass-light)" />
 
         {/* Dressing, drawn before the camp so an island's own vegetation never
@@ -55,7 +54,10 @@ export function CampShard() {
         <polygon points="46,14 58,36 50,36" fill="var(--color-world-wood-dark)" />
         <polygon points="46,20 52,36 40,36" fill="var(--color-world-soil-dark)" />
         <rect x="68" y="34" width="4" height="6" fill="var(--color-world-soil-dark)" />
-        <g className="ambient ambient-sway" style={{ animationDuration: ambientActors.campFoliage.duration }}>
+        <g
+          className="ambient ambient-sway"
+          style={{ animationDuration: ambientActors.campFoliage.duration }}
+        >
           <polygon points="62,36 70,16 78,36" fill="var(--color-world-grass-dark)" />
           <polygon points="70,16 78,36 72,36" fill="var(--color-world-grass)" />
         </g>

@@ -1,5 +1,6 @@
 import { CampShard } from '@/scenery/props/CampShard'
 import { Motes } from '@/scenery/Motes'
+import { Panel } from '@/components/Panel'
 import { SceneryProp } from '@/scenery/SceneryProp'
 import { Section } from '@/components/Section'
 import { StatBlock } from '@/components/StatBlock'
@@ -52,14 +53,17 @@ export function About() {
               <p key={paragraph.slice(0, 32)}>{paragraph}</p>
             ))}
           </div>
-          <div className="mt-8">
+          {/* The one frame in a section that otherwise carries none. The prose
+              stays open on the band; the numbers are a different kind of object
+              and a sheet is what they are. */}
+          <Panel className="mt-8 max-w-sm">
             <StatBlock stats={stats} label="Portfolio at a glance" />
-          </div>
+          </Panel>
         </div>
 
         <SceneryProp
           viewBox="0 0 120 132"
-          size="w-32 md:w-64"
+          size="w-32 md:w-72"
           className="justify-self-center md:justify-self-end md:pt-8"
         >
           <CampShard />

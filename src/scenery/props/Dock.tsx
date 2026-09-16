@@ -8,42 +8,51 @@ import { Traveller } from './Traveller'
  * ground. It ends the trail the way the page ends: on open water rather than
  * inside one more box.
  *
- * This is the second and last appearance of the figure. A beginning and an end
- * is the whole statement; a figure on every band would be a mascot.
+ * The water is a tapered pool rather than a rectangle across the viewBox. A
+ * full-width slab of blue on a pale sky band reads as a crop mark — a piece of
+ * some other picture showing through — instead of as water the dock is built
+ * over.
+ *
+ * This is the second and last appearance of the figure, and it is drawn at
+ * full scale here. It is the one moment on the page where a person is the
+ * subject rather than a detail, so it is sized to be read as one.
  */
 export function Dock() {
   return (
     <>
-      {/* Water. Two values rather than one flat fill, the same rule every other
+      {/* Far plane pale, near plane deep: the same two-value rule every other
           surface in this world follows. */}
-      <polygon points="0,78 140,78 140,92 0,92" fill="var(--color-world-water)" />
-      <polygon points="0,92 140,92 140,100 0,100" fill="var(--color-world-sky)" />
+      <polygon points="18,74 122,74 132,84 8,84" fill="var(--color-world-sky)" />
+      <polygon points="8,84 132,84 120,97 20,97" fill="var(--color-world-water)" />
 
-      <g className="ambient ambient-blink" style={{ animationDuration: ambientActors.shimmer.duration }}>
-        <rect x="16" y="83" width="26" height="3" fill="var(--color-world-sky)" />
-        <rect x="58" y="88" width="18" height="2" fill="var(--color-world-sky)" />
-        <rect x="96" y="82" width="22" height="3" fill="var(--color-world-sky)" />
+      <g
+        className="ambient ambient-blink"
+        style={{ animationDuration: ambientActors.shimmer.duration }}
+      >
+        <rect x="26" y="87" width="24" height="3" fill="var(--color-world-sky)" />
+        <rect x="62" y="92" width="16" height="2" fill="var(--color-world-sky)" />
+        <rect x="88" y="86" width="20" height="3" fill="var(--color-world-sky)" />
       </g>
 
-      {/* Deck and posts. */}
-      <polygon points="24,74 112,74 118,80 30,80" fill="var(--color-world-wood)" />
-      <polygon points="24,74 30,80 30,84 24,78" fill="var(--color-world-wood-dark)" />
-      <rect x="38" y="80" width="5" height="16" fill="var(--color-world-soil-dark)" />
-      <rect x="100" y="80" width="5" height="16" fill="var(--color-world-soil-dark)" />
+      {/* The deck runs in from the left and stops over the water. */}
+      <polygon points="0,68 98,68 106,74 0,74" fill="var(--color-world-wood)" />
+      <polygon points="0,74 106,74 106,77 0,77" fill="var(--color-world-wood-dark)" />
+      <rect x="54" y="77" width="5" height="13" fill="var(--color-world-soil-dark)" />
+      <rect x="92" y="77" width="5" height="11" fill="var(--color-world-soil-dark)" />
 
-      {/* The lantern at the end of it: a light left on for whoever arrives.
-          Lit but still. The sky band's three ambient slots are already spent on
-          the clouds, the birds and the shimmer, and the cap is the budget that
-          keeps a living page from becoming a twitching one. */}
-      <rect x="112" y="44" width="5" height="32" fill="var(--color-world-soil-dark)" />
-      <polygon points="106,44 106,30 124,30 124,44" fill="var(--color-world-stone-dark)" />
-      <polygon points="106,30 115,24 124,30" fill="var(--color-world-stone)" />
-      <polygon points="115,32 121,38 115,44 109,38" fill="var(--color-world-sun)" />
-
-      {/* Seated on the deck, feet over the edge. */}
-      <g transform="translate(52,50) scale(0.8)">
+      {/* Sitting on the end of it, legs over the edge. */}
+      <g transform="translate(70,42)">
         <Traveller pose="resting" />
       </g>
+
+      {/* A light left on for whoever arrives. Lit but still: the sky band's
+          three ambient slots are already spent on the clouds, the birds and the
+          shimmer, and that cap is what keeps a living page from becoming a
+          twitching one. */}
+      <rect x="112" y="40" width="5" height="34" fill="var(--color-world-soil-dark)" />
+      <polygon points="106,40 106,26 124,26 124,40" fill="var(--color-world-stone-dark)" />
+      <polygon points="106,26 115,19 124,26" fill="var(--color-world-stone)" />
+      <polygon points="115,28 121,34 115,40 109,34" fill="var(--color-world-sun)" />
     </>
   )
 }

@@ -61,7 +61,7 @@ export function Contact() {
 
         <SceneryProp
           viewBox="0 0 140 100"
-          size="w-44 md:w-64"
+          size="w-36 md:w-80"
           className="justify-self-center md:justify-self-end"
         >
           <Dock />

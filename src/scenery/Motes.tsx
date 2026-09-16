@@ -52,7 +52,12 @@ export function Motes({ variant }: { variant: keyof typeof variants }) {
           key={`${mote.left}${mote.top}`}
           viewBox="0 0 6 6"
           className="ambient ambient-rise absolute size-1.5"
-          style={{ left: mote.left, top: mote.top, animationDuration: duration, animationDelay: mote.delay }}
+          style={{
+            left: mote.left,
+            top: mote.top,
+            animationDuration: duration,
+            animationDelay: mote.delay,
+          }}
         >
           <polygon points={shape} fill={fill} />
         </svg>

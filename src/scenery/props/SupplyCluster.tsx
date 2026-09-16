@@ -19,7 +19,10 @@ export function SupplyCluster() {
         points="8,96 28,102 66,102 82,96 82,100 66,106 28,106 8,100"
         fill="var(--color-world-soil-dark)"
       />
-      <polygon points="88,96 102,92 128,92 138,96 128,101 102,101" fill="var(--color-world-sand-dark)" />
+      <polygon
+        points="88,96 102,92 128,92 138,96 128,101 102,101"
+        fill="var(--color-world-sand-dark)"
+      />
       <polygon
         points="88,96 102,101 128,101 138,96 138,99 128,104 102,104 88,99"
         fill="var(--color-world-soil-dark)"

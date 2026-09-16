@@ -6,9 +6,10 @@
  * every band is a mascot, and a mascot is the shortest route to the
  * template-with-game-assets look `docs/PRODUCT.md` forbids outright.
  *
- * Drawn in a 20x30 box with the feet on y=30, so a host places it by
- * translating to the ground it should stand on and its scale is fixed by the
- * prop's own coordinate space rather than matched by eye.
+ * Standing is drawn in a 20x30 box with the feet on y=30, so a host places it
+ * by translating to the ground it should stand on and its scale is fixed by the
+ * prop's own coordinate space rather than matched by eye. Resting puts the
+ * surface being sat on at y=26 and hangs the lower legs below it.
  *
  * The tunic is ember because it is the one hue that appears on no ground in the
  * world palette, which is what keeps a 24px figure findable on grass, on timber
@@ -16,15 +17,21 @@
  */
 export function Traveller({ pose }: { pose: 'standing' | 'resting' }) {
   if (pose === 'resting') {
+    // Seated, so the convention changes: y=26 is the surface being sat on, and
+    // the lower legs hang below it. A host places this by putting 26 on the
+    // deck rather than by putting the feet on the ground.
     return (
       <>
-        <polygon points="8,30 8,26 19,26 19,30" fill="var(--color-world-soil-dark)" />
-        <polygon points="6,26 6,14 13,14 13,26" fill="var(--color-ember)" />
-        <polygon points="10,26 10,14 13,14 13,26" fill="var(--color-ember-strong)" />
-        <polygon points="6,14 6,7 12,7 12,14" fill="var(--color-world-sand)" />
-        <polygon points="9,14 9,7 12,7 12,14" fill="var(--color-world-sand-dark)" />
-        <polygon points="3,8 9,3 15,8" fill="var(--color-world-wood)" />
-        <polygon points="9,3 15,8 9,8" fill="var(--color-world-wood-dark)" />
+        <polygon points="15,26 15,35 19,35 19,26" fill="var(--color-world-soil-dark)" />
+        <polygon points="15,35 21,35 21,37 15,37" fill="var(--color-world-soil-dark)" />
+        <polygon points="6,21 20,21 20,26 6,26" fill="var(--color-world-soil)" />
+        <polygon points="4,26 4,12 14,12 14,26" fill="var(--color-ember)" />
+        <polygon points="10,26 10,12 14,12 14,26" fill="var(--color-ember-strong)" />
+        <polygon points="2,24 2,14 5,14 5,24" fill="var(--color-ember-strong)" />
+        <polygon points="5,12 5,5 12,5 12,12" fill="var(--color-world-sand)" />
+        <polygon points="9,12 9,5 12,5 12,12" fill="var(--color-world-sand-dark)" />
+        <polygon points="1,6 8,0 15,6" fill="var(--color-world-wood)" />
+        <polygon points="8,0 15,6 8,6" fill="var(--color-world-wood-dark)" />
       </>
     )
   }

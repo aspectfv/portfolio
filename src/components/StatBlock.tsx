@@ -3,14 +3,18 @@ import { useCountUp } from '@/hooks/useCountUp'
 import { useInView } from '@/hooks/useInView'
 
 /**
- * A row of stat tags. Every value here is a real, derived number; there is no
+ * A character sheet. Every value here is a real, derived number; there is no
  * invented level, score, or XP on this site. A fake stat is a lie in a game
  * costume.
  *
- * Drawn as tags rather than a grid of framed cells: they sit under running text
- * on an open band now, where three boxes would reintroduce the panel the
- * section just dropped. Rendered as a description list so the label and value
- * stay paired without the visual grouping.
+ * Drawn as a character sheet: one framed surface, the numbers large, the labels
+ * under them, divided rather than individually boxed. Three separate tags on an
+ * open band read as three loose stickers; one sheet reads as a record of a
+ * person, which is what the section is. The frame comes from `Panel`, so the
+ * rivets and the inset rule arrive with it.
+ *
+ * Rendered as a description list, so the label and value stay paired whatever
+ * the visual arrangement does.
  */
 
 /**
@@ -23,7 +27,7 @@ function StatValue({ value, active }: { value: string; active: boolean }) {
   const counted = useCountUp(numeric ?? 0, active && numeric !== null)
 
   return (
-    <dd className="font-display text-card font-semibold">{numeric === null ? value : counted}</dd>
+    <dd className="font-display text-title font-semibold">{numeric === null ? value : counted}</dd>
   )
 }
 
@@ -40,17 +44,17 @@ export function StatBlock({
   const inView = useInView(ref, '0px', false)
 
   return (
-    <dl ref={ref} aria-label={label} className="flex flex-wrap gap-3">
+    <dl ref={ref} aria-label={label} className="divide-hairline grid grid-cols-3 divide-x-2">
       {stats.map((stat) => (
-        // Reversed for reading, not for order: a tag reads as "5 Projects",
-        // while the list stays term-then-definition for anything that consumes
-        // the markup. Nothing here is focusable, so visual order and focus
-        // order cannot disagree.
+        // Reversed for reading, not for order: the number reads first, while
+        // the list stays term-then-definition for anything consuming the
+        // markup. Nothing here is focusable, so visual order and focus order
+        // cannot disagree.
         <div
           key={stat.label}
-          className="bg-surface border-edge flex flex-row-reverse items-baseline gap-2 rounded-full border-2 border-b-(length:--edge-sm) px-4 py-2"
+          className="flex flex-col-reverse items-center gap-0.5 px-2 first:pl-0 last:pr-0"
         >
-          <dt className="text-meta text-ink-muted font-medium">{stat.label}</dt>
+          <dt className="text-meta text-ink-muted text-center font-medium">{stat.label}</dt>
           <StatValue value={stat.value} active={inView} />
         </div>
       ))}

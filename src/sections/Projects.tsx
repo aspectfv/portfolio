@@ -30,7 +30,7 @@ export function Projects() {
 
         <SceneryProp
           viewBox="0 0 140 120"
-          size="w-36 md:w-56"
+          size="w-28 md:w-64"
           className="flex items-center justify-center"
         >
           <Workshop />

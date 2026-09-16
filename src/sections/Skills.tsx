@@ -1,4 +1,4 @@
-import { ChipList } from '@/components/Chip'
+import { ChipGrid } from '@/components/Chip'
 import { Icon, type IconName } from '@/components/Icon'
 import { Motes } from '@/scenery/Motes'
 import { SceneryProp } from '@/scenery/SceneryProp'
@@ -33,6 +33,11 @@ const groupGlyphs: Record<string, IconName> = {
  * the same thing in a third of the height, and the row is a real term and
  * definition pair, so the grouping survives the styling.
  *
+ * The items are drawn on a grid of slots rather than wrapped in flow, because
+ * a grid of cells is what an inventory screen looks like and this is the one
+ * section whose entire subject is the kit. Same cell as the stack lists
+ * elsewhere; only the arrangement differs.
+ *
  * Never a logo wall, never a percentage bar; a proficiency meter would be a
  * number nobody can verify.
  */
@@ -54,14 +59,14 @@ export function Skills() {
             return (
               <div
                 key={group.id}
-                className="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-start sm:gap-6"
+                className="grid gap-2 py-3 first:pt-0 last:pb-0 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-start sm:gap-6 md:py-4"
               >
                 <dt className="font-display flex items-center gap-2 font-semibold">
                   {glyph && <Icon name={glyph} className="size-5 shrink-0" />}
                   {group.label}
                 </dt>
                 <dd>
-                  <ChipList items={group.items} label={group.label} />
+                  <ChipGrid items={group.items} label={group.label} />
                 </dd>
               </div>
             )
@@ -71,7 +76,7 @@ export function Skills() {
 
       <SceneryProp
         viewBox="0 0 140 110"
-        size="w-40 md:w-56"
+        size="w-32 md:w-64"
         className="mt-6 flex justify-center md:mt-10 md:justify-start"
       >
         <SupplyCluster />

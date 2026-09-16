@@ -14,7 +14,10 @@ import { ambientActors } from '../ambient'
 export function Waymarker() {
   return (
     <>
-      <polygon points="10,102 30,96 90,96 110,102 90,108 30,108" fill="var(--color-world-stone-dark)" />
+      <polygon
+        points="10,102 30,96 90,96 110,102 90,108 30,108"
+        fill="var(--color-world-stone-dark)"
+      />
       <polygon
         points="10,102 30,108 90,108 110,102 110,106 90,112 30,112 10,106"
         fill="var(--color-world-soil-dark)"
@@ -39,7 +42,10 @@ export function Waymarker() {
 
       {/* Embers. A continuous rise, never a burst: the forbidden particle is the
           one that fires because something happened, which is motion as reward. */}
-      <g className="ambient ambient-rise" style={{ animationDuration: ambientActors.embers.duration }}>
+      <g
+        className="ambient ambient-rise"
+        style={{ animationDuration: ambientActors.embers.duration }}
+      >
         <rect x="80" y="40" width="3" height="3" fill="var(--color-world-sun)" />
       </g>
       <g

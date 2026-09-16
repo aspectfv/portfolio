@@ -8,8 +8,10 @@ import type { Project } from '@/content/types'
 
 /**
  * A non-flagship quest card. Carries less visual weight than the flagship but
- * the same completeness: image, tagline, summary, stack, links, and the same
- * detail disclosure. Weight is the difference, not quality.
+ * the same completeness: image, tagline, summary, category, role, stack, links,
+ * and the same detail disclosure. Weight is the difference, not quality — the
+ * flagship already breaks the container, which is a hierarchy a visitor can see
+ * without these cards having to be made thinner.
  *
  * focus-within lifts the card too, so the state is reachable without a pointer;
  * active covers touch, where hover never resolves.
@@ -25,13 +27,33 @@ export function ProjectCard({ project }: { project: Project }) {
       >
         <ProjectVisual {...(project.image ? { image: project.image } : {})} seed={project.id} />
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <p className="text-meta text-ink-muted">{project.category}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <StatusPill status={project.status} />
         </div>
 
         <p className="mt-2 font-medium">{project.tagline}</p>
         <p className="text-ink-muted mt-3">{project.summary}</p>
+
+        {/* Rank furniture, and every word of it is already typed content: a
+            project's own category and role. Nothing here is a level, a score or
+            a rating — a fake stat is a lie in a game costume, and this is the
+            same rule the stat block follows, stated as a drawing. */}
+        <dl className="text-meta mt-3 grid grid-cols-2 gap-2">
+          {[
+            { term: 'Category', value: project.category },
+            { term: 'Role', value: project.role },
+          ].map((field) => (
+            <div
+              key={field.term}
+              className="bg-canvas border-edge rounded-sm border-2 border-b-(length:--edge-sm) px-2.5 py-1"
+            >
+              <dt className="font-display text-eyebrow text-ink-muted font-medium tracking-[0.08em] uppercase">
+                {field.term}
+              </dt>
+              <dd className="font-medium">{field.value}</dd>
+            </div>
+          ))}
+        </dl>
 
         <div className="mt-4">
           <ChipList items={project.stack} label={`${project.name} stack`} />
