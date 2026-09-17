@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { AchievementToast } from '@/components/AchievementToast'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
@@ -28,6 +29,7 @@ export default function App() {
       </main>
       <SiteFooter />
       <AchievementToast />
+      <Analytics />
     </>
   )
 }
