@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { ContactShadows, useGLTF } from '@react-three/drei'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import type { Group } from 'three'
 import { Island } from './props/Island'
 import { Prop } from './props/Prop'
@@ -31,7 +31,27 @@ function Diorama({
   parallax: boolean
 }) {
   const group = useRef<Group>(null)
-  const { pointer } = useThree()
+  const over = useRef(false)
+  const { pointer, gl } = useThree()
+
+  // R3F keeps the last pointer value after the cursor leaves the canvas, so
+  // without this the island holds its lean at whichever edge you left through
+  // and never settles back to its idle.
+  useEffect(() => {
+    const canvas = gl.domElement
+    const enter = () => {
+      over.current = true
+    }
+    const leave = () => {
+      over.current = false
+    }
+    canvas.addEventListener('pointerenter', enter)
+    canvas.addEventListener('pointerleave', leave)
+    return () => {
+      canvas.removeEventListener('pointerenter', enter)
+      canvas.removeEventListener('pointerleave', leave)
+    }
+  }, [gl])
 
   useFrame((state, delta) => {
     const node = group.current
@@ -45,8 +65,9 @@ function Diorama({
 
     // Parallax eases toward the pointer instead of tracking it exactly, so a
     // fast mouse move reads as the island leaning rather than snapping.
-    const targetYaw = idleYaw + (parallax ? pointer.x * PARALLAX : 0)
-    const targetPitch = parallax ? -pointer.y * PARALLAX * 0.6 : 0
+    const leaning = parallax && over.current
+    const targetYaw = idleYaw + (leaning ? pointer.x * PARALLAX : 0)
+    const targetPitch = leaning ? -pointer.y * PARALLAX * 0.6 : 0
     const ease = 1 - Math.pow(0.001, delta)
     node.rotation.y += (targetYaw - node.rotation.y) * ease
     node.rotation.x += (targetPitch - node.rotation.x) * ease

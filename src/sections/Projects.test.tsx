@@ -38,6 +38,34 @@ describe('flagship selection', () => {
   })
 })
 
+describe('staggered arrival', () => {
+  // The cascade used to hang off the section's reveal, which fires when the
+  // heading appears — a full viewport above the grid, so the sequence it exists
+  // to draw had always finished by the time anyone scrolled to it. The grid
+  // owning its own observer is the fix, and this is what would regress.
+  it('observes the card grid itself rather than an ancestor', () => {
+    const observed: Element[] = []
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        observe(element: Element) {
+          observed.push(element)
+        }
+        unobserve() {}
+        disconnect() {}
+        takeRecords() {
+          return []
+        }
+      },
+    )
+
+    const { container } = render(<Projects />)
+    const grid = container.querySelector('[data-stagger]')!
+    expect(observed).toContain(grid)
+    vi.unstubAllGlobals()
+  })
+})
+
 describe('project cards', () => {
   // Parameterised over the real data so appending a project is covered the
   // moment it is added, with no test edit.

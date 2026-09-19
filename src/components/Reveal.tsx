@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useReveal } from '@/hooks/useReveal'
 
 /**
  * Fades a block in with a small rise as it enters view, once.
@@ -16,37 +16,7 @@ export function Reveal({
   children: React.ReactNode
   className?: string
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const element = ref.current
-    if (!element) return
-
-    const reveal = () => element.setAttribute('data-revealed', '')
-
-    if (typeof IntersectionObserver === 'undefined') {
-      reveal()
-      return
-    }
-
-    // A block taller than the viewport can never reach 20% visibility, so it
-    // would sit hidden forever. Those reveal as soon as any part is on screen.
-    const tallerThanViewport = element.getBoundingClientRect().height > window.innerHeight * 0.8
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          reveal()
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold: tallerThanViewport ? 0 : 0.2 },
-    )
-
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
+  const ref = useReveal<HTMLDivElement>()
 
   return (
     <div ref={ref} data-reveal="" className={className}>

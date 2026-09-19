@@ -50,7 +50,7 @@ export function AchievementToast() {
       className="pointer-events-none fixed inset-x-4 bottom-4 z-100 flex justify-center sm:inset-x-auto sm:right-6 sm:bottom-6 sm:justify-end"
     >
       {showing && (
-        <div className="bg-surface border-leaf-strong flex items-center gap-3 rounded-md border-2 border-b-(length:--edge-md) px-4 py-3">
+        <div className="bg-surface border-leaf-strong toast-life flex items-center gap-3 rounded-md border-2 border-b-(length:--edge-md) px-4 py-3">
           <span
             data-ornament=""
             className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"

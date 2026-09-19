@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Meter } from './Meter'
 import { ViewModeToggle } from './ViewModeToggle'
 import { profile, sections } from '@/content/profile'
@@ -25,15 +25,20 @@ export function SiteHeader() {
   const active = useActiveSection(sectionIds)
   const progress = useScrollProgress()
   const [open, setOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   const activeLabel = sections.find((section) => section.id === active)?.navLabel
 
   // The mobile menu is a disclosure, not a modal; close it on Escape so a
-  // keyboard user is never trapped behind it.
+  // keyboard user is never trapped behind it. Focus returns to the toggle,
+  // because closing the menu destroys whatever was focused inside it and
+  // leaving focus on <body> restarts tabbing from the top of the document.
   useEffect(() => {
     if (!open) return
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -78,9 +83,9 @@ export function SiteHeader() {
                 >
                   {section.navLabel}
                   <span
-                    data-ornament=""
+                    data-ornament="fixed"
                     aria-hidden="true"
-                    className="bg-canvas border-ink-muted group-hover:border-ember-strong group-aria-[current]:bg-ember-strong group-aria-[current]:border-ember-edge size-2.5 rotate-45 border-2 transition-colors duration-(--dur-fast)"
+                    className="bg-canvas border-ink-muted group-hover:border-ember-strong group-aria-[current]:bg-ember-strong group-aria-[current]:border-ember-edge size-2.5 rotate-45 border-2"
                   />
                 </a>
               </li>
@@ -119,6 +124,7 @@ export function SiteHeader() {
         </div>
 
         <button
+          ref={toggleRef}
           type="button"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
@@ -131,7 +137,11 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" aria-label="Sections" className="border-edge border-t-2 md:hidden">
+        <nav
+          id="mobile-nav"
+          aria-label="Sections"
+          className="border-edge disclose border-t-2 md:hidden"
+        >
           <ul className="mx-auto max-w-content px-6 py-2">
             {sections.map((section) => (
               <li key={section.id}>
@@ -145,18 +155,30 @@ export function SiteHeader() {
                 </a>
               </li>
             ))}
-            <li className="border-edge mt-2 flex flex-wrap gap-3 border-t-2 pt-3">
+            {/* Recruiter-critical links, so they get the same 44px target the
+                section links above them have; as bare text they measured 26px. */}
+            <li className="border-edge mt-2 flex flex-wrap items-center gap-x-4 border-t-2 pt-1">
               <a
                 href={profile.links.resume.href}
                 download=""
-                className="text-ember-ink font-medium"
+                className="text-ember-ink inline-flex min-h-11 items-center font-medium"
               >
                 Resume
               </a>
-              <a href={profile.links.github.href} target="_blank" rel="noopener noreferrer">
+              <a
+                href={profile.links.github.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center"
+              >
                 GitHub
               </a>
-              <a href={profile.links.linkedin.href} target="_blank" rel="noopener noreferrer">
+              <a
+                href={profile.links.linkedin.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center"
+              >
                 LinkedIn
               </a>
             </li>

@@ -46,7 +46,11 @@ export function ProjectDetail({ detail, projectName }: { detail: Detail; project
         <span className="sr-only">about {projectName}</span>
       </button>
 
-      <div id={panelId} hidden={!open} className="border-hairline mt-5 space-y-4 border-t pt-5">
+      <div
+        id={panelId}
+        hidden={!open}
+        className="border-hairline disclose mt-5 space-y-4 border-t pt-5"
+      >
         {sections.map(({ key, label }) => (
           <div key={key}>
             <h4 className="font-display text-eyebrow text-ink-muted font-medium tracking-[0.08em] uppercase">

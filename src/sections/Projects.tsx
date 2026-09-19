@@ -4,11 +4,16 @@ import { Workshop } from '@/scenery/props/Workshop'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
+import { useReveal } from '@/hooks/useReveal'
 import { additionalProjects, featuredProject } from '@/content/projects'
 
 const meta = sections.find((section) => section.id === 'projects')!
 
 export function Projects() {
+  // The grid carries its own reveal trigger. Released by the section's observer
+  // it would cascade a full viewport below the fold, where nobody sees it.
+  const grid = useReveal<HTMLDivElement>()
+
   return (
     <Section
       id={meta.id}
@@ -23,7 +28,7 @@ export function Projects() {
           An odd number of cards leaves a hole in the last row, and a prop
           standing in it costs no height at all; an even number simply puts it
           on a row of its own, which is where it would have gone anyway. */}
-      <div data-stagger="" className="grid gap-6 md:grid-cols-2">
+      <div ref={grid} data-stagger="" className="grid gap-6 md:grid-cols-2">
         {additionalProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}

@@ -29,10 +29,12 @@ export function Island() {
         <meshStandardMaterial color="#7a4d31" flatShading roughness={1} metalness={0} />
       </mesh>
 
-      {/* A smaller shard drifting below, so the island reads as airborne */}
+      {/* A smaller shard drifting below, so the island reads as airborne. It
+          takes the underside's own colour: it is a piece of this island, and
+          in stone grey it read as a separate object that had wandered in. */}
       <mesh position={[1.72, -2.15, 0.62]} rotation={[Math.PI - 0.35, 0.6, 0.22]}>
         <coneGeometry args={[0.26, 0.5, 6]} />
-        <meshStandardMaterial color="#98a0ae" flatShading roughness={1} metalness={0} />
+        <meshStandardMaterial color="#7a4d31" flatShading roughness={1} metalness={0} />
       </mesh>
     </group>
   )

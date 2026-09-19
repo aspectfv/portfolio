@@ -33,10 +33,15 @@ export function ViewModeToggle({ className = '' }: { className?: string }) {
       }}
       className={`border-ink-muted bg-surface hover:bg-sunken text-meta press inline-flex min-h-11 items-center gap-2 rounded-sm border-2 border-b-(length:--edge-md) px-3 font-medium ${className}`}
     >
+      {/* Not marked as ornament: this is the switch's state, and plain view
+          strips ornaments, which would leave the control with nothing to read
+          but its own label. Filled versus hollow carries the state without
+          relying on colour alone. */}
       <span
-        data-ornament=""
         aria-hidden="true"
-        className={`size-2.5 rounded-full ${game ? 'bg-leaf-strong' : 'bg-ink-muted'}`}
+        className={`size-2.5 rounded-full border-2 transition-colors duration-(--dur-fast) ${
+          game ? 'bg-leaf-strong border-leaf-edge' : 'bg-transparent border-ink-muted'
+        }`}
       />
       Game view
     </button>

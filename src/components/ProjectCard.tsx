@@ -23,7 +23,7 @@ export function ProjectCard({ project }: { project: Project }) {
         title={project.name}
         icon="gem"
         tone="leaf"
-        className="h-full overflow-hidden transition-[translate] duration-(--dur-base) ease-(--ease-standard) hover:-translate-y-0.5 focus-within:-translate-y-0.5"
+        className="h-full overflow-hidden transition-[translate] duration-(--dur-base) ease-(--ease-standard) hover:-translate-y-1 focus-within:-translate-y-1"
       >
         <ProjectVisual {...(project.image ? { image: project.image } : {})} seed={project.id} />
 

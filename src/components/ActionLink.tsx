@@ -10,7 +10,9 @@ export const pressBase =
   'min-h-11 press border-2 border-b-(length:--edge-md)'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ember-strong border-ember-edge text-white hover:bg-ember',
+  // Hover deepens rather than brightens. --color-ember is the illustration
+  // value; white on it is 3.64:1, which the token table rules out by name.
+  primary: 'bg-ember-strong border-ember-edge text-white hover:bg-ember-ink',
   secondary: 'bg-surface border-ink-muted text-ink hover:bg-sunken',
   ghost:
     'inline-flex items-center gap-2 min-h-11 font-medium text-ink-muted hover:text-ink ' +

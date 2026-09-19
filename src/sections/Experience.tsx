@@ -4,6 +4,7 @@ import { Waymarker } from '@/scenery/props/Waymarker'
 import { Icon } from '@/components/Icon'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
+import { useReveal } from '@/hooks/useReveal'
 import { education, experience } from '@/content/experience'
 
 const meta = sections.find((section) => section.id === 'experience')!
@@ -61,6 +62,11 @@ function Station({ children }: { children: React.ReactNode }) {
  * knows about it.
  */
 export function Experience() {
+  // Each track is its own trigger: the education list sits a full screen below
+  // the work list, and a shared one would cascade it off-screen.
+  const work = useReveal<HTMLOListElement>()
+  const study = useReveal<HTMLOListElement>()
+
   return (
     <Section
       id={meta.id}
@@ -73,7 +79,7 @@ export function Experience() {
     >
       <div className="border-edge max-w-3xl border-l-2 pl-7">
         <TrackHeading>Work</TrackHeading>
-        <ol data-stagger="" className="space-y-5">
+        <ol ref={work} data-stagger="" className="space-y-5">
           {experience.map((entry) => (
             <Station key={entry.id}>
               <div className="flex items-start gap-3">
@@ -100,7 +106,7 @@ export function Experience() {
         </ol>
 
         <TrackHeading className="mt-10">Education</TrackHeading>
-        <ol data-stagger="" className="space-y-5">
+        <ol ref={study} data-stagger="" className="space-y-5">
           {education.map((entry) => (
             <Station key={entry.id}>
               <div className="flex items-start gap-3">
