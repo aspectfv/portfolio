@@ -295,7 +295,8 @@ test('a prop reacts to a tap and returns to rest', async ({ page }) => {
     await expect(prop).toHaveAttribute('data-tapped', '', { timeout: 250 })
   }).toPass({ timeout: 10_000 })
 
-  await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 3000 })
+  // Generous: the hold is 900ms, but this runs beside a worker driving WebGL.
+  await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 8000 })
 })
 
 test('nothing in the world notices a visitor who declined motion', async ({ page }) => {

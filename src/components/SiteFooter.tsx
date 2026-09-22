@@ -8,22 +8,34 @@ import { useAchievements } from '@/hooks/useAchievements'
 export function SiteFooter() {
   const { unlocked, unlock, enabled } = useAchievements()
   const endRef = useRef<HTMLDivElement>(null)
+  const latestUnlock = useRef(unlock)
 
+  useEffect(() => {
+    latestUnlock.current = unlock
+  }, [unlock])
+
+  /**
+   * Reaching the end means scrolling to the end, and nothing else.
+   *
+   * The observer is built once and read through a ref rather than depending on
+   * `unlock`, which changes identity with the view mode. Depending on it meant
+   * switching to game view rebuilt the observer, and the footer is on screen at
+   * the moment you press the switch that lives in it — so the page handed out
+   * "Reached the end" for pressing a button. The store already ignores a
+   * repeat, so firing again on a later pass down costs nothing.
+   */
   useEffect(() => {
     const element = endRef.current
     if (!element || typeof IntersectionObserver === 'undefined') return
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          unlock('reached-end')
-          observer.disconnect()
-        }
+        if (entries.some((entry) => entry.isIntersecting)) latestUnlock.current('reached-end')
       },
       { threshold: 0.5 },
     )
     observer.observe(element)
     return () => observer.disconnect()
-  }, [unlock])
+  }, [])
 
   return (
     <footer ref={endRef} className="bg-canvas border-edge border-t-2">

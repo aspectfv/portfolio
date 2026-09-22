@@ -74,9 +74,19 @@ export function ArcadeCabinet({
         <meshStandardMaterial color="#f7c948" flatShading roughness={1} />
       </mesh>
 
-      {/* Screen, recessed and angled back */}
-      <mesh position={[0, 0.66, 0.172]} rotation={[-0.18, 0, 0]}>
-        <planeGeometry args={[0.3, 0.22]} />
+      {/* Screen, set into the cabinet front as a solid rather than laid on it
+          as a plane.
+
+          The body's front face is at z = 0.17, and the plane this replaces sat
+          at 0.172 with a tilt that carried its top edge back onto that face.
+          Two surfaces that close flicker at this camera distance as the depth
+          buffer picks a winner per frame. A box whose front stands 0.01 proud
+          and whose back is buried inside the body has no coplanar face with
+          anything, so the fight cannot happen — and unlike simply pushing a
+          plane forward, the screen still reads as part of the cabinet instead
+          of floating off its corner. */}
+      <mesh position={[0, 0.66, 0.165]}>
+        <boxGeometry args={[0.3, 0.22, 0.03]} />
         <meshStandardMaterial
           ref={screen}
           color="#2f8fd8"
