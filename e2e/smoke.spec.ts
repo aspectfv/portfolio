@@ -295,8 +295,11 @@ test('a prop reacts to a tap and returns to rest', async ({ page }) => {
     await expect(prop).toHaveAttribute('data-tapped', '', { timeout: 250 })
   }).toPass({ timeout: 10_000 })
 
-  // Generous: the hold is 900ms, but this runs beside a worker driving WebGL.
-  await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 8000 })
+  // The hold is 900ms of `setTimeout`, and a page that is not the focused one
+  // in its browser is a hidden page, where Chrome throttles timers hard. That
+  // is correct behaviour — a reaction nobody is looking at can take its time —
+  // so the allowance is the test's problem to absorb, not the page's.
+  await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 30_000 })
 })
 
 test('nothing in the world notices a visitor who declined motion', async ({ page }) => {
