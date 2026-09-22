@@ -1,6 +1,6 @@
 import { ChipList } from '@/components/Chip'
 import { SceneryProp } from '@/scenery/SceneryProp'
-import { Waymarker } from '@/scenery/props/Waymarker'
+import { Outpost } from '@/scenery/props/Outpost'
 import { Icon } from '@/components/Icon'
 import { Section } from '@/components/Section'
 import { sections } from '@/content/profile'
@@ -139,7 +139,7 @@ export function Experience() {
         size="w-28 md:w-52"
         className="mt-6 flex justify-center md:mt-10 md:justify-end"
       >
-        <Waymarker />
+        <Outpost />
       </SceneryProp>
     </Section>
   )

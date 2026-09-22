@@ -30,7 +30,7 @@ export const achievements: readonly Achievement[] = [
    * of them would be five collectibles, which is the hunt `docs/DESIGN.md`
    * says Notice must not become.
    */
-  { id: 'noticed-the-world', label: "Got the world's attention" },
+  { id: 'noticed-the-world', label: 'Said hello' },
   { id: 'reached-end', label: 'Reached the end' },
 ]
 

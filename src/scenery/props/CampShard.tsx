@@ -50,11 +50,25 @@ export function CampShard() {
         <polygon points="86,40 91,27 96,40" fill="var(--color-world-grass-dark)" />
         <polygon points="91,27 96,40 92,40" fill="var(--color-world-soil-dark)" />
 
-        {/* The camp. A place someone stopped, rather than a place they work. */}
-        <polygon points="34,36 46,14 58,36" fill="var(--color-world-wood)" />
-        <polygon points="46,14 58,36 50,36" fill="var(--color-world-wood-dark)" />
-        <polygon points="46,20 52,36 40,36" fill="var(--color-world-soil-dark)" />
-        <rect x="68" y="34" width="4" height="6" fill="var(--color-world-soil-dark)" />
+        {/* The trailhead: a board where the route starts, and the pack set
+            down beside it. A tent stood here, which said "someone is camped"
+            — true of a person on a journey, and silent about the section it
+            introduces. A board at the start of a trail is where you find out
+            who you are following.
+
+            Wordless, like every other prop. The shape is the whole statement,
+            and it rhymes with the signpost standing in the canvas above. */}
+        <rect x="38" y="24" width="3" height="16" fill="var(--color-world-soil-dark)" />
+        <rect x="55" y="24" width="3" height="16" fill="var(--color-world-soil-dark)" />
+        <polygon points="34,16 62,16 62,27 34,27" fill="var(--color-world-wood)" />
+        <polygon points="34,23 62,23 62,27 34,27" fill="var(--color-world-wood-dark)" />
+        <rect x="38" y="18" width="9" height="4" fill="var(--color-world-sand)" />
+        <rect x="50" y="18" width="7" height="3" fill="var(--color-world-sand-dark)" />
+
+        {/* The pack, set down. */}
+        <polygon points="64,40 64,32 72,32 72,40" fill="var(--color-world-soil)" />
+        <polygon points="68,40 68,32 72,32 72,40" fill="var(--color-world-soil-dark)" />
+        <rect x="64" y="34" width="8" height="2" fill="var(--color-world-sand-dark)" />
         <g
           className="ambient ambient-sway"
           style={{ animationDuration: ambientActors.campFoliage.duration }}

@@ -30,10 +30,18 @@ export function Dock() {
         className="ambient ambient-blink"
         style={{ animationDuration: ambientActors.shimmer.duration }}
       >
-        <rect x="26" y="87" width="24" height="3" fill="var(--color-world-sky)" />
-        <rect x="62" y="92" width="16" height="2" fill="var(--color-world-sky)" />
-        <rect x="88" y="86" width="20" height="3" fill="var(--color-world-sky)" />
+        <rect x="56" y="88" width="22" height="3" fill="var(--color-world-sky)" />
+        <rect x="86" y="93" width="16" height="2" fill="var(--color-world-sky)" />
+        <rect x="104" y="86" width="22" height="3" fill="var(--color-world-sky)" />
       </g>
+
+      {/* A boat tied up at the end of it. The dock said "the trail stops here";
+          a moored boat says someone can arrive, which is what a contact
+          section is asking for. Drawn before the deck so the planks overlap
+          the hull and the two read as one place rather than two stickers. */}
+      <polygon points="12,85 46,85 42,83 16,83" fill="var(--color-world-wood)" />
+      <polygon points="12,85 46,85 41,94 17,94" fill="var(--color-world-wood-dark)" />
+      <rect x="24" y="82" width="10" height="2" fill="var(--color-world-sand-dark)" />
 
       {/* The deck runs in from the left and stops over the water. */}
       <polygon points="0,68 98,68 106,74 0,74" fill="var(--color-world-wood)" />

@@ -4,7 +4,7 @@ import { Notice } from '../Notice'
 /**
  * Skills: a supply cluster.
  *
- * Deliberately the one prop in the world with **no single silhouette**. Three
+ * Deliberately the one prop in the world with **no single silhouette**. Four
  * separate objects on two patches of ground, which is what "a kit" looks like
  * and is also the strongest possible contrast with a workshop that is one solid
  * mass and an island that is one solid hexagon. Class of object is the axis
@@ -42,13 +42,24 @@ export function SupplyCluster() {
         <polygon points="18,76 40,76 40,80 18,80" fill="var(--color-world-sun)" />
       </Notice>
 
-      {/* Crates, stacked and offset. */}
-      <polygon points="56,92 56,78 78,78 78,92" fill="var(--color-world-wood)" />
-      <polygon points="56,78 62,73 84,73 78,78" fill="var(--color-world-sand-dark)" />
-      <polygon points="78,92 78,78 84,73 84,87" fill="var(--color-world-wood-dark)" />
-      <polygon points="60,73 60,61 76,61 76,73" fill="var(--color-world-wood)" />
-      <polygon points="60,61 65,57 81,57 76,61" fill="var(--color-world-sand-dark)" />
-      <polygon points="76,73 76,61 81,57 81,69" fill="var(--color-world-wood-dark)" />
+      {/* The bench, which is what turns a pile of supplies into a kit being
+          used. Crates stood here before and said "stores in transit", which is
+          the one thing this section is not about. */}
+      <rect x="54" y="78" width="4" height="13" fill="var(--color-world-soil-dark)" />
+      <rect x="82" y="78" width="4" height="13" fill="var(--color-world-soil-dark)" />
+      <polygon points="54,74 86,74 90,78 50,78" fill="var(--color-world-wood)" />
+      <polygon points="50,78 90,78 90,81 50,81" fill="var(--color-world-soil-dark)" />
+
+      {/* A plank stack under it, and the offcut leaning on the leg. */}
+      <polygon points="58,88 80,88 80,91 58,91" fill="var(--color-world-wood-dark)" />
+      <polygon points="60,84 82,84 82,87 60,87" fill="var(--color-world-wood)" />
+      <polygon points="86,91 90,74 93,74 89,91" fill="var(--color-world-sand-dark)" />
+
+      {/* A hammer left on the bench, head toward the chest: the tool is drawn
+          at rest in the middle of a job rather than hung on a wall. */}
+      <rect x="62" y="71" width="16" height="3" fill="var(--color-world-wood-dark)" />
+      <polygon points="56,67 63,67 63,74 56,74" fill="var(--color-world-stone)" />
+      <polygon points="56,70 63,70 63,74 56,74" fill="var(--color-world-stone-dark)" />
 
       {/* The lantern on its post: the cluster's one warm point, and the reason
           the right-hand patch is not just an empty stretch of sand. */}

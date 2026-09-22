@@ -56,10 +56,17 @@ export function Workshop() {
         />
       </Notice>
 
-      {/* Crate. */}
-      <polygon points="14,98 14,86 32,86 32,98" fill="var(--color-world-wood)" />
-      <polygon points="14,86 20,82 38,82 32,86" fill="var(--color-world-sand-dark)" />
-      <polygon points="32,98 32,86 38,82 38,94" fill="var(--color-world-wood-dark)" />
+      {/* The yard: a sawhorse with a plank across it and the offcuts beneath.
+          It replaces the crate that stood here. A hut with a crate outside it
+          is a building with a box; a hut with work in front of it is a
+          workshop, which is the difference between illustrating a place and
+          illustrating a section about things that were built. */}
+      <polygon points="14,96 18,84 21,84 17,96" fill="var(--color-world-soil-dark)" />
+      <polygon points="32,96 28,84 31,84 35,96" fill="var(--color-world-soil-dark)" />
+      <polygon points="8,80 34,80 38,84 12,84" fill="var(--color-world-wood)" />
+      <polygon points="12,84 38,84 38,87 12,87" fill="var(--color-world-soil-dark)" />
+      <polygon points="10,92 28,92 28,95 10,95" fill="var(--color-world-sand-dark)" />
+      <polygon points="18,88 36,88 36,91 18,91" fill="var(--color-world-wood-dark)" />
 
       {/* The sign, and the banner hanging off it. Painted boards on a dark
           post: the hut behind is bare timber, and wood on wood is no object. */}
