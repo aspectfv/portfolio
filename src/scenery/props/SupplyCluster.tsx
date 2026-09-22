@@ -2,13 +2,18 @@ import { ambientActors } from '../ambient'
 import { Notice } from '../Notice'
 
 /**
- * Skills: a supply cluster.
+ * Skills: a work cluster.
  *
- * Deliberately the one prop in the world with **no single silhouette**. Four
+ * Deliberately the one prop in the world with **no single silhouette**. Three
  * separate objects on two patches of ground, which is what "a kit" looks like
  * and is also the strongest possible contrast with a workshop that is one solid
  * mass and an island that is one solid hexagon. Class of object is the axis
  * that carries; this one carries it by refusing to have an outline at all.
+ *
+ * Every object here is built the same way the rest of the world is: a front
+ * face, a lit top plane skewed up and to the right, and a darker side. A shape
+ * drawn without all three reads as a flat sticker at this size, which is what
+ * the first pass at this bench got wrong.
  *
  * Wordless, like every other prop. The section heading already says Inventory.
  */
@@ -29,37 +34,37 @@ export function SupplyCluster() {
         fill="var(--color-world-soil-dark)"
       />
 
-      {/* The open chest: the lid is what makes it read as a kit being used
-          rather than as a box being stored. This band's focal object, and the
-          one gesture here that needs no arm — point at it and the lid lifts
-          once, then settles. */}
-      <Notice reaction="lid" hit={[10, 58, 42, 38]}>
-        <polygon points="14,92 14,76 44,76 44,92" fill="var(--color-world-wood)" />
-        <polygon points="14,88 44,88 44,92 14,92" fill="var(--color-world-soil-dark)" />
+      {/* The chest, closed. It was drawn open, which left the lid as a flat
+          trapezoid with nothing under it and no box to belong to — and a lid
+          that is already up has nowhere to go when you point at it. Closed, the
+          reaction is the whole gesture. */}
+      <Notice reaction="lid" hit={[10, 66, 42, 30]}>
+        <polygon points="14,92 14,80 40,80 40,92" fill="var(--color-world-wood)" />
+        <polygon points="40,92 40,80 46,76 46,88" fill="var(--color-world-wood-dark)" />
         <g className="notice-lid">
-          <polygon points="14,76 18,64 48,64 44,76" fill="var(--color-world-wood-dark)" />
+          <polygon points="14,80 14,75 40,75 40,80" fill="var(--color-world-wood-dark)" />
+          <polygon points="14,75 20,71 46,71 40,75" fill="var(--color-world-sand-dark)" />
+          <polygon points="40,80 40,75 46,71 46,76" fill="var(--color-world-soil-dark)" />
+          <rect x="24" y="76" width="6" height="4" fill="var(--color-world-sun)" />
         </g>
-        <polygon points="18,76 40,76 40,80 18,80" fill="var(--color-world-sun)" />
+        <rect x="24" y="80" width="6" height="4" fill="var(--color-world-sun-deep)" />
       </Notice>
 
-      {/* The bench, which is what turns a pile of supplies into a kit being
-          used. Crates stood here before and said "stores in transit", which is
-          the one thing this section is not about. */}
-      <rect x="54" y="78" width="4" height="13" fill="var(--color-world-soil-dark)" />
-      <rect x="82" y="78" width="4" height="13" fill="var(--color-world-soil-dark)" />
-      <polygon points="54,74 86,74 90,78 50,78" fill="var(--color-world-wood)" />
-      <polygon points="50,78 90,78 90,81 50,81" fill="var(--color-world-soil-dark)" />
+      {/* The bench. Back leg first, so the top lands on it; front legs after,
+          so they stand in front of the face they carry. */}
+      <rect x="73" y="78" width="3" height="13" fill="var(--color-world-soil-dark)" />
+      <polygon points="50,80 50,84 78,84 78,80" fill="var(--color-world-wood)" />
+      <polygon points="50,80 56,76 84,76 78,80" fill="var(--color-world-sand-dark)" />
+      <polygon points="78,84 78,80 84,76 84,80" fill="var(--color-world-wood-dark)" />
+      <rect x="52" y="84" width="4" height="10" fill="var(--color-world-soil-dark)" />
+      <rect x="71" y="84" width="4" height="10" fill="var(--color-world-soil-dark)" />
 
-      {/* A plank stack under it, and the offcut leaning on the leg. */}
-      <polygon points="58,88 80,88 80,91 58,91" fill="var(--color-world-wood-dark)" />
-      <polygon points="60,84 82,84 82,87 60,87" fill="var(--color-world-wood)" />
-      <polygon points="86,91 90,74 93,74 89,91" fill="var(--color-world-sand-dark)" />
-
-      {/* A hammer left on the bench, head toward the chest: the tool is drawn
-          at rest in the middle of a job rather than hung on a wall. */}
-      <rect x="62" y="71" width="16" height="3" fill="var(--color-world-wood-dark)" />
-      <polygon points="56,67 63,67 63,74 56,74" fill="var(--color-world-stone)" />
-      <polygon points="56,70 63,70 63,74 56,74" fill="var(--color-world-stone-dark)" />
+      {/* The kit box on it, drawn to the same three-face rule so the bench has
+          something on it that reads as a thing rather than as a smudge. */}
+      <polygon points="58,76 58,69 70,69 70,76" fill="var(--color-world-wood)" />
+      <polygon points="58,69 61,67 73,67 70,69" fill="var(--color-world-sand-dark)" />
+      <polygon points="70,76 70,69 73,67 73,74" fill="var(--color-world-wood-dark)" />
+      <rect x="60" y="71" width="8" height="2" fill="var(--color-world-sun)" />
 
       {/* The lantern on its post: the cluster's one warm point, and the reason
           the right-hand patch is not just an empty stretch of sand. */}

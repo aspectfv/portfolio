@@ -56,17 +56,20 @@ export function Workshop() {
         />
       </Notice>
 
-      {/* The yard: a sawhorse with a plank across it and the offcuts beneath.
-          It replaces the crate that stood here. A hut with a crate outside it
-          is a building with a box; a hut with work in front of it is a
-          workshop, which is the difference between illustrating a place and
-          illustrating a section about things that were built. */}
-      <polygon points="14,96 18,84 21,84 17,96" fill="var(--color-world-soil-dark)" />
-      <polygon points="32,96 28,84 31,84 35,96" fill="var(--color-world-soil-dark)" />
-      <polygon points="8,80 34,80 38,84 12,84" fill="var(--color-world-wood)" />
-      <polygon points="12,84 38,84 38,87 12,87" fill="var(--color-world-soil-dark)" />
-      <polygon points="10,92 28,92 28,95 10,95" fill="var(--color-world-sand-dark)" />
-      <polygon points="18,88 36,88 36,91 18,91" fill="var(--color-world-wood-dark)" />
+      {/* The yard: cut timber, stacked. A sawhorse stood here for one build
+          and came out as a handful of loose slats — at this size a frame drawn
+          in thin diagonals has no faces to shade, and anything without a lit
+          top and a dark side reads as debris. A stack has both, and says the
+          same thing: material, cut, waiting to be built with. */}
+      <polygon points="13,104 13,98 35,98 35,104" fill="var(--color-world-wood)" />
+      <polygon points="13,98 17,95 39,95 35,98" fill="var(--color-world-sand-dark)" />
+      <polygon points="35,104 35,98 39,95 39,101" fill="var(--color-world-wood-dark)" />
+      <rect x="13" y="101" width="22" height="1" fill="var(--color-world-soil-dark)" />
+
+      <polygon points="17,95 17,90 33,90 33,95" fill="var(--color-world-wood)" />
+      <polygon points="17,90 20,88 36,88 33,90" fill="var(--color-world-sand-dark)" />
+      <polygon points="33,95 33,90 36,88 36,93" fill="var(--color-world-wood-dark)" />
+      <rect x="17" y="92" width="16" height="1" fill="var(--color-world-soil-dark)" />
 
       {/* The sign, and the banner hanging off it. Painted boards on a dark
           post: the hut behind is bare timber, and wood on wood is no object. */}
