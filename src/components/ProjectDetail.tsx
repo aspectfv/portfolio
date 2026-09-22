@@ -17,13 +17,28 @@ const sections = [
  * focus into the panel would strand a keyboard user who only wanted to peek.
  * Collapsing therefore needs no focus restoration; focus never left.
  */
-export function ProjectDetail({ detail, projectName }: { detail: Detail; projectName: string }) {
+export function ProjectDetail({
+  detail,
+  projectName,
+  className,
+}: {
+  detail: Detail
+  projectName: string
+  /**
+   * `contents` from the flagship, so the trigger joins the actions row as a
+   * sibling of the links while the panel below it still spans the whole
+   * composition. The trigger has to stay in front of the panel in the DOM —
+   * that is what lets the next Tab land inside it — so the two cannot simply
+   * be placed separately by the caller.
+   */
+  className?: string
+}) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
   const { unlock } = useAchievements()
 
   return (
-    <div>
+    <div className={className}>
       <button
         type="button"
         onClick={() => {
@@ -49,7 +64,7 @@ export function ProjectDetail({ detail, projectName }: { detail: Detail; project
       <div
         id={panelId}
         hidden={!open}
-        className="border-hairline disclose mt-5 space-y-4 border-t pt-5"
+        className="border-hairline disclose mt-5 w-full basis-full space-y-4 border-t pt-5"
       >
         {sections.map(({ key, label }) => (
           <div key={key}>
