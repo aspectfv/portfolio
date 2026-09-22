@@ -287,8 +287,14 @@ test('a prop reacts to a tap and returns to rest', async ({ page }) => {
   await prop.scrollIntoViewIfNeeded()
   await expect(prop).not.toHaveAttribute('data-tapped', '')
 
-  await prop.dispatchEvent('pointerdown')
-  await expect(prop).toHaveAttribute('data-tapped', '')
+  // Tap and check inside one retry: the reaction is held for well under a
+  // second, so an assertion that polls on its own can arrive after the release
+  // and report a prop that never reacted.
+  await expect(async () => {
+    await prop.dispatchEvent('pointerdown')
+    await expect(prop).toHaveAttribute('data-tapped', '', { timeout: 250 })
+  }).toPass({ timeout: 10_000 })
+
   await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 3000 })
 })
 
