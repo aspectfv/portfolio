@@ -63,7 +63,11 @@ export function CopyEmail({ email }: { email: string }) {
       {status === 'copied' && (
         <span
           key={copies}
-          data-ornament=""
+          // "still", not "": an ornament inside a button is a glyph, and the
+          // React rule would tilt this one 7 degrees as the ring expanded.
+          // Plain view still deletes it, which is the whole reason it carries
+          // the attribute.
+          data-ornament="still"
           aria-hidden="true"
           className="copy-ring border-leaf-strong pointer-events-none absolute inset-0 rounded-sm border-2"
         />

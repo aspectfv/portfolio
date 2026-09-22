@@ -371,7 +371,9 @@
 
 /* An ornament whose rotation is part of its shape — a square standing on its
    corner is a diamond, and swinging it back to -7deg turns it into a tilted
-   square. Those react in scale alone. */
+   square. Those react in scale alone. `still` is the third value and reacts to
+   nothing: it is for an ornament that is itself a reaction, where the glyph
+   rules would tilt the feedback as it played. */
 :is(a, button):hover [data-ornament='fixed'],
 :is(a, button):focus-visible [data-ornament='fixed'] {
   scale: 1.18;
