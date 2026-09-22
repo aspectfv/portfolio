@@ -1,5 +1,5 @@
 /**
- * A small, quiet meta-game. Four things a visitor might do anyway, noticed and
+ * A small, quiet meta-game. Five things a visitor might do anyway, noticed and
  * acknowledged.
  *
  * Hard constraint: **no achievement may carry information.** Everything on this
@@ -13,7 +13,8 @@
  * useSyncExternalStore shape as useViewMode.
  */
 
-export type AchievementId = 'read-a-project' | 'copied-email' | 'found-plain-view' | 'reached-end'
+export type AchievementId =
+  'read-a-project' | 'copied-email' | 'found-plain-view' | 'noticed-the-world' | 'reached-end'
 
 export interface Achievement {
   readonly id: AchievementId
@@ -24,6 +25,12 @@ export const achievements: readonly Achievement[] = [
   { id: 'read-a-project', label: 'Read a project in depth' },
   { id: 'copied-email', label: 'Copied the email' },
   { id: 'found-plain-view', label: 'Found the plain view' },
+  /**
+   * One badge for the first reaction of any kind, never one per object. Five
+   * of them would be five collectibles, which is the hunt `docs/DESIGN.md`
+   * says Notice must not become.
+   */
+  { id: 'noticed-the-world', label: "Got the world's attention" },
   { id: 'reached-end', label: 'Reached the end' },
 ]
 

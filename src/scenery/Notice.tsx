@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NOTICE_HOLD, type NoticeName } from './noticeReactions'
+import { useAchievements } from '@/hooks/useAchievements'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { useViewMode } from '@/hooks/useViewMode'
 
@@ -19,6 +20,10 @@ import { useViewMode } from '@/hooks/useViewMode'
  * about twenty pixels wide on a phone — and a fingertip needs somewhere to
  * land. It is transparent rather than invisible: `pointer-events` needs a fill
  * to hit.
+ *
+ * The first reaction of any kind unlocks one achievement. One, not one per
+ * object: a badge per prop would turn five decorations into five collectibles,
+ * and the reward for waving at someone is that they wave back.
  */
 export function Notice({
   reaction,
@@ -33,6 +38,7 @@ export function Notice({
   const [tapped, setTapped] = useState(false)
   const reducedMotion = usePrefersReducedMotion()
   const [viewMode] = useViewMode()
+  const { unlock } = useAchievements()
 
   useEffect(() => {
     if (!tapped) return
@@ -49,7 +55,11 @@ export function Notice({
       className="notice"
       data-notice={reaction}
       {...(tapped ? { 'data-tapped': '' } : {})}
-      onPointerDown={() => setTapped(true)}
+      onPointerEnter={() => unlock('noticed-the-world')}
+      onPointerDown={() => {
+        setTapped(true)
+        unlock('noticed-the-world')
+      }}
     >
       <rect x={x} y={y} width={width} height={height} fill="transparent" />
       {children}

@@ -1,5 +1,6 @@
 import { act, render } from '@testing-library/react'
 import App from '@/App'
+import { getUnlocked, resetForTests } from '@/achievements'
 import { noticeReactions } from './noticeReactions'
 import { mockMatchMedia } from '@/test/setup'
 
@@ -19,6 +20,8 @@ const notices = (root: HTMLElement) => [...root.querySelectorAll('[data-notice]'
 afterEach(() => {
   mockMatchMedia(false)
   document.documentElement.dataset.view = 'game'
+  localStorage.clear()
+  resetForTests()
 })
 
 describe('notice roster', () => {
@@ -69,6 +72,24 @@ describe('notice on the page', () => {
     } finally {
       vi.useRealTimers()
     }
+  })
+
+  it('acknowledges the first reaction, and never one badge per object', () => {
+    localStorage.clear()
+    resetForTests()
+    const { container } = render(<App />)
+
+    act(() =>
+      notices(container)[0]!.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })),
+    )
+    expect(getUnlocked().has('noticed-the-world')).toBe(true)
+    expect(getUnlocked().size).toBe(1)
+
+    // A second object is the same acknowledgement, not a second collectible.
+    act(() =>
+      notices(container)[1]!.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })),
+    )
+    expect(getUnlocked().size).toBe(1)
   })
 
   it('is absent under reduced motion', () => {
