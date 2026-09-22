@@ -1,4 +1,5 @@
 import { ambientActors } from '../ambient'
+import { Notice } from '../Notice'
 
 /**
  * Skills: a supply cluster.
@@ -29,11 +30,17 @@ export function SupplyCluster() {
       />
 
       {/* The open chest: the lid is what makes it read as a kit being used
-          rather than as a box being stored. */}
-      <polygon points="14,92 14,76 44,76 44,92" fill="var(--color-world-wood)" />
-      <polygon points="14,88 44,88 44,92 14,92" fill="var(--color-world-soil-dark)" />
-      <polygon points="14,76 18,64 48,64 44,76" fill="var(--color-world-wood-dark)" />
-      <polygon points="18,76 40,76 40,80 18,80" fill="var(--color-world-sun)" />
+          rather than as a box being stored. This band's focal object, and the
+          one gesture here that needs no arm — point at it and the lid lifts
+          once, then settles. */}
+      <Notice reaction="lid" hit={[10, 58, 42, 38]}>
+        <polygon points="14,92 14,76 44,76 44,92" fill="var(--color-world-wood)" />
+        <polygon points="14,88 44,88 44,92 14,92" fill="var(--color-world-soil-dark)" />
+        <g className="notice-lid">
+          <polygon points="14,76 18,64 48,64 44,76" fill="var(--color-world-wood-dark)" />
+        </g>
+        <polygon points="18,76 40,76 40,80 18,80" fill="var(--color-world-sun)" />
+      </Notice>
 
       {/* Crates, stacked and offset. */}
       <polygon points="56,92 56,78 78,78 78,92" fill="var(--color-world-wood)" />

@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { MeshStandardMaterial } from 'three'
+import { NOTICE_HOLD } from '@/scenery/noticeReactions'
 
 /**
  * An arcade cabinet, standing beside the desk.
@@ -14,6 +15,12 @@ import type { MeshStandardMaterial } from 'three'
  * man-made object here is code and every organic one comes from the kit, so a
  * cabinet from a different kit would arrive with different proportions and read
  * as imported.
+ *
+ * It is also the canvas's Notice target, and the only one: the flat world below
+ * gives each band a single focal object, and the scene follows the same rule
+ * rather than lighting up every prop on it. The screen brightens while it is
+ * pointed at, and a tap holds that for the same beat a tapped prop downstairs
+ * gets.
  */
 export function ArcadeCabinet({
   position = [0, 0, 0] as [number, number, number],
@@ -22,19 +29,39 @@ export function ArcadeCabinet({
   animate = true,
 }) {
   const screen = useRef<MeshStandardMaterial>(null)
+  const [noticed, setNoticed] = useState(false)
+  /** The eased brightness, so the screen comes up and goes down rather than switching. */
+  const glow = useRef(0)
+
+  // Touch has no leave event, so a tapped reaction is held for a fixed beat and
+  // then released. A pointer that leaves first ends it sooner, which is what
+  // the timer is cleaned up for.
+  useEffect(() => {
+    if (!noticed) return
+    const timer = setTimeout(() => setNoticed(false), NOTICE_HOLD)
+    return () => clearTimeout(timer)
+  }, [noticed])
 
   // The attract-mode blink: the one ambient detail on the island that is not
   // motion. Slow and low-contrast on purpose; a fast blink beside body copy is
   // an accessibility problem, not charm.
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const material = screen.current
     if (!animate || !material) return
     const t = state.clock.getElapsedTime()
-    material.emissiveIntensity = 0.45 + Math.sin(t * 1.6) * 0.12
+    glow.current += ((noticed ? 1 : 0) - glow.current) * (1 - Math.pow(0.002, delta))
+    material.emissiveIntensity = 0.45 + Math.sin(t * 1.6) * 0.12 + glow.current * 0.85
   })
 
   return (
-    <group position={position} rotation={[0, rotation, 0]} scale={scale}>
+    <group
+      position={position}
+      rotation={[0, rotation, 0]}
+      scale={scale}
+      onPointerOver={() => setNoticed(true)}
+      onPointerOut={() => setNoticed(false)}
+      onPointerDown={() => setNoticed(true)}
+    >
       {/* Body */}
       <mesh position={[0, 0.42, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.42, 0.84, 0.34]} />

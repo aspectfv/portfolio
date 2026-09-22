@@ -1,4 +1,5 @@
 import { ambientActors } from '../ambient'
+import { Notice } from '../Notice'
 import { Traveller } from './Traveller'
 
 const idle = ambientActors.campIsland
@@ -63,10 +64,16 @@ export function CampShard() {
         </g>
 
         {/* Where the trail starts. Scaled to stand a head under the tent ridge,
-            which is what fixes a person's size against everything else here. */}
-        <g transform="translate(19.4,19.4) scale(0.62)">
-          <Traveller pose="standing" />
-        </g>
+            which is what fixes a person's size against everything else here.
+
+            This band's focal object: point at the camp and they wave back. The
+            figure is about twenty pixels wide on a phone, so the hit area is
+            drawn around them rather than taken from their own outline. */}
+        <Notice reaction="wave" hit={[14, 14, 26, 32]}>
+          <g transform="translate(19.4,19.4) scale(0.62)">
+            <Traveller pose="standing" waves />
+          </g>
+        </Notice>
       </g>
 
       {/* A piece adrift below, on its own slower rhythm. A single object hangs

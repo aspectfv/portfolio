@@ -1,4 +1,5 @@
 import { ambientActors } from '../ambient'
+import { Notice } from '../Notice'
 
 /**
  * Projects: a workshop standing on the band.
@@ -29,15 +30,31 @@ export function Workshop() {
       <polygon points="64,38 98,62 64,62" fill="var(--color-world-sand-dark)" />
       <polygon points="52,98 52,76 68,76 68,98" fill="var(--color-world-soil-dark)" />
 
-      {/* The window, and the one lit thing in the section about built software. */}
-      <rect x="72" y="76" width="16" height="14" fill="var(--color-world-stone-dark)" />
-      <g
-        className="ambient ambient-blink"
-        style={{ animationDuration: ambientActors.screen.duration }}
-      >
-        <rect x="74" y="78" width="12" height="10" fill="var(--color-world-water)" />
-        <rect x="76" y="80" width="8" height="2" fill="var(--color-world-sky)" />
-      </g>
+      {/* The window, and the one lit thing in the section about built software.
+          It is also this band's focal object: the screen brightens while it is
+          pointed at, and holds, because a screen that goes dark under the
+          cursor reads as broken.
+
+          The brighter pane is its own rect rather than a change to the lit
+          ones, so the blink above keeps running underneath it. */}
+      <Notice reaction="screen" hit={[64, 68, 32, 30]}>
+        <rect x="72" y="76" width="16" height="14" fill="var(--color-world-stone-dark)" />
+        <g
+          className="ambient ambient-blink"
+          style={{ animationDuration: ambientActors.screen.duration }}
+        >
+          <rect x="74" y="78" width="12" height="10" fill="var(--color-world-water)" />
+          <rect x="76" y="80" width="8" height="2" fill="var(--color-world-sky)" />
+        </g>
+        <rect
+          className="notice-glow"
+          x="73"
+          y="77"
+          width="14"
+          height="12"
+          fill="var(--color-world-sky)"
+        />
+      </Notice>
 
       {/* Crate. */}
       <polygon points="14,98 14,86 32,86 32,98" fill="var(--color-world-wood)" />

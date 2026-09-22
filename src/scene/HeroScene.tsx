@@ -21,6 +21,20 @@ const MODELS = {
 /** Rotation ceiling for pointer parallax; a few pixels of apparent shift, no more. */
 const PARALLAX = 0.075
 
+/**
+ * The tap nudge, as a spring the island settles out of.
+ *
+ * The scene leaned toward a fine pointer and therefore acknowledged nobody on a
+ * phone, which made the one reactive object on the page the one a phone visitor
+ * could not reach. A tap gives the island an impulse toward the tap point; the
+ * spring takes it from there and parks it back on its idle inside about a
+ * second. `IMPULSE` is an angular velocity, so the peak lean it produces is
+ * roughly IMPULSE / sqrt(STIFFNESS) — about eight degrees.
+ */
+const IMPULSE = 0.9
+const STIFFNESS = 42
+const DAMPING = 7
+
 function Diorama({
   active,
   compact,
@@ -32,6 +46,9 @@ function Diorama({
 }) {
   const group = useRef<Group>(null)
   const over = useRef(false)
+  /** The eased parallax lean, held apart from the nudge so neither erases the other. */
+  const lean = useRef({ yaw: 0, pitch: 0 })
+  const nudge = useRef({ yaw: 0, pitch: 0, yawRate: 0, pitchRate: 0 })
   const { pointer, gl } = useThree()
 
   // R3F keeps the last pointer value after the cursor leaves the canvas, so
@@ -45,11 +62,26 @@ function Diorama({
     const leave = () => {
       over.current = false
     }
+
+    // Read off the native event rather than R3F's pointer state: a tap is a
+    // pointerdown with no move before it, and the shared pointer still holds
+    // wherever the last mouse was, which on a phone is nowhere at all.
+    const push = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      if (!rect.width || !rect.height) return
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+      const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1)
+      nudge.current.yawRate += x * IMPULSE
+      nudge.current.pitchRate += -y * IMPULSE * 0.6
+    }
+
     canvas.addEventListener('pointerenter', enter)
     canvas.addEventListener('pointerleave', leave)
+    canvas.addEventListener('pointerdown', push)
     return () => {
       canvas.removeEventListener('pointerenter', enter)
       canvas.removeEventListener('pointerleave', leave)
+      canvas.removeEventListener('pointerdown', push)
     }
   }, [gl])
 
@@ -69,8 +101,20 @@ function Diorama({
     const targetYaw = idleYaw + (leaning ? pointer.x * PARALLAX : 0)
     const targetPitch = leaning ? -pointer.y * PARALLAX * 0.6 : 0
     const ease = 1 - Math.pow(0.001, delta)
-    node.rotation.y += (targetYaw - node.rotation.y) * ease
-    node.rotation.x += (targetPitch - node.rotation.x) * ease
+    lean.current.yaw += (targetYaw - lean.current.yaw) * ease
+    lean.current.pitch += (targetPitch - lean.current.pitch) * ease
+
+    // The nudge, integrated as a damped spring. Clamped so a tab that was
+    // backgrounded mid-wobble does not resume with one enormous step.
+    const step = Math.min(delta, 1 / 30)
+    const push = nudge.current
+    push.yaw += push.yawRate * step
+    push.yawRate += (-STIFFNESS * push.yaw - DAMPING * push.yawRate) * step
+    push.pitch += push.pitchRate * step
+    push.pitchRate += (-STIFFNESS * push.pitch - DAMPING * push.pitchRate) * step
+
+    node.rotation.y = lean.current.yaw + push.yaw
+    node.rotation.x = lean.current.pitch + push.pitch
   })
 
   return (

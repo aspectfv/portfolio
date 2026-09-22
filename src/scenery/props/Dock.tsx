@@ -1,4 +1,5 @@
 import { ambientActors } from '../ambient'
+import { Notice } from '../Notice'
 import { Traveller } from './Traveller'
 
 /**
@@ -48,11 +49,30 @@ export function Dock() {
       {/* A light left on for whoever arrives. Lit but still: the sky band's
           three ambient slots are already spent on the clouds, the birds and the
           shimmer, and that cap is what keeps a living page from becoming a
-          twitching one. */}
+          twitching one.
+
+          Still is not inert. This band's focal object is the lantern, and a
+          Notice reaction is Response rather than Ambient, so it consumes no
+          slot — the budget that made this light still is the same budget that
+          lets it react. */}
       <rect x="112" y="40" width="5" height="34" fill="var(--color-world-soil-dark)" />
       <polygon points="106,40 106,26 124,26 124,40" fill="var(--color-world-stone-dark)" />
       <polygon points="106,26 115,19 124,26" fill="var(--color-world-stone)" />
-      <polygon points="115,28 121,34 115,40 109,34" fill="var(--color-world-sun)" />
+      <Notice reaction="lantern" hit={[102, 16, 26, 60]}>
+        <g className="notice-flare">
+          <polygon points="115,28 121,34 115,40 109,34" fill="var(--color-world-sun)" />
+        </g>
+        {/* Light drawn the way this world draws everything else: as flat marks
+            with hard edges. A translucent halo is the obvious way to do it and
+            the wrong one — over a pale sky band it reads as a beige diamond
+            hung behind the lantern rather than as anything switching on. */}
+        <g className="notice-glow" fill="var(--color-world-sun)">
+          <rect x="98" y="32" width="6" height="3" />
+          <rect x="126" y="32" width="6" height="3" />
+          <polygon points="101,23 105,27 103,29 99,25" />
+          <polygon points="129,23 131,25 127,29 125,27" />
+        </g>
+      </Notice>
     </>
   )
 }

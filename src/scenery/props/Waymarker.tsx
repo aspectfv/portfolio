@@ -1,4 +1,5 @@
 import { ambientActors } from '../ambient'
+import { Notice } from '../Notice'
 
 /**
  * Experience: a waymarker on the night band.
@@ -28,17 +29,25 @@ export function Waymarker() {
       <polygon points="48,22 62,36 58,98 48,90" fill="var(--color-world-sand-dark)" />
       <polygon points="42,54 50,62 42,70 34,62" fill="var(--color-world-sun)" />
 
-      {/* The brazier. */}
+      {/* The brazier, and this band's focal object: the flame flares while it
+          is pointed at and holds, which is what a fire does when you stand
+          over it. The flare scales this group and the flicker scales the group
+          inside it; they are different elements, so the idle keeps running
+          underneath the reaction rather than being replaced by it. */}
       <rect x="82" y="80" width="6" height="18" fill="var(--color-world-stone-dark)" />
       <polygon points="70,80 100,80 96,70 74,70" fill="var(--color-world-stone)" />
       <polygon points="70,80 100,80 100,84 70,84" fill="var(--color-world-stone-dark)" />
-      <g
-        className="ambient ambient-flicker"
-        style={{ animationDuration: ambientActors.brazier.duration }}
-      >
-        <polygon points="85,44 97,64 85,72 73,64" fill="var(--color-world-sun)" />
-        <polygon points="85,54 91,65 85,70 79,65" fill="var(--color-ember-strong)" />
-      </g>
+      <Notice reaction="flare" hit={[66, 36, 38, 48]}>
+        <g className="notice-flare">
+          <g
+            className="ambient ambient-flicker"
+            style={{ animationDuration: ambientActors.brazier.duration }}
+          >
+            <polygon points="85,44 97,64 85,72 73,64" fill="var(--color-world-sun)" />
+            <polygon points="85,54 91,65 85,70 79,65" fill="var(--color-ember-strong)" />
+          </g>
+        </g>
+      </Notice>
 
       {/* Embers. A continuous rise, never a burst: the forbidden particle is the
           one that fires because something happened, which is motion as reward. */}

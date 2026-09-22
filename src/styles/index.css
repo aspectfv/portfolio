@@ -247,6 +247,7 @@
   /* Governs the release: the control springs back off its edge. */
   transition:
     translate var(--dur-base) var(--ease-overshoot),
+    scale var(--dur-base) var(--ease-overshoot),
     border-bottom-width var(--dur-fast) var(--ease-standard),
     background-color var(--dur-fast) var(--ease-standard);
 
@@ -257,6 +258,9 @@
     transition-duration: var(--dur-fast);
     transition-timing-function: var(--ease-standard);
     translate: 0 var(--edge-md);
+    /* The squash. Travel and a collapsing edge say the control went down; only
+       a change of size says something pressed it. */
+    scale: 0.97;
     border-bottom-width: 0;
   }
 }
@@ -534,6 +538,105 @@
   transform-origin: bottom center;
 }
 
+/* Notice.
+   A scenery object reacting once to being pointed at or tapped, then returning
+   to rest. Response family, not ambient: it is triggered, it resolves, and it
+   consumes no slot from the three-actors-per-band cap.
+
+   Hover is handled here; tap sets [data-tapped] from the Notice component,
+   because touch has no hover to borrow and a phone visitor must get the same
+   beat. Under reduce and in plain view the wrapper is never rendered, so
+   neither state needs a branch below.
+
+   Every reaction moves transform or opacity and nothing else, and every one of
+   them finishes inside --dur-slow. */
+.notice {
+  /* The scenery layer is pointer-events-none so decoration can never intercept
+     a click meant for the page. A focal object opts back in. */
+  pointer-events: auto;
+}
+
+/* Lights hold while pointed at: a screen that goes dark under the cursor reads
+   as broken. Drawn as a separate pane fading in rather than as a change to the
+   lit shape itself, so a light with an ambient blink on it keeps its blink. */
+.notice-glow {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-standard);
+}
+
+.notice:hover .notice-glow,
+.notice[data-tapped] .notice-glow {
+  /* A bloom, not a second light. At full strength the pane reads as a flat
+     block of colour laid over the object it is supposed to be coming off. */
+  opacity: 0.55;
+}
+
+/* A flame growing. `scale` on this group and `scale` inside the flicker below
+   it are independent properties on different elements, so the flare composes
+   with the idle instead of fighting it. */
+.notice-flare {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transition: scale var(--dur-slow) var(--ease-out-soft);
+}
+
+.notice:hover .notice-flare,
+.notice[data-tapped] .notice-flare {
+  scale: 1.22;
+}
+
+/* Gestures are one-shot: they play through and end at rest whether or not the
+   pointer is still there. */
+.notice:hover .notice-wave,
+.notice[data-tapped] .notice-wave {
+  animation: notice-wave var(--dur-slow) var(--ease-standard) both;
+}
+
+.notice-wave {
+  transform-box: fill-box;
+  /* The shoulder joint: the top corner where the arm meets the body. About the
+     arm's own top centre it swings free of the shoulder and reads as a stick
+     thrown in the air. */
+  transform-origin: right top;
+}
+
+@keyframes notice-wave {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: 138deg;
+  }
+  45% {
+    rotate: 116deg;
+  }
+  65% {
+    rotate: 138deg;
+  }
+}
+
+.notice:hover .notice-lid,
+.notice[data-tapped] .notice-lid {
+  animation: notice-lid var(--dur-slow) var(--ease-overshoot) both;
+}
+
+.notice-lid {
+  transform-box: fill-box;
+  /* The hinge is at the back of the chest, so the front edge is what rises. */
+  transform-origin: right center;
+}
+
+@keyframes notice-lid {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  45% {
+    rotate: -16deg;
+  }
+}
+
 @utility toast-life {
   animation: toast-life 4s var(--ease-standard) both;
 }
@@ -565,6 +668,47 @@
     opacity: 0;
     translate: 0 10px;
   }
+}
+
+/* The two interface moments allowed to pop.
+   The world never rewards: a particle that fires because something happened is
+   motion as a reward and belongs to a game rather than to a place. Feedback on
+   a control the visitor just used is a different thing, and a pop that resolves
+   is what the Response family already is. No particles at either.
+
+   Feedback belongs where the visitor is looking, which is why these are two
+   reactions rather than one: for a copy it is the button under the cursor, and
+   for an unlock it is the announcement that just arrived. */
+@keyframes copy-ring {
+  from {
+    scale: 1;
+    opacity: 0.9;
+  }
+  to {
+    scale: 1.35;
+    opacity: 0;
+  }
+}
+
+@utility copy-ring {
+  animation: copy-ring var(--dur-base) var(--ease-out-soft) both;
+}
+
+@keyframes spark-pop {
+  0% {
+    scale: 0.6;
+  }
+  60% {
+    scale: 1.14;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@utility spark-pop {
+  /* Delayed to the toast's own entrance, which lands at 11% of its 4s life. */
+  animation: spark-pop var(--dur-base) var(--ease-overshoot) 260ms both;
 }
 
 /* The dark band.
@@ -643,6 +787,7 @@
 
   .press:active {
     translate: none;
+    scale: none;
   }
 }
 

@@ -15,7 +15,18 @@
  * world palette, which is what keeps a 24px figure findable on grass, on timber
  * and on a pale dock.
  */
-export function Traveller({ pose }: { pose: 'standing' | 'resting' }) {
+export function Traveller({
+  pose,
+  waves = false,
+}: {
+  pose: 'standing' | 'resting'
+  /**
+   * Marks the near arm as a Notice target, so it lifts when the camp is
+   * pointed at or tapped. Standing only: the seated pose is on the sky band,
+   * where the lantern is the focal object. One per band.
+   */
+  waves?: boolean
+}) {
   if (pose === 'resting') {
     // Seated, so the convention changes: y=26 is the surface being sat on, and
     // the lower legs hang below it. A host places this by putting 26 on the
@@ -40,7 +51,9 @@ export function Traveller({ pose }: { pose: 'standing' | 'resting' }) {
     <>
       <polygon points="7,30 7,22 9,22 9,30" fill="var(--color-world-soil-dark)" />
       <polygon points="11,30 11,22 13,22 13,30" fill="var(--color-world-soil-dark)" />
-      <polygon points="3,20 3,13 6,13 6,20" fill="var(--color-world-soil)" />
+      <g className={waves ? 'notice-wave' : undefined}>
+        <polygon points="3,20 3,13 6,13 6,20" fill="var(--color-world-soil)" />
+      </g>
       <polygon points="6,22 6,12 14,12 14,22" fill="var(--color-ember)" />
       <polygon points="10,22 10,12 14,12 14,22" fill="var(--color-ember-strong)" />
       <polygon points="7,12 7,5 13,5 13,12" fill="var(--color-world-sand)" />

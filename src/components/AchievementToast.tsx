@@ -53,7 +53,7 @@ export function AchievementToast() {
         <div className="bg-surface border-leaf-strong toast-life flex items-center gap-3 rounded-md border-2 border-b-(length:--edge-md) px-4 py-3">
           <span
             data-ornament=""
-            className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+            className="spark-pop bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
           >
             <Icon name="spark" className="size-5" />
           </span>

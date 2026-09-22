@@ -275,6 +275,36 @@ test('ambient scenery stops in every condition that should stop it', async ({ pa
   await expect(ambient).toHaveCount(0)
 })
 
+/**
+ * Tap is the half of Notice that only exists on touch, and the only motion on
+ * this site a fine pointer never reaches. The attribute is the assertable part:
+ * whether the world feels like it noticed you is a judgement, but whether it
+ * reacted and then let go is a fact.
+ */
+test('a prop reacts to a tap and returns to rest', async ({ page }) => {
+  await page.goto('/')
+  const prop = page.locator('[data-notice]').first()
+  await prop.scrollIntoViewIfNeeded()
+  await expect(prop).not.toHaveAttribute('data-tapped', '')
+
+  await prop.dispatchEvent('pointerdown')
+  await expect(prop).toHaveAttribute('data-tapped', '')
+  await expect(prop).not.toHaveAttribute('data-tapped', '', { timeout: 3000 })
+})
+
+test('nothing in the world notices a visitor who declined motion', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('[data-notice]').first()).toBeAttached()
+
+  await viewToggle(page).click()
+  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
+  await expect(page.locator('[data-notice]')).toHaveCount(0)
+
+  await viewToggle(page).click()
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('[data-notice]')).toHaveCount(0)
+})
+
 test('scenery is decorative only, so it never reaches the tab order', async ({ page }) => {
   await page.goto('/')
 
