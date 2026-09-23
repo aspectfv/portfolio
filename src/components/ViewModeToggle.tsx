@@ -43,7 +43,7 @@ export function ViewModeToggle({ className = '' }: { className?: string }) {
           game ? 'bg-leaf-strong border-leaf-edge' : 'bg-transparent border-ink-muted'
         }`}
       />
-      Game view
+      Visual effects
     </button>
   )
 }
