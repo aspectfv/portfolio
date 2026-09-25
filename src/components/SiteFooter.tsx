@@ -5,36 +5,51 @@ import { ViewModeToggle } from './ViewModeToggle'
 import { profile } from '@/content/profile'
 import { useAchievements } from '@/hooks/useAchievements'
 
+/** Long enough for a view switch's reflow and its scroll anchoring to finish. */
+const SETTLE_MS = 500
+
 export function SiteFooter() {
   const { unlocked, unlock, enabled } = useAchievements()
   const endRef = useRef<HTMLDivElement>(null)
   const latestUnlock = useRef(unlock)
+  const switchedAt = useRef(0)
 
   useEffect(() => {
     latestUnlock.current = unlock
   }, [unlock])
 
+  useEffect(() => {
+    switchedAt.current = performance.now()
+  }, [enabled])
+
   /**
    * Reaching the end means scrolling to the end, and nothing else.
    *
-   * The observer is built once and read through a ref rather than depending on
-   * `unlock`, which changes identity with the view mode. Depending on it meant
-   * switching to game view rebuilt the observer, and the footer is on screen at
-   * the moment you press the switch that lives in it — so the page handed out
-   * "Reached the end" for pressing a button. The store already ignores a
-   * repeat, so firing again on a later pass down costs nothing.
+   * Scroll position rather than an IntersectionObserver, because the observer
+   * cannot tell the two apart: switching view resizes the whole page, which
+   * slides this footer into view and fires the observer for a button press.
+   *
+   * The resize also makes the browser's scroll anchoring move the page by a
+   * thousand pixels or more, which arrives as ordinary scroll events, so the
+   * handler stays shut until the new layout has settled. Nothing here is
+   * information, and the visitor scrolls again within a second in any case.
+   *
+   * `unlock` is read through a ref rather than depended on, since its identity
+   * changes with the view mode. The store ignores a repeat, so firing again on
+   * a later pass down costs nothing.
    */
   useEffect(() => {
-    const element = endRef.current
-    if (!element || typeof IntersectionObserver === 'undefined') return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) latestUnlock.current('reached-end')
-      },
-      { threshold: 0.5 },
-    )
-    observer.observe(element)
-    return () => observer.disconnect()
+    const onScroll = () => {
+      if (performance.now() - switchedAt.current < SETTLE_MS) return
+
+      const element = endRef.current
+      if (!element) return
+      const box = element.getBoundingClientRect()
+      const visible = Math.min(box.bottom, window.innerHeight) - Math.max(box.top, 0)
+      if (visible >= box.height / 2) latestUnlock.current('reached-end')
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (

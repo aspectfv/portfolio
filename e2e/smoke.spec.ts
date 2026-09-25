@@ -156,7 +156,7 @@ test('the noscript block carries the essentials', async ({ page }) => {
  */
 const viewToggle = (page: Page) =>
   page
-    .getByRole('switch', { name: /game view/i })
+    .getByRole('switch', { name: /visual effects/i })
     .filter({ visible: true })
     .first()
 
