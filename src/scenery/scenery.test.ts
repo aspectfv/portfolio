@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ambientActors } from './ambient'
+import { ambientActors, period } from './ambient'
 
 /**
  * The two bounds on ambient motion, asserted rather than reviewed.
@@ -27,28 +27,35 @@ describe('ambient roster', () => {
     }
   })
 
-  it('keeps at most three actors moving on any one band', () => {
+  it('keeps at most eight actors moving in any one strip', () => {
     // The bound that actually does the work. Every actor above passes the
-    // amplitude test on its own and a band can still end up twitching by
-    // accumulation, which is how "alive" becomes "annoying".
-    const perBand = new Map<string, string[]>()
+    // amplitude test on its own and a place can still end up twitching by
+    // accumulation, which is how "alive" becomes "annoying". It was three
+    // while the world was flat drawings on colour bands; a lit strip of thirty
+    // objects with three moving things in it reads as a diorama behind glass.
+    const perStrip = new Map<string, string[]>()
 
     for (const [name, actor] of entries) {
-      perBand.set(actor.band, [...(perBand.get(actor.band) ?? []), name])
+      perStrip.set(actor.strip, [...(perStrip.get(actor.strip) ?? []), name])
     }
 
-    for (const [band, names] of perBand) {
-      expect(names.length, `${band} carries ${names.join(', ')}`).toBeLessThanOrEqual(3)
+    for (const [strip, names] of perStrip) {
+      expect(names.length, `${strip} carries ${names.join(', ')}`).toBeLessThanOrEqual(8)
     }
   })
 
-  it('gives every actor on a band its own rhythm', () => {
+  it('gives every actor in a strip its own rhythm', () => {
     const seen = new Map<string, string>()
 
     for (const [name, actor] of entries) {
-      const key = `${actor.band}/${actor.duration}`
+      const key = `${actor.strip}/${actor.duration}`
       expect(seen.get(key), `${name} moves in step with ${seen.get(key)}`).toBeUndefined()
       seen.set(key, name)
     }
+  })
+
+  it('reads a scene rhythm off the same duration a drawing would', () => {
+    expect(period(ambientActors.aboutShard)).toBe(9)
+    expect(period({ strip: 'hero', duration: '9s, 15s', travel: 0, rotation: 0 })).toBe(9)
   })
 })

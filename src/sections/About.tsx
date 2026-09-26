@@ -1,9 +1,7 @@
-import { CampShard } from '@/scenery/props/CampShard'
-import { Motes } from '@/scenery/Motes'
 import { Panel } from '@/components/Panel'
-import { SceneryProp } from '@/scenery/SceneryProp'
 import { Section } from '@/components/Section'
 import { StatBlock } from '@/components/StatBlock'
+import { Strip } from '@/scene/Strip'
 import { profile, sections } from '@/content/profile'
 import { experience } from '@/content/experience'
 import { projects } from '@/content/projects'
@@ -28,8 +26,14 @@ const stats = [
 /**
  * No panel. This is the one place on the page that is only a person talking,
  * and a frame around it made it look like another module in a stack of modules.
- * The prose sits on the meadow at reading measure, the island takes the margin
- * beside it, and the numbers are tags underneath rather than a third box.
+ * The prose sits on the meadow at reading measure, the trailhead stands beside
+ * it, and the numbers are tags underneath rather than a third box.
+ *
+ * The strip bleeds to the viewport's right edge on desktop and stacks above
+ * the prose at full width on a phone. It sits in the flow either way, so it
+ * cannot overlap the text at a width nobody tested. The right margin is the
+ * distance from the content column to the edge of the page; the document
+ * clips horizontal overflow, so the bleed can never hand the page a scrollbar.
  */
 export function About() {
   const [lede, ...rest] = profile.about
@@ -43,9 +47,13 @@ export function About() {
       biome="meadow"
       nextBiome="canvas"
       ridge="treeline"
-      backdrop={<Motes variant="leaves" />}
     >
-      <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12">
+      <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
+        <Strip
+          scene="about"
+          reaction="wave"
+          className="-mx-6 h-[200px] md:order-last md:mx-0 md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        />
         <div>
           {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
           <div className="prose-measure text-ink-muted mt-6 space-y-5">
@@ -60,14 +68,6 @@ export function About() {
             <StatBlock stats={stats} label="Portfolio at a glance" />
           </Panel>
         </div>
-
-        <SceneryProp
-          viewBox="0 0 120 132"
-          size="w-32 md:w-72"
-          className="justify-self-center md:justify-self-end md:pt-8"
-        >
-          <CampShard />
-        </SceneryProp>
       </div>
     </Section>
   )

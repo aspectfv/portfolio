@@ -159,6 +159,19 @@ test('the meta-game gates nothing', async ({ page }) => {
   await expect(page.locator(`#${await trigger.getAttribute('aria-controls')}`)).toBeVisible()
 })
 
+test('the world draws through one canvas at most', async ({ page }) => {
+  await page.goto('/')
+
+  // Every scene is a view cut out of a single canvas. A second one means a
+  // strip has grown its own context, which is the thing the shared canvas
+  // exists to prevent. Zero is legal: a browser without WebGL gets the stills.
+  await page.waitForTimeout(2500)
+  const count = await page.locator('canvas').count()
+  expect(count).toBeLessThanOrEqual(1)
+  // Hidden by an ancestor: the renderer owns the element and wraps it.
+  await expect(page.locator('[aria-hidden="true"] canvas')).toHaveCount(count)
+})
+
 test('ambient scenery stops when a visitor declines motion', async ({ page }) => {
   await page.goto('/')
 

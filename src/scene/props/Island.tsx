@@ -5,10 +5,14 @@
  * Built from primitives rather than a model; a cylinder and two cones at eight
  * segments give the faceted silhouette the art direction wants for a few dozen
  * triangles, and no asset to download.
+ *
+ * `stretch` makes the same island long: About stands on one that is wider than
+ * it is deep, and it is the same object on purpose, because it is the tie
+ * between the hero and the world under it.
  */
-export function Island() {
+export function Island({ stretch = [1, 1] as readonly [number, number] }) {
   return (
-    <group>
+    <group scale={[stretch[0], 1, stretch[1]]}>
       {/* Grass cap */}
       <mesh position={[0, -0.12, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[1.75, 1.68, 0.34, 8]} />

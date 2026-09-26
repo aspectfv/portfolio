@@ -5,16 +5,33 @@
 All from Kenney's [Nature Kit](https://kenney.nl/assets/nature-kit), by
 [Kenney](https://kenney.nl), under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
-| File                         | Kit model           |
-| ---------------------------- | ------------------- |
-| `public/models/tree.glb`     | `tree_default`      |
-| `public/models/pine.glb`     | `tree_pineDefaultA` |
-| `public/models/rock.glb`     | `rock_smallA`       |
-| `public/models/grass.glb`    | `grass`             |
-| `public/models/mushroom.glb` | `mushroom_red`      |
-| `public/models/logs.glb`     | `log_stack`         |
+| File                              | Kit model           |
+| --------------------------------- | ------------------- |
+| `public/models/tree.glb`          | `tree_default`      |
+| `public/models/pine.glb`          | `tree_pineDefaultA` |
+| `public/models/rock.glb`          | `rock_smallA`       |
+| `public/models/grass.glb`         | `grass`             |
+| `public/models/mushroom.glb`      | `mushroom_red`      |
+| `public/models/logs.glb`          | `log_stack`         |
+| `public/models/oak.glb`           | `tree_oak`          |
+| `public/models/tree-round.glb`    | `tree_detailed`     |
+| `public/models/tree-small.glb`    | `tree_small`        |
+| `public/models/pine-tall.glb`     | `tree_pineTallA`    |
+| `public/models/bush.glb`          | `plant_bush`        |
+| `public/models/bush-large.glb`    | `plant_bushLarge`   |
+| `public/models/flower-red.glb`    | `flower_redA`       |
+| `public/models/flower-yellow.glb` | `flower_yellowB`    |
+| `public/models/flower-purple.glb` | `flower_purpleA`    |
+| `public/models/rock-b.glb`        | `rock_smallB`       |
+| `public/models/stone.glb`         | `stone_largeA`      |
+| `public/models/grass-large.glb`   | `grass_large`       |
+| `public/models/mushrooms.glb`     | `mushroom_tanGroup` |
+| `public/models/stump.glb`         | `stump_round`       |
+| `public/models/fence.glb`         | `fence_simple`      |
+| `public/models/path-stone.glb`    | `path_stone`        |
 
-The island, workstation and monitor are built from primitives in code, not sourced.
+The island, workstation, monitor, arcade cabinet, chest, signpost, trailhead, pack and the
+traveller are built from primitives in code, not sourced.
 
 CC0 waives the attribution requirement. Recording provenance anyway is honest and costs
 nothing.

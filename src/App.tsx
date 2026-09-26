@@ -1,6 +1,7 @@
 import { AchievementToast } from '@/components/AchievementToast'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader } from '@/components/SiteHeader'
+import { World } from '@/scene/World'
 import { About } from '@/sections/About'
 import { Contact } from '@/sections/Contact'
 import { Experience } from '@/sections/Experience'
@@ -10,7 +11,7 @@ import { Skills } from '@/sections/Skills'
 
 export default function App() {
   return (
-    <>
+    <World>
       <a
         href="#main"
         className="bg-ember-strong sr-only rounded-sm px-4 py-2 font-medium text-white focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100"
@@ -28,6 +29,6 @@ export default function App() {
       </main>
       <SiteFooter />
       <AchievementToast />
-    </>
+    </World>
   )
 }

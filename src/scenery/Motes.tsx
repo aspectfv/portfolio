@@ -2,7 +2,7 @@ import { ambientActors } from './ambient'
 import { SceneryLayer } from './SceneryLayer'
 
 /**
- * Small things adrift on a band: leaves off the meadow, dust over the sand.
+ * Small things adrift on a band: dust over the sand.
  *
  * Continuous and slow, never a burst. `docs/DESIGN.md` forbids the particle
  * that fires because something happened — that is motion as a reward and it
@@ -15,19 +15,6 @@ import { SceneryLayer } from './SceneryLayer'
  * entirely on a desktop, and the amplitude bound would mean nothing.
  */
 const variants = {
-  leaves: {
-    duration: ambientActors.leaves.duration,
-    fill: 'var(--color-world-grass-dark)',
-    shape: '0,3 3,0 6,3 3,6',
-    motes: [
-      { left: '8%', top: '62%', delay: '0s' },
-      { left: '23%', top: '34%', delay: '-4.2s' },
-      { left: '46%', top: '71%', delay: '-7.8s' },
-      { left: '68%', top: '28%', delay: '-2.1s' },
-      { left: '81%', top: '58%', delay: '-9.4s' },
-      { left: '93%', top: '40%', delay: '-5.6s' },
-    ],
-  },
   dust: {
     duration: ambientActors.motes.duration,
     fill: 'var(--color-world-sand-dark)',

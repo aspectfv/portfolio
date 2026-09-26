@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { MeshStandardMaterial } from 'three'
-import { NOTICE_HOLD } from '@/scenery/noticeReactions'
 
 /**
  * An arcade cabinet, standing beside the desk.
@@ -16,31 +15,22 @@ import { NOTICE_HOLD } from '@/scenery/noticeReactions'
  * cabinet from a different kit would arrive with different proportions and read
  * as imported.
  *
- * It is also the canvas's Notice target, and the only one: the flat world below
- * gives each band a single focal object, and the scene follows the same rule
+ * It is also the hero's Notice target, and the only one: every strip below
+ * gives its place a single focal object, and the scene follows the same rule
  * rather than lighting up every prop on it. The screen brightens while it is
- * pointed at, and a tap holds that for the same beat a tapped prop downstairs
- * gets.
+ * pointed at or the strip is tapped; the scene decides both and passes the
+ * result down.
  */
 export function ArcadeCabinet({
   position = [0, 0, 0] as [number, number, number],
   rotation = 0,
   scale = 1,
   animate = true,
+  noticed = false,
 }) {
   const screen = useRef<MeshStandardMaterial>(null)
-  const [noticed, setNoticed] = useState(false)
   /** The eased brightness, so the screen comes up and goes down rather than switching. */
   const glow = useRef(0)
-
-  // Touch has no leave event, so a tapped reaction is held for a fixed beat and
-  // then released. A pointer that leaves first ends it sooner, which is what
-  // the timer is cleaned up for.
-  useEffect(() => {
-    if (!noticed) return
-    const timer = setTimeout(() => setNoticed(false), NOTICE_HOLD)
-    return () => clearTimeout(timer)
-  }, [noticed])
 
   // The attract-mode blink: the one ambient detail on the island that is not
   // motion. Slow and low-contrast on purpose; a fast blink beside body copy is
@@ -54,14 +44,7 @@ export function ArcadeCabinet({
   })
 
   return (
-    <group
-      position={position}
-      rotation={[0, rotation, 0]}
-      scale={scale}
-      onPointerOver={() => setNoticed(true)}
-      onPointerOut={() => setNoticed(false)}
-      onPointerDown={() => setNoticed(true)}
-    >
+    <group position={position} rotation={[0, rotation, 0]} scale={scale}>
       {/* Body.
           Lifted so its underside is buried in the plinth rather than sitting
           in the plinth's own bottom plane. Every neighbour here is sized to

@@ -2,7 +2,7 @@ import { ActionLink } from '@/components/ActionLink'
 import { Icon } from '@/components/Icon'
 import { Birds } from '@/scenery/Birds'
 import { Clouds } from '@/scenery/Clouds'
-import { Stage } from '@/scene/Stage'
+import { Strip } from '@/scene/Strip'
 import { profile } from '@/content/profile'
 
 /**
@@ -60,7 +60,7 @@ export function Hero() {
           </div>
         </div>
 
-        <Stage className="aspect-square w-full" />
+        <Strip scene="hero" priority className="aspect-square w-full" />
       </div>
 
       {/* Straight-edged on purpose: a smooth bezier hill would be the one curved
