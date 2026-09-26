@@ -26,7 +26,7 @@ export const projects: readonly Project[] = [
     featured: true,
     image: {
       src: '/images/chronocritters.webp',
-      alt: 'A live battle between two trainers, each with an active critter showing its type badge, health bar, and attack and defence stats. A log down the middle records the last moves and how effective they were, and each side lists its remaining team with the fainted critters greyed out.',
+      alt: 'A battle in progress: BlueOak has sent out Searfiend, a fire critter at full health, against RedAsh and an identical Searfiend across the arena. Both benches show a knocked-out Sylvan Sentinel greyed out at zero health. The log records the hit that felled it as super effective, and the move list offers Cinder Lash for 4 damage or Ashen Brand for 1 damage plus a burn.',
     },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/chronocritters' }],
     detail: {
