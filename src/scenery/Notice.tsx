@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { NOTICE_HOLD, type NoticeName } from './noticeReactions'
 import { useAchievements } from '@/hooks/useAchievements'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
-import { useViewMode } from '@/hooks/useViewMode'
 
 /**
  * Makes one drawn object react to being pointed at or tapped.
@@ -11,9 +10,8 @@ import { useViewMode } from '@/hooks/useViewMode'
  * reason this is a component rather than another selector: a phone visitor gets
  * the same beat a desktop visitor gets, and touch has no hover to borrow.
  *
- * Under reduce and in plain view the wrapper is not rendered at all, so the
- * gate is a fact about the DOM rather than a CSS rule to be trusted. Plain view
- * already deletes the whole ornament layer; this makes the absence assertable
+ * Under reduce the wrapper is not rendered at all, so the gate is a fact about
+ * the DOM rather than a CSS rule to be trusted, and the absence is assertable
  * without a browser.
  *
  * The hit area is explicit because these objects are small — the traveller is
@@ -37,7 +35,6 @@ export function Notice({
 }) {
   const [tapped, setTapped] = useState(false)
   const reducedMotion = usePrefersReducedMotion()
-  const [viewMode] = useViewMode()
   const { unlock } = useAchievements()
 
   useEffect(() => {
@@ -46,7 +43,7 @@ export function Notice({
     return () => clearTimeout(timer)
   }, [tapped])
 
-  if (reducedMotion || viewMode === 'plain') return <>{children}</>
+  if (reducedMotion) return <>{children}</>
 
   const [x, y, width, height] = hit
 

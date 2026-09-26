@@ -547,8 +547,8 @@
 
    Hover is handled here; tap sets [data-tapped] from the Notice component,
    because touch has no hover to borrow and a phone visitor must get the same
-   beat. Under reduce and in plain view the wrapper is never rendered, so
-   neither state needs a branch below.
+   beat. Under reduce the wrapper is never rendered, so neither state needs a
+   branch below.
 
    Every reaction moves transform or opacity and nothing else, and every one of
    them finishes inside --dur-slow. */
@@ -714,16 +714,13 @@
 }
 
 /* The dark band.
-   One section in the sequence is night. It is built the same way plain view is,
-   as scoped token overrides, so no component below it learns that it is on a
-   dark band and there is nothing to keep in sync when a component changes.
+   One section in the sequence is night. It is built as scoped token overrides,
+   so no component below it learns that it is on a dark band and there is
+   nothing to keep in sync when a component changes.
 
    `color` is redeclared here as well as the token: body resolved
    var(--color-ink) once and every descendant inherits that computed value, so
    redefining the token alone would leave dark text on a dark band.
-
-   Scoped to game view rather than duplicated under plain view. The bootstrap in
-   index.html sets data-view before first paint, so this never flashes.
 
    Contrast against the band #1c2534 / cards #27344a / wells #1c2739:
      ink        14.33 / 11.66 / 13.97
@@ -734,7 +731,7 @@
    is DECORATIVE ONLY, which is the same rule and a slightly better ratio than
    the light theme's edge at 1.48:1. Nothing interactive sits on this band; if
    something ever does, its border takes ink-muted or an accent. */
-[data-view='game'] [data-band='dark'] {
+[data-band='dark'] {
   --color-canvas: #1c2739;
   --color-surface: #27344a;
   --color-sunken: #31405a;
@@ -746,51 +743,6 @@
   --color-leaf-ink: #62d6c6;
 
   color: var(--color-ink);
-}
-
-/* Plain view.
-   The visitor's escape hatch out of the game presentation, and the reason the
-   default is allowed to commit to it. Plain view is a stylesheet concern, not
-   a second component tree: game treatments are authored as ordinary classes
-   and neutralised here, so there is exactly one DOM and no chance of the two
-   views disagreeing about what content exists.
-
-   What it removes: biome bands, ribbon fills, solid edges, press physics,
-   decorative glyphs. What it must never remove: a word of content. */
-[data-view='plain'] {
-  --color-sky: var(--color-canvas);
-  --color-sky-edge: var(--color-hairline);
-  --color-meadow: var(--color-canvas);
-  --color-meadow-edge: var(--color-hairline);
-  --color-sand: var(--color-canvas);
-  --color-sand-edge: var(--color-hairline);
-  --color-dusk: var(--color-canvas);
-  --color-dusk-edge: var(--color-hairline);
-  --color-edge: var(--color-hairline);
-  --edge-sm: 1px;
-  --edge-md: 1px;
-  --edge-lg: 1px;
-  --font-display: var(--font-sans);
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.5rem;
-
-  [data-ornament] {
-    display: none;
-  }
-
-  /* A ribbon becomes an ordinary recessed title bar. The heading inherits its
-     colour from here, so neutralising the bar neutralises the label with it. */
-  [data-ribbon] {
-    background-color: var(--color-sunken);
-    border-color: var(--color-hairline);
-    color: var(--color-ink);
-  }
-
-  .press:active {
-    translate: none;
-    scale: none;
-  }
 }
 
 /* Global reduced-motion contract. Applied once, here; never per component.

@@ -44,19 +44,6 @@
       type="font/woff2"
       crossorigin
     />
-    <script>
-      // Applied before first paint so a returning visitor who chose plain view
-      // never sees a frame of the game presentation. Deliberately tiny and
-      // inline: a module import would resolve after the first paint. Defaults
-      // to game view, and any storage failure (private mode, blocked cookies)
-      // falls through to that default rather than throwing.
-      try {
-        document.documentElement.dataset.view =
-          localStorage.getItem('view-mode') === 'plain' ? 'plain' : 'game'
-      } catch {
-        document.documentElement.dataset.view = 'game'
-      }
-    </script>
   </head>
   <body>
     <div id="root"></div>

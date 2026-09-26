@@ -4,9 +4,9 @@
  * gradients. An icon library would look like an icon library pasted onto a
  * theme; these look like they came out of the same world.
  *
- * Every glyph is decorative. They are marked `data-ornament` so plain view can
- * remove them wholesale, and `aria-hidden` so they never reach the
- * accessibility tree. A glyph must never be the only carrier of a meaning.
+ * Every glyph is decorative. They are marked `data-ornament` so the whole
+ * decorative layer stays identifiable, and `aria-hidden` so they never reach
+ * the accessibility tree. A glyph must never be the only carrier of a meaning.
  */
 
 export type IconName =

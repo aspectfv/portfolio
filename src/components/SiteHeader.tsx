@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Meter } from './Meter'
-import { ViewModeToggle } from './ViewModeToggle'
 import { profile, sections } from '@/content/profile'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { useScrollProgress } from '@/hooks/useScrollProgress'
@@ -13,9 +12,9 @@ const sectionIds = sections.map((section) => section.id)
  *
  * The navigation is drawn as stations on a line. It is the same five links with
  * the same five labels, the same roles and the same `aria-current`; the line
- * and the nodes are marked as ornament, so plain view strips them back to text
- * links without touching the markup. Anything that required reading a map to
- * navigate would be the clever-navigation trap the product brief forbids.
+ * and the nodes are marked as ornament, so the decoration comes off without
+ * touching the markup. Anything that required reading a map to navigate would
+ * be the clever-navigation trap the product brief forbids.
  *
  * Everything here that reads as game UI is a restatement of something the page
  * already provides. The area readout repeats `aria-current` on the nav; the
@@ -117,10 +116,6 @@ export function SiteHeader() {
           >
             LinkedIn
           </a>
-          {/* Plain view is what licenses the game presentation to commit as hard
-              as it does, so it needs to be findable. From lg only: at md the
-              cluster beside it is already three links wide. */}
-          <ViewModeToggle className="hidden lg:inline-flex" />
         </div>
 
         <button
@@ -181,9 +176,6 @@ export function SiteHeader() {
               >
                 LinkedIn
               </a>
-            </li>
-            <li className="pt-3">
-              <ViewModeToggle />
             </li>
           </ul>
         </nav>

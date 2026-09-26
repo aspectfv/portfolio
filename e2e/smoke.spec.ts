@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 const SECTIONS = ['about', 'projects', 'skills', 'experience', 'contact'] as const
 const NAV_LABELS = ['About', 'Projects', 'Skills', 'Experience', 'Contact'] as const
@@ -148,127 +148,24 @@ test('the noscript block carries the essentials', async ({ page }) => {
   expect(noscript).toContain('mailto:josh10nathan@gmail.com')
 })
 
-/**
- * The view switch appears twice: in the header at wide widths and in the footer
- * everywhere. Both drive the same store, so a test wants whichever one is on
- * screen rather than a particular copy , the same reason the recruiter-link
- * assertions below filter on visibility instead of taking the first in the DOM.
- */
-const viewToggle = (page: Page) =>
-  page
-    .getByRole('switch', { name: /visual effects/i })
-    .filter({ visible: true })
-    .first()
-
-/**
- * The plain view is what makes committing to the game presentation safe, which
- * only holds if it is genuinely equivalent. These guard the property that
- * matters: switching presentation must never cost a visitor a word of content.
- */
-test('the view toggle switches presentation and survives a reload', async ({ page }) => {
-  await page.goto('/')
-  const toggle = viewToggle(page)
-
-  await expect(toggle).toHaveAttribute('aria-checked', 'true')
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'game')
-
-  await toggle.click()
-  await expect(toggle).toHaveAttribute('aria-checked', 'false')
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-
-  await page.reload()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-  await expect(viewToggle(page)).toHaveAttribute('aria-checked', 'false')
-})
-
-test('the toggle is reachable and operable by keyboard', async ({ page }) => {
-  await page.goto('/')
-  const toggle = viewToggle(page)
-  await toggle.focus()
-  await expect(toggle).toBeFocused()
-  await page.keyboard.press('Space')
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-})
-
-test('plain view still exposes every recruiter-critical route out of the page', async ({
-  page,
-}) => {
-  await page.goto('/')
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-
-  // At least one *visible* route to each, not the first in the DOM: the header
-  // copies are display:none below md, so on mobile the visible one is further
-  // down the page. The invariant is reachability, not position.
-  for (const selector of [
-    'a[href$="joshua-tating-resume.pdf"]',
-    'a[href*="github.com/aspectfv"]',
-    'a[href*="linkedin.com/in/joshuatating"]',
-    'a[href^="mailto:"]',
-  ]) {
-    await expect(page.locator(selector).filter({ visible: true }).first(), selector).toBeVisible()
-  }
-})
-
-test('plain view still lists every project and every section', async ({ page }) => {
-  await page.goto('/')
-  const names = await page.locator('#projects h3').allTextContents()
-  expect(names.length).toBeGreaterThan(0)
-
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-
-  expect(await page.locator('#projects h3').allTextContents()).toEqual(names)
-  for (const id of SECTIONS) {
-    await expect(page.locator(`#${id}`)).toBeVisible()
-  }
-})
-
-test('plain view drops the decoration and the canvas, not the content', async ({ page }) => {
-  await page.goto('/')
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-
-  await expect(page.locator('canvas')).toHaveCount(0)
-  // Ornaments stay in the DOM and are hidden by the stylesheet, so assert on
-  // what the visitor can actually see rather than on element count.
-  for (const ornament of await page.locator('[data-ornament]').all()) {
-    await expect(ornament).toBeHidden()
-  }
-})
-
-test('the meta-game is absent in plain view and gates nothing in either', async ({ page }) => {
+test('the meta-game gates nothing', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByText(/found along the way/i)).toBeVisible()
 
-  await viewToggle(page).click()
-  await expect(page.getByText(/found along the way/i)).toHaveCount(0)
-
   // The detail disclosure is the one thing an achievement is attached to, so it
-  // is the one that must still work with the meta-game switched off.
+  // is the one that must work regardless of what the meta-game has recorded.
   const trigger = page.locator('#projects button[aria-expanded]').first()
   await trigger.click()
   await expect(page.locator(`#${await trigger.getAttribute('aria-controls')}`)).toBeVisible()
 })
 
-test('ambient scenery stops in every condition that should stop it', async ({ page }) => {
+test('ambient scenery stops when a visitor declines motion', async ({ page }) => {
   await page.goto('/')
 
   // The gate is an attribute rather than a computed animation state on purpose:
   // it makes the decision assertable instead of requiring a test to guess
   // whether a compositor animation happens to be ticking.
   const ambient = page.locator('[data-ambient]')
-  await expect(ambient.first()).toBeAttached()
-
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-  await expect(ambient).toHaveCount(0)
-
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'game')
-  // Back to the top: on mobile the switch sits inside the menu, so toggling can
-  // leave the page scrolled past the only scenery that is on screen at rest.
-  await page.evaluate(() => window.scrollTo(0, 0))
   await expect(ambient.first()).toBeAttached()
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -306,11 +203,6 @@ test('nothing in the world notices a visitor who declined motion', async ({ page
   await page.goto('/')
   await expect(page.locator('[data-notice]').first()).toBeAttached()
 
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-  await expect(page.locator('[data-notice]')).toHaveCount(0)
-
-  await viewToggle(page).click()
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect(page.locator('[data-notice]')).toHaveCount(0)
 })
@@ -344,7 +236,7 @@ async function brightness(page: import('@playwright/test').Page, selector: strin
   })
 }
 
-test('the night band is dark in game view and flattens in plain view', async ({ page }) => {
+test('the night band is darker than the day bands around it', async ({ page }) => {
   await page.goto('/')
 
   // The mechanism under test is a scoped token override, not a component
@@ -353,14 +245,6 @@ test('the night band is dark in game view and flattens in plain view', async ({ 
   const night = await brightness(page, '#experience')
   const day = await brightness(page, '#about')
   expect(night, 'the night band must be darker than a day band').toBeLessThan(day - 60)
-
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
-
-  expect(
-    Math.abs((await brightness(page, '#experience')) - (await brightness(page, '#about'))),
-    'plain view must leave every band the same tone',
-  ).toBeLessThan(4)
 })
 
 test('no composition runs past the viewport', async ({ page }) => {
@@ -372,8 +256,5 @@ test('no composition runs past the viewport', async ({ page }) => {
   const overflow = () =>
     page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
 
-  expect(await overflow()).toBe(0)
-  await viewToggle(page).click()
-  await expect(page.locator('html')).toHaveAttribute('data-view', 'plain')
   expect(await overflow()).toBe(0)
 })

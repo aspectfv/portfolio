@@ -50,8 +50,8 @@ describe('notice on the page', () => {
 
     for (const target of targets) {
       const reaction = target.getAttribute('data-notice') ?? ''
-      // Decorative by construction: the ornament layer is what plain view
-      // deletes wholesale, and nothing inside it may say anything.
+      // Decorative by construction: everything here lives inside the ornament
+      // layer, and nothing inside it may say anything.
       expect(target.closest('[data-ornament]'), reaction).not.toBeNull()
       expect(target.textContent, reaction).toBe('')
     }
@@ -94,12 +94,6 @@ describe('notice on the page', () => {
 
   it('is absent under reduced motion', () => {
     mockMatchMedia(true)
-    const { container } = render(<App />)
-    expect(notices(container)).toHaveLength(0)
-  })
-
-  it('is absent in plain view', () => {
-    document.documentElement.dataset.view = 'plain'
     const { container } = render(<App />)
     expect(notices(container)).toHaveLength(0)
   })

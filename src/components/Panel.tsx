@@ -11,9 +11,8 @@ import { Icon, type IconName } from './Icon'
  * of every SaaS landing page, and the rivets are most of what separates the two
  * for the cost of four spans.
  *
- * All three are `data-ornament`, so plain view returns this to a plain bordered
- * card with no second declaration anywhere and nothing here learning that it
- * has two appearances.
+ * All three are `data-ornament`, so the decoration is strippable in one place
+ * and nothing here learns that it has more than one appearance.
  *
  * Depth is the solid bottom edge, never a blurred shadow.
  */

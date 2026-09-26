@@ -18,7 +18,7 @@ const labels = new Map(achievements.map((achievement) => [achievement.id, achiev
  * unlock, so nothing is lost by declining it here.
  */
 export function AchievementToast() {
-  const { unlocked, enabled } = useAchievements()
+  const { unlocked } = useAchievements()
   const reducedMotion = usePrefersReducedMotion()
   const [showing, setShowing] = useState<AchievementId | null>(null)
   const seen = useRef<ReadonlySet<AchievementId> | null>(null)
@@ -42,7 +42,7 @@ export function AchievementToast() {
     return () => clearTimeout(timer)
   }, [showing])
 
-  if (!enabled || reducedMotion) return null
+  if (reducedMotion) return null
 
   return (
     <div

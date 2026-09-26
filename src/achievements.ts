@@ -7,14 +7,14 @@
  * who never triggers one misses no content whatsoever. These acknowledge an
  * action the visitor already took; they never reward hunting for a secret.
  *
- * A module-level store rather than context or a state library: four unrelated
+ * A module-level store rather than context or a state library: several unrelated
  * components across the page write to it and two read from it, which is the
  * real shared-mutable-state case the YAGNI rule holds out for. The same
- * useSyncExternalStore shape as useViewMode.
+ * useSyncExternalStore shape as the rest of the app's external stores.
  */
 
 export type AchievementId =
-  'read-a-project' | 'copied-email' | 'found-plain-view' | 'noticed-the-world' | 'reached-end'
+  'read-a-project' | 'copied-email' | 'noticed-the-world' | 'reached-end'
 
 export interface Achievement {
   readonly id: AchievementId
@@ -24,7 +24,6 @@ export interface Achievement {
 export const achievements: readonly Achievement[] = [
   { id: 'read-a-project', label: 'Read a project in depth' },
   { id: 'copied-email', label: 'Copied the email' },
-  { id: 'found-plain-view', label: 'Found the plain view' },
   /**
    * One badge for the first reaction of any kind, never one per object. Five
    * of them would be five collectibles, which is the hunt `docs/DESIGN.md`
