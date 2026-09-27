@@ -8,7 +8,7 @@ import { Chest } from '../props/Chest'
 import { Lantern } from '../props/Lantern'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Slab } from '../props/Slab'
+import { Ground } from '../props/Ground'
 import type { SceneProps } from '../StripView'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
@@ -30,6 +30,8 @@ const palmStand = [
   { url: MODELS.palmShort, position: [3.55, 0, -0.9], scale: 0.9, rotation: -1.2 },
   { url: MODELS.palm, position: [3.0, 0, -1.8], scale: 0.8, rotation: 2.1 },
   { url: MODELS.palmShort, position: [-2.9, 0, -1.9], scale: 0.75, rotation: 1.4 },
+  { url: MODELS.palm, position: [-6.3, 0, -1.2], scale: 0.9, rotation: 2.3 },
+  { url: MODELS.palmShort, position: [6.5, 0, -0.9], scale: 0.85, rotation: -0.4 },
 ] as const
 
 /** Scatter. Every model here is one of the kit's, placed by hand on the sand. */
@@ -64,6 +66,12 @@ const still = [
   { url: MODELS.plantFlat, position: [2.55, 0, -1.55], scale: 0.9, rotation: 2.6 },
   { url: MODELS.pathStone, position: [-0.35, 0, 1.15], scale: 0.7, rotation: 0.4 },
   { url: MODELS.pathStone, position: [0.35, 0, 0.55], scale: 0.7, rotation: -0.5 },
+  { url: MODELS.rockSandB, position: [-7.5, 0, 0.6], scale: 1.5, rotation: 0.9 },
+  { url: MODELS.cactus, position: [7.3, 0, 0.4], scale: 0.9, rotation: 1.2 },
+  { url: MODELS.stoneTall, position: [5.9, 0, 1.2], scale: 0.85, rotation: 2.1 },
+  { url: MODELS.grassLeafs, position: [-5.3, 0, 1.3], scale: 0.9, rotation: 0.4 },
+  { url: MODELS.plantFlat, position: [5.2, 0, -0.5], scale: 0.9, rotation: 1.6 },
+  { url: MODELS.rockFlat, position: [-6.9, 0, 1.6], scale: 1.0, rotation: 0.7 },
 ] as const
 
 /**
@@ -75,8 +83,8 @@ const still = [
  * throws a long shadow across the sand, and the lantern is already lit
  * against the hour that is coming.
  *
- * The camp stands on the band rather than floating: a slab with squared
- * edges, not the island's tapering rock.
+ * The camp stands on the band itself: the sand of the section is the sand of
+ * the camp, and the only thing under the objects is the shadow they throw.
  */
 export function SkillsScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -104,9 +112,9 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 2.9, 7.4]}
+        position={[0.3, 3.0, 6.9]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.45, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.55, 0)}
       />
       {/* Golden hour: the key a hand above the horizon on the left, warm
           bounce off the sand in the shadows, and a thread of sky from the
@@ -127,7 +135,7 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
       <directionalLight position={[5, 3, -3]} intensity={0.35} color="#7ec4f2" />
 
       <group ref={group}>
-        <Slab size={[9, 4.4]} top="#e8cf9c" side="#c4a670" />
+        <Ground opacity={0.34} color="#6b4429" />
 
         {/* The cluster. */}
         <Bench position={[0.95, 0, 0.05]} rotation={-0.35}>

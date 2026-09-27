@@ -5,7 +5,7 @@ import { MODELS } from '../models'
 import { Lantern } from '../props/Lantern'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Slab } from '../props/Slab'
+import { Ground } from '../props/Ground'
 import { Workshop } from '../props/Workshop'
 import type { SceneProps } from '../StripView'
 import { useDiorama } from '../useDiorama'
@@ -35,6 +35,10 @@ const trees = [
   { url: MODELS.bushLarge, position: [5.9, 0, -0.1], scale: 1.3, rotation: -1.1 },
   { url: MODELS.bush, position: [3.3, 0, -1.4], scale: 1.2, rotation: 2.0 },
   { url: MODELS.hedge, position: [-5.3, 0, -1.2], scale: 1.6, rotation: 0 },
+  { url: MODELS.treeSimple, position: [-7.7, 0, -0.8], scale: 1.0, rotation: 1.9 },
+  { url: MODELS.oak, position: [7.8, 0, -1.4], scale: 0.95, rotation: 0.3 },
+  { url: MODELS.bush, position: [-7.3, 0, 1.2], scale: 1.2, rotation: 2.4 },
+  { url: MODELS.grass, position: [7.1, 0, 1.5], scale: 1.0, rotation: 0.8 },
 ] as const
 
 const yard = [
@@ -69,10 +73,10 @@ const yard = [
  * the first thing on the page lit from inside: the day is getting on and
  * somebody is still working.
  *
- * On the band rather than adrift: a workshop stands on ground. The slab is
- * wider than any viewport shows; on desktop this strip bleeds both edges, so
- * the yard runs the full width under the cards with the workshop near the
- * middle, and a phone sees the workshop and the nearest stacks.
+ * On the band rather than adrift: the yard stands on the section's own
+ * colour, with nothing under it but shadow. On desktop this strip bleeds both
+ * edges, so the yard runs the full width under the cards with the workshop
+ * near the middle, and a phone sees the workshop and the nearest stacks.
  */
 export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -85,9 +89,9 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.2, 8.4]}
+        position={[0.3, 3.2, 7.2]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.3, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.8, 0)}
       />
       <hemisphereLight args={['#7ec4f2', '#c98a4b', 1.3]} />
       <directionalLight
@@ -104,11 +108,12 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
       <directionalLight position={[-4, 2, -3]} intensity={0.4} color="#7ec4f2" />
 
       <group ref={group}>
-        <Slab size={[14, 4.6]} />
-        {/* Packed earth in front of the door, where the work happens. */}
-        <mesh position={[-0.6, 0.015, 0.9]} receiveShadow>
-          <boxGeometry args={[3.2, 0.03, 1.6]} />
-          <meshStandardMaterial color="#c4a670" flatShading roughness={1} />
+        <Ground />
+        {/* Packed earth in front of the door, where the work happens: a patch
+            worn into the band, not a floor laid on it. */}
+        <mesh position={[-0.6, 0.008, 0.9]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <circleGeometry args={[1.5, 8]} />
+          <meshStandardMaterial color="#efdcb8" flatShading roughness={1} />
         </mesh>
 
         <group ref={workshop} position={[0.4, 0, -0.5]}>

@@ -6,7 +6,7 @@ import { Brazier } from '../props/Brazier'
 import { Fireflies } from '../props/Fireflies'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Slab } from '../props/Slab'
+import { Ground, LightPool } from '../props/Ground'
 import { Standard } from '../props/Standard'
 import { Watchpost } from '../props/Watchpost'
 import type { SceneProps } from '../StripView'
@@ -32,6 +32,10 @@ const treeline = [
   { url: MODELS.coneDark, position: [3.9, 0, -1.6], scale: 1.0, rotation: -0.5 },
   { url: MODELS.pineB, position: [4.5, 0, -0.5], scale: 0.85, rotation: 0.9 },
   { url: MODELS.pineTallB, position: [-4.6, 0, 0.4], scale: 0.85, rotation: 2.6 },
+  { url: MODELS.pineTallB, position: [-6.6, 0, -1.2], scale: 1.0, rotation: 0.8 },
+  { url: MODELS.coneDark, position: [6.4, 0, -1.4], scale: 0.95, rotation: 1.9 },
+  { url: MODELS.pineB, position: [-7.7, 0, 0.2], scale: 0.85, rotation: 2.9 },
+  { url: MODELS.pineTall, position: [7.6, 0, 0.1], scale: 0.9, rotation: 0.4 },
 ] as const
 
 const camp = [
@@ -59,6 +63,10 @@ const ground = [
   { url: MODELS.grassLeafs, position: [3.6, 0, -0.7], scale: 0.9, rotation: 2.2 },
   { url: MODELS.grassLeafs, position: [0.1, 0, -1.2], scale: 0.8, rotation: 1.0 },
   { url: MODELS.grassLeafs, position: [-3.9, 0, -0.6], scale: 0.8, rotation: -0.7 },
+  { url: MODELS.stone, position: [6.9, 0, 1.0], scale: 0.9, rotation: 1.1 },
+  { url: MODELS.grassLeafs, position: [-5.7, 0, 1.4], scale: 0.9, rotation: 2.0 },
+  { url: MODELS.stumpOld, position: [5.5, 0, 1.5], scale: 0.9, rotation: 0.3 },
+  { url: MODELS.rockB, position: [-6.2, 0, 0.9], scale: 1.0, rotation: 2.4 },
 ] as const
 
 /**
@@ -82,9 +90,9 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.9, 9.4]}
+        position={[0.3, 3.6, 7.0]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.95, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 1.0, 0)}
       />
       <hemisphereLight args={['#2b3a55', '#0f1520', 0.85]} />
       {/* The moon: cool, dim, from behind and to the left, so the lit side of
@@ -102,9 +110,15 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
       />
 
       <group ref={group}>
-        <Slab size={[10.4, 4.6]} top="#3f7a3a" side="#4a3020" />
+        <Ground opacity={0.5} color="#05080f" />
+        {/* What the fire and the lantern throw onto the ground, since the
+            ground is only shadow: warm pools on the night band. */}
+        <LightPool position={[fire[0], 0, fire[2]]} radius={1.7} />
+        <LightPool position={[-1.3, 0, -0.2]} radius={0.9} color="#f7c948" opacity={0.18} />
 
-        <Watchpost position={[-1.55, 0, -0.55]} rotation={0.18} animate={active} />
+        <group position={[-1.55, 0, -0.55]} scale={0.85}>
+          <Watchpost rotation={0.18} animate={active} />
+        </group>
         <Standard position={[1.95, 0, -0.45]} rotation={-0.3} animate={active} />
         <group ref={brazier} position={[...fire]}>
           <Brazier rotation={0.4} noticed={pointedAt || noticed} animate={active} />

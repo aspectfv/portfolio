@@ -49,36 +49,35 @@ export function Skills() {
       nextBiome="dusk"
       ridge="peaks"
     >
-      {/* The camp stands on the left and bleeds to the page edge, the mirror
-          of About's shard on the right; the kit board sits beside it. */}
-      <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
-        <Strip
-          scene="skills"
-          reaction="lid"
-          className="-mx-6 h-[200px] md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:mx-0 md:-ml-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
-        />
-        <Panel title="Kit" icon="chest" tone="tide">
-          <dl className="divide-hairline divide-y-2">
-            {skillGroups.map((group) => {
-              const glyph = groupGlyphs[group.id]
-              return (
-                <div
-                  key={group.id}
-                  className="grid gap-2 py-3 first:pt-0 last:pb-0 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-start sm:gap-6 md:py-4"
-                >
-                  <dt className="font-display flex items-center gap-2 font-semibold">
-                    {glyph && <Icon name={glyph} className="size-5 shrink-0" />}
-                    {group.label}
-                  </dt>
-                  <dd>
-                    <ChipGrid items={group.items} label={group.label} />
-                  </dd>
-                </div>
-              )
-            })}
-          </dl>
-        </Panel>
-      </div>
+      <Panel title="Kit" icon="chest" tone="tide">
+        <dl className="divide-hairline divide-y-2">
+          {skillGroups.map((group) => {
+            const glyph = groupGlyphs[group.id]
+            return (
+              <div
+                key={group.id}
+                className="grid gap-2 py-3 first:pt-0 last:pb-0 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-start sm:gap-6 md:py-4"
+              >
+                <dt className="font-display flex items-center gap-2 font-semibold">
+                  {glyph && <Icon name={glyph} className="size-5 shrink-0" />}
+                  {group.label}
+                </dt>
+                <dd>
+                  <ChipGrid items={group.items} label={group.label} />
+                </dd>
+              </div>
+            )
+          })}
+        </dl>
+      </Panel>
+      {/* The camp runs the full width under the kit board, both edges bleeding,
+          standing on the sand of the band itself. Beside the board it took the
+          width the chips need. */}
+      <Strip
+        scene="skills"
+        reaction="lid"
+        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[300px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+      />
     </Section>
   )
 }

@@ -7,7 +7,6 @@ import { Dock } from '../props/Dock'
 import { Fireflies } from '../props/Fireflies'
 import { Lantern } from '../props/Lantern'
 import { Prop } from '../props/Prop'
-import { Slab } from '../props/Slab'
 import { Traveller } from '../props/Traveller'
 import { Water } from '../props/Water'
 import type { SceneProps } from '../StripView'
@@ -95,10 +94,11 @@ const glints = [
 /**
  * Contact: the dock at dusk, where the trail ends.
  *
- * The sun is already behind the far bank, so the key comes low and warm from
- * behind and the shadows fill with violet. The lantern on the end post is the
- * one warm light in the near ground and the water catches it; point at it or
- * tap the strip and it comes all the way up. The traveller sits on the deck
+ * The sun is low behind the far bank, so the key comes warm from behind and
+ * the sky band is the far shore: the water fades into it rather than ending
+ * at an edge. The lantern on the end post is the one warm light in the near
+ * ground and the water catches it; point at it or tap the strip and it comes
+ * all the way up. The traveller sits on the deck
  * edge with their feet over the water: they arrived by the boat moored beside
  * them, and this is as far as the route goes.
  *
@@ -140,12 +140,14 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
         fov={30}
         onUpdate={(camera) => camera.lookAt(0, 0.2, 0)}
       />
-      <hemisphereLight args={['#6a5a9a', '#3a4a6a', 0.9]} />
-      {/* The sun, already down behind the far bank: low, warm, from behind. */}
+      <hemisphereLight args={['#dff0fa', '#8fa7c4', 1.2]} />
+      {/* The sun, low behind the far bank: warm, from behind, on a sky that is
+          still light. The band this sits on is pale, so the evening is early
+          and the water carries the band's own blue rather than fighting it. */}
       <directionalLight
-        position={[4, 2.4, -6]}
+        position={[4, 2.6, -6]}
         intensity={1.5}
-        color="#f08a5d"
+        color="#f5b76a"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-7}
@@ -155,20 +157,31 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
       />
       {/* A little of the sky bouncing back off the water, so the near faces
           are dusk-blue rather than black. */}
-      <directionalLight position={[-3, 2, 5]} intensity={0.35} color="#7ec4f2" />
+      <directionalLight position={[-3, 2, 5]} intensity={0.45} color="#7ec4f2" />
 
       <group ref={group}>
         <Water
-          size={[22, 12]}
+          size={[30, 16]}
           position={[0, 0, 1.2]}
           actor={shimmer}
           glints={glints}
-          color="#3d8dc2"
-          glint="#f2d6c2"
+          color="#8fc3e6"
+          glint="#ffffff"
           animate={active}
         />
 
-        <Slab size={[4.6, 4.8]} top="#6fbf57" side="#7a4d31" position={[-3.5, SHORE, 0]} />
+        {/* The shore: a low faceted islet, the same family as About's shard,
+            its top a hand above the water and its rim going under it. */}
+        <group position={[-3.5, 0, 0]} scale={[1.35, 1, 1.1]}>
+          <mesh position={[0, SHORE - 0.07, 0]} receiveShadow>
+            <cylinderGeometry args={[2.3, 2.15, 0.14, 8]} />
+            <meshStandardMaterial color="#6fbf57" flatShading roughness={1} />
+          </mesh>
+          <mesh position={[0, -0.08, 0]}>
+            <cylinderGeometry args={[2.15, 1.9, 0.14, 8]} />
+            <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
+          </mesh>
+        </group>
 
         <Dock position={[-1.35, 0, 0]} length={2.8} width={1.0} height={DECK} />
 
