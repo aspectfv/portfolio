@@ -382,102 +382,19 @@
 /* Ambient scenery motion.
    Paused by construction: an animation only runs inside a subtree whose root
    carries [data-ambient], which useAmbient sets when the scenery is on screen,
-   the tab is foregrounded, motion is not reduced, and game view is on. Making
+   the tab is foregrounded, and motion is not reduced. Making
    the gate an attribute rather than a conditional class means the decision is
    visible in the DOM and can be asserted in a test.
 
    Every keyframe below moves only translate, rotate, or opacity, so the whole
-   layer stays on the compositor. */
+   layer stays on the compositor. Only the sky backdrops are drawn now; every
+   other actor lives in a view and reads its rhythm off the same roster. */
 @keyframes scenery-drift {
   from {
     translate: -1.5% 0;
   }
   to {
     translate: 1.5% 0;
-  }
-}
-
-@keyframes scenery-sway {
-  from {
-    rotate: -1.1deg;
-  }
-  to {
-    rotate: 1.1deg;
-  }
-}
-
-/* Extent is a custom property rather than a constant: how far a thing travels
-   is part of what it is. The bound is 14px and 3 degrees, and it lives in
-   src/scenery/ambient.ts where a test can assert it rather than here where it
-   could only be reviewed. */
-@keyframes scenery-bob {
-  from {
-    translate: 0 calc(var(--bob-range, 7px) * -1);
-  }
-  to {
-    translate: 0 var(--bob-range, 7px);
-  }
-}
-
-/* Paired with the bob on the same element. `translate` and `rotate` are
-   independent CSS properties, so two animations can drive one object without
-   fighting over a shared transform, and giving them durations that do not
-   divide evenly means the combined motion never visibly repeats. */
-@keyframes scenery-tilt {
-  from {
-    rotate: calc(var(--tilt-range, 1.8deg) * -1);
-  }
-  to {
-    rotate: var(--tilt-range, 1.8deg);
-  }
-}
-
-/* A mote rising and fading out. Continuous by nature: it never resolves, never
-   fires, and looks the same whether or not anybody just did something. The
-   burst is what the vocabulary forbids, not the particle. */
-@keyframes scenery-rise {
-  0% {
-    translate: 0 0;
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.85;
-  }
-  100% {
-    translate: var(--rise-drift, 3px) calc(var(--rise-range, 12px) * -1);
-    opacity: 0;
-  }
-}
-
-/* Opacity only, for a screen or a shimmer on water. Distinct from the flicker
-   below, which also scales: a lit rectangle that changes size is a rectangle
-   that is moving, and a screen does not move. */
-@keyframes scenery-blink {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  40% {
-    opacity: 1;
-  }
-  60% {
-    opacity: 0.8;
-  }
-}
-
-@keyframes scenery-flicker {
-  0%,
-  100% {
-    opacity: 0.85;
-    scale: 1;
-  }
-  45% {
-    opacity: 1;
-    scale: 1.06;
-  }
-  70% {
-    opacity: 0.72;
-    scale: 0.97;
   }
 }
 
@@ -499,144 +416,6 @@
 .ambient-drift {
   animation-name: scenery-drift;
   animation-duration: 34s;
-}
-
-.ambient-sway {
-  transform-box: fill-box;
-  animation-name: scenery-sway;
-  animation-duration: 7s;
-  transform-origin: bottom center;
-}
-
-/* A floating object: rising and falling while tipping slowly, the flat
-   equivalent of the idle the hero island runs in the canvas. One island uses
-   this now rather than five, so the duration comes from the caller instead of
-   from a pair of custom properties that existed to keep five of them apart. */
-.ambient-float {
-  /* Without fill-box an SVG group rotates about the viewBox origin, which
-     swings the shard across the page rather than tipping it in place. */
-  transform-box: fill-box;
-  transform-origin: center;
-  animation-name: scenery-bob, scenery-tilt;
-}
-
-.ambient-rise {
-  transform-box: fill-box;
-  animation-name: scenery-rise;
-  animation-direction: normal;
-  animation-timing-function: linear;
-}
-
-.ambient-blink {
-  animation-name: scenery-blink;
-  animation-direction: normal;
-}
-
-.ambient-flicker {
-  transform-box: fill-box;
-  animation-name: scenery-flicker;
-  animation-duration: 2.6s;
-  animation-direction: normal;
-  transform-origin: bottom center;
-}
-
-/* Notice.
-   A scenery object reacting once to being pointed at or tapped, then returning
-   to rest. Response family, not ambient: it is triggered, it resolves, and it
-   consumes no slot from the three-actors-per-band cap.
-
-   Hover is handled here; tap sets [data-tapped] from the Notice component,
-   because touch has no hover to borrow and a phone visitor must get the same
-   beat. Under reduce the wrapper is never rendered, so neither state needs a
-   branch below.
-
-   Every reaction moves transform or opacity and nothing else, and every one of
-   them finishes inside --dur-slow. */
-.notice {
-  /* The scenery layer is pointer-events-none so decoration can never intercept
-     a click meant for the page. A focal object opts back in. */
-  pointer-events: auto;
-}
-
-/* Lights hold while pointed at: a screen that goes dark under the cursor reads
-   as broken. Drawn as a separate pane fading in rather than as a change to the
-   lit shape itself, so a light with an ambient blink on it keeps its blink. */
-.notice-glow {
-  opacity: 0;
-  transition: opacity var(--dur-slow) var(--ease-standard);
-}
-
-.notice:hover .notice-glow,
-.notice[data-tapped] .notice-glow {
-  /* A bloom, not a second light. At full strength the pane reads as a flat
-     block of colour laid over the object it is supposed to be coming off. */
-  opacity: 0.55;
-}
-
-/* A flame growing. `scale` on this group and `scale` inside the flicker below
-   it are independent properties on different elements, so the flare composes
-   with the idle instead of fighting it. */
-.notice-flare {
-  transform-box: fill-box;
-  transform-origin: bottom center;
-  transition: scale var(--dur-slow) var(--ease-out-soft);
-}
-
-.notice:hover .notice-flare,
-.notice[data-tapped] .notice-flare {
-  scale: 1.22;
-}
-
-/* Gestures are one-shot: they play through and end at rest whether or not the
-   pointer is still there. */
-.notice:hover .notice-wave,
-.notice[data-tapped] .notice-wave {
-  animation: notice-wave var(--dur-slow) var(--ease-standard) both;
-}
-
-.notice-wave {
-  transform-box: fill-box;
-  /* The shoulder joint: the top corner where the arm meets the body. About the
-     arm's own top centre it swings free of the shoulder and reads as a stick
-     thrown in the air. */
-  transform-origin: right top;
-}
-
-@keyframes notice-wave {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-  30% {
-    rotate: 138deg;
-  }
-  45% {
-    rotate: 116deg;
-  }
-  65% {
-    rotate: 138deg;
-  }
-}
-
-.notice:hover .notice-lid,
-.notice[data-tapped] .notice-lid {
-  animation: notice-lid var(--dur-slow) var(--ease-overshoot) both;
-}
-
-.notice-lid {
-  transform-box: fill-box;
-  /* The hinge is at the back of the chest, so the front edge is what rises. */
-  transform-origin: right center;
-}
-
-@keyframes notice-lid {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-  45% {
-    rotate: -16deg;
-  }
 }
 
 @utility toast-life {

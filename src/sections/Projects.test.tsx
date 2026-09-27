@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { FeaturedProject } from '@/components/FeaturedProject'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Projects } from '@/sections/Projects'
+import { World } from '@/scene/World'
 import { additionalProjects, featuredProject, projects } from '@/content/projects'
 import type { Project } from '@/content/types'
 
@@ -10,7 +11,11 @@ const flagship = featuredProject!
 
 describe('flagship selection', () => {
   it('features whichever project carries the flag', () => {
-    render(<Projects />)
+    render(
+      <World>
+        <Projects />
+      </World>,
+    )
     const featuredArticle = screen.getByText('Featured Project').closest('article')!
     expect(within(featuredArticle).getByRole('heading', { name: flagship.name })).toBeVisible()
   })
@@ -30,7 +35,11 @@ describe('flagship selection', () => {
   )
 
   it('renders every non-flagship project as a card, and none of them twice', () => {
-    render(<Projects />)
+    render(
+      <World>
+        <Projects />
+      </World>,
+    )
     for (const project of additionalProjects) {
       expect(screen.getAllByRole('heading', { name: project.name })).toHaveLength(1)
     }
@@ -59,7 +68,11 @@ describe('staggered arrival', () => {
       },
     )
 
-    const { container } = render(<Projects />)
+    const { container } = render(
+      <World>
+        <Projects />
+      </World>,
+    )
     const grid = container.querySelector('[data-stagger]')!
     expect(observed).toContain(grid)
     vi.unstubAllGlobals()

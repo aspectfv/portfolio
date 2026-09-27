@@ -2,7 +2,11 @@ import { View } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useRef, type RefObject } from 'react'
 import { AboutScene } from './scenes/AboutScene'
+import { ContactScene } from './scenes/ContactScene'
+import { ExperienceScene } from './scenes/ExperienceScene'
 import { HeroScene } from './scenes/HeroScene'
+import { ProjectsScene } from './scenes/ProjectsScene'
+import { SkillsScene } from './scenes/SkillsScene'
 import type { SceneName } from './stills'
 
 export type SceneProps = {
@@ -23,6 +27,10 @@ export type SceneProps = {
 const scenes: Record<SceneName, (props: SceneProps) => React.JSX.Element> = {
   hero: HeroScene,
   about: AboutScene,
+  projects: ProjectsScene,
+  skills: SkillsScene,
+  experience: ExperienceScene,
+  contact: ContactScene,
 }
 
 /**

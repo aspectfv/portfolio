@@ -1,8 +1,7 @@
 import { FeaturedProject } from '@/components/FeaturedProject'
-import { SceneryProp } from '@/scenery/SceneryProp'
-import { Workshop } from '@/scenery/props/Workshop'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Section } from '@/components/Section'
+import { Strip } from '@/scene/Strip'
 import { sections } from '@/content/profile'
 import { useReveal } from '@/hooks/useReveal'
 import { additionalProjects, featuredProject } from '@/content/projects'
@@ -24,23 +23,19 @@ export function Projects() {
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
-      {/* The workshop is a cell of the card grid rather than a row beneath it.
-          An odd number of cards leaves a hole in the last row, and a prop
-          standing in it costs no height at all; an even number simply puts it
-          on a row of its own, which is where it would have gone anyway. */}
       <div ref={grid} data-stagger="" className="grid gap-6 md:grid-cols-2">
         {additionalProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
-
-        <SceneryProp
-          viewBox="0 0 140 120"
-          size="w-28 md:w-64"
-          className="flex items-center justify-center"
-        >
-          <Workshop />
-        </SceneryProp>
       </div>
+      {/* The yard runs the full width under the cards, both edges bleeding:
+          this is the one section whose content already fills the column, so
+          the place sits below it rather than beside it. */}
+      <Strip
+        scene="projects"
+        reaction="screen"
+        className="mt-12 -mx-6 h-[200px] md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:mt-16 md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+      />
     </Section>
   )
 }

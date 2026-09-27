@@ -14,10 +14,9 @@ import type { Biome } from '@/components/Section'
  * A uniform reaction on every prop gives fifteen things that all wobble, which
  * is a page you poke at rather than one you read.
  *
- * Notice is **not an ambient actor** and consumes no slot from the
- * three-per-band cap. That is what lets the dock lantern react at all: it is
- * drawn lit but still, because the sky band's slots are spent on the clouds,
- * the birds and the shimmer.
+ * Notice is **not an ambient actor** and consumes no slot from the per-strip
+ * cap. A reaction is triggered and resolves; an actor loops. Counted apart, so
+ * a strip at its cap can still acknowledge a visitor.
  */
 
 export type NoticeReaction = {
@@ -49,6 +48,6 @@ export type NoticeName = keyof typeof noticeReactions
 /**
  * How long a tapped reaction is held before it returns to rest, in ms. Inside
  * the one second `docs/DESIGN.md` allows, and long enough that a one-shot
- * gesture finishes before the class is pulled out from under it.
+ * gesture finishes before the strip lets go of it.
  */
 export const NOTICE_HOLD = 900

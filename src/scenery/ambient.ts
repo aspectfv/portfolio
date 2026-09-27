@@ -47,7 +47,7 @@ export const ambientActors = {
   heroIsland: { strip: 'hero', duration: '10.5s', travel: 8, rotation: 2.9 },
   heroScreen: { strip: 'hero', duration: '3.9s', travel: 0, rotation: 0 },
 
-  /** About. */
+  /** About. Late morning on the shard. */
   aboutShard: { strip: 'about', duration: '9s', travel: 4, rotation: 2 },
   aboutFoliage: { strip: 'about', duration: '7s', travel: 0, rotation: 1.2 },
   aboutGrass: { strip: 'about', duration: '4.6s', travel: 0, rotation: 2.4 },
@@ -56,20 +56,37 @@ export const ambientActors = {
   aboutAdrift: { strip: 'about', duration: '13s', travel: 8, rotation: 0 },
   aboutButterflies: { strip: 'about', duration: '17s', travel: 6, rotation: 0 },
 
-  /** Projects. Still drawn; these rows move into the view when its strip lands. */
-  banner: { strip: 'projects', duration: '5.5s', travel: 0, rotation: 2.4 },
-  screen: { strip: 'projects', duration: '4.6s', travel: 0, rotation: 0 },
+  /** Projects. Afternoon in the workshop yard. */
+  projectsBanner: { strip: 'projects', duration: '5.5s', travel: 0, rotation: 2.4 },
+  projectsWindow: { strip: 'projects', duration: '4.6s', travel: 0, rotation: 0 },
+  projectsSmoke: { strip: 'projects', duration: '8.5s', travel: 13, rotation: 0 },
+  projectsSawdust: { strip: 'projects', duration: '11s', travel: 10, rotation: 0 },
+  projectsLantern: { strip: 'projects', duration: '3.7s', travel: 0, rotation: 0 },
+  projectsSign: { strip: 'projects', duration: '6.3s', travel: 0, rotation: 2 },
 
-  /** Skills. */
-  motes: { strip: 'skills', duration: '13s', travel: 12, rotation: 0 },
-  lantern: { strip: 'skills', duration: '4.2s', travel: 0, rotation: 0 },
+  /** Skills. Golden hour at the work camp. */
+  skillsLantern: { strip: 'skills', duration: '4.2s', travel: 0, rotation: 0 },
+  skillsDust: { strip: 'skills', duration: '13s', travel: 12, rotation: 0 },
+  skillsPalms: { strip: 'skills', duration: '7.6s', travel: 0, rotation: 1.4 },
+  skillsCanvas: { strip: 'skills', duration: '5.1s', travel: 0, rotation: 2.2 },
+  skillsPennant: { strip: 'skills', duration: '4.4s', travel: 0, rotation: 2.6 },
+  skillsSteam: { strip: 'skills', duration: '6.6s', travel: 10, rotation: 0 },
 
-  /** Experience. */
-  brazier: { strip: 'experience', duration: '3.2s', travel: 0, rotation: 0 },
-  embers: { strip: 'experience', duration: '7.4s', travel: 13, rotation: 0 },
+  /** Experience. Night at the outpost. */
+  experienceFlame: { strip: 'experience', duration: '3.2s', travel: 0, rotation: 0 },
+  experienceEmbers: { strip: 'experience', duration: '7.4s', travel: 13, rotation: 0 },
+  experienceSmoke: { strip: 'experience', duration: '9.6s', travel: 12, rotation: 0 },
+  experienceStandard: { strip: 'experience', duration: '6.1s', travel: 0, rotation: 2.5 },
+  experienceFireflies: { strip: 'experience', duration: '15s', travel: 6, rotation: 0 },
+  experienceLantern: { strip: 'experience', duration: '4.8s', travel: 0, rotation: 0 },
 
-  /** Contact. The clouds drift here too until this strip lands and the sky turns to dusk. */
-  shimmer: { strip: 'contact', duration: '3.8s', travel: 0, rotation: 0 },
+  /** Contact. Dusk over the water. */
+  contactShimmer: { strip: 'contact', duration: '3.8s', travel: 0, rotation: 0 },
+  contactBoat: { strip: 'contact', duration: '6.4s', travel: 5, rotation: 1.5 },
+  contactLantern: { strip: 'contact', duration: '4.5s', travel: 0, rotation: 0 },
+  contactReeds: { strip: 'contact', duration: '5.8s', travel: 0, rotation: 2 },
+  contactFireflies: { strip: 'contact', duration: '17s', travel: 6, rotation: 0 },
+  contactBuoy: { strip: 'contact', duration: '7.7s', travel: 6, rotation: 0 },
 } as const satisfies Record<string, AmbientActor>
 
 export type AmbientActorName = keyof typeof ambientActors

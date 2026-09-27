@@ -1,8 +1,7 @@
 import { ChipList } from '@/components/Chip'
-import { SceneryProp } from '@/scenery/SceneryProp'
-import { Outpost } from '@/scenery/props/Outpost'
 import { Icon } from '@/components/Icon'
 import { Section } from '@/components/Section'
+import { Strip } from '@/scene/Strip'
 import { sections } from '@/content/profile'
 import { useReveal } from '@/hooks/useReveal'
 import { education, experience } from '@/content/experience'
@@ -77,70 +76,71 @@ export function Experience() {
       nextBiome="sky"
       ridge="hills"
     >
-      <div className="border-edge max-w-3xl border-l-2 pl-7">
-        <TrackHeading>Work</TrackHeading>
-        <ol ref={work} data-stagger="" className="space-y-5">
-          {experience.map((entry) => (
-            <Station key={entry.id}>
-              <div className="flex items-start gap-3">
-                <span
-                  data-ornament=""
-                  className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
-                >
-                  <Icon name="hammer" className="size-5" />
-                </span>
-                <div>
-                  <h4 className="text-card font-display font-semibold">{entry.role}</h4>
-                  <p className="text-ember-ink font-medium">{entry.company}</p>
+      {/* The outpost keeps watch beside the route, bleeding to the right edge
+          and staying at the top while the two tracks run on below it. */}
+      <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start md:gap-12">
+        <Strip
+          scene="experience"
+          reaction="flare"
+          className="-mx-6 h-[200px] md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:order-last md:mx-0 md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        />
+        <div className="border-edge max-w-3xl border-l-2 pl-7">
+          <TrackHeading>Work</TrackHeading>
+          <ol ref={work} data-stagger="" className="space-y-5">
+            {experience.map((entry) => (
+              <Station key={entry.id}>
+                <div className="flex items-start gap-3">
+                  <span
+                    data-ornament=""
+                    className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+                  >
+                    <Icon name="hammer" className="size-5" />
+                  </span>
+                  <div>
+                    <h4 className="text-card font-display font-semibold">{entry.role}</h4>
+                    <p className="text-ember-ink font-medium">{entry.company}</p>
+                  </div>
                 </div>
-              </div>
-              <p className="text-meta text-ink-muted mt-2">
-                {entry.period} · {entry.location}
-              </p>
-              <p className="prose-measure mt-3">{entry.summary}</p>
-              <div className="mt-4">
-                <ChipList items={entry.stack} label={`${entry.company} stack`} />
-              </div>
-            </Station>
-          ))}
-        </ol>
+                <p className="text-meta text-ink-muted mt-2">
+                  {entry.period} · {entry.location}
+                </p>
+                <p className="prose-measure mt-3">{entry.summary}</p>
+                <div className="mt-4">
+                  <ChipList items={entry.stack} label={`${entry.company} stack`} />
+                </div>
+              </Station>
+            ))}
+          </ol>
 
-        <TrackHeading className="mt-10">Education</TrackHeading>
-        <ol ref={study} data-stagger="" className="space-y-5">
-          {education.map((entry) => (
-            <Station key={entry.id}>
-              <div className="flex items-start gap-3">
-                <span
-                  data-ornament=""
-                  className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
-                >
-                  <Icon name="scroll" className="size-5" />
-                </span>
-                <div>
-                  <h4 className="text-card font-display font-semibold">{entry.institution}</h4>
-                  <p className="text-leaf-ink font-medium">{entry.qualification}</p>
+          <TrackHeading className="mt-10">Education</TrackHeading>
+          <ol ref={study} data-stagger="" className="space-y-5">
+            {education.map((entry) => (
+              <Station key={entry.id}>
+                <div className="flex items-start gap-3">
+                  <span
+                    data-ornament=""
+                    className="bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+                  >
+                    <Icon name="scroll" className="size-5" />
+                  </span>
+                  <div>
+                    <h4 className="text-card font-display font-semibold">{entry.institution}</h4>
+                    <p className="text-leaf-ink font-medium">{entry.qualification}</p>
+                  </div>
                 </div>
-              </div>
-              <p className="text-meta text-ink-muted mt-2">
-                {entry.period} · {entry.location}
-              </p>
-              <ul className="prose-measure mt-3 list-disc space-y-1 pl-5">
-                {entry.highlights.map((highlight) => (
-                  <li key={highlight}>{highlight}</li>
-                ))}
-              </ul>
-            </Station>
-          ))}
-        </ol>
+                <p className="text-meta text-ink-muted mt-2">
+                  {entry.period} · {entry.location}
+                </p>
+                <ul className="prose-measure mt-3 list-disc space-y-1 pl-5">
+                  {entry.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              </Station>
+            ))}
+          </ol>
+        </div>
       </div>
-
-      <SceneryProp
-        viewBox="0 0 120 112"
-        size="w-28 md:w-52"
-        className="mt-6 flex justify-center md:mt-10 md:justify-end"
-      >
-        <Outpost />
-      </SceneryProp>
     </Section>
   )
 }

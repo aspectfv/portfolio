@@ -29,9 +29,13 @@ mkdir -p "$OUT_DIR"
 # KHR_mesh_quantization is native to three and costs nothing to decode.
 # --simplify is off: these are already low-poly, and decimation ruins the
 # faceted silhouette the art direction depends on.
+# --texture-size 128: the only textures any kit here ships are flat colour
+# palettes sampled at cell centres, so a 512px atlas per model is 512px of
+# nothing; 128 keeps every cell intact and the file a fraction of the size.
 pnpm exec gltf-transform optimize "$SRC" "$OUT" \
   --compress quantize \
   --texture-compress webp \
+  --texture-size 128 \
   --simplify false
 
 BEFORE=$(wc -c < "$SRC" | tr -d ' ')

@@ -5,8 +5,8 @@ import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Butterflies } from '../props/Butterflies'
 import { Island } from '../props/Island'
-import { Leaves } from '../props/Leaves'
 import { Prop } from '../props/Prop'
+import { Rise } from '../props/Rise'
 import { Trailhead } from '../props/Trailhead'
 import { Traveller } from '../props/Traveller'
 import type { SceneProps } from '../StripView'
@@ -18,6 +18,7 @@ const shard = ambientActors.aboutShard
 const foliage = ambientActors.aboutFoliage
 const grass = ambientActors.aboutGrass
 const adrift = ambientActors.aboutAdrift
+const leaves = ambientActors.aboutLeaves
 
 /** Pixels per world unit at the ground, at the desktop capture. */
 const PX = 75
@@ -148,7 +149,23 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
           <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
         ))}
 
-        <Leaves animate={active} />
+        <Rise
+          actor={leaves}
+          px={PX}
+          size={0.09}
+          color="#4e9c41"
+          animate={active}
+          spots={[
+            [-3.1, 0.5, 0.2],
+            [-2.0, 0.9, 0.9],
+            [-0.9, 0.7, -0.8],
+            [0.3, 1.1, 0.6],
+            [1.4, 0.6, 1.0],
+            [2.3, 1.0, -0.5],
+            [3.2, 0.7, 0.4],
+            [-1.4, 1.3, 1.3],
+          ]}
+        />
         <Butterflies animate={active} />
 
         <ContactShadows
