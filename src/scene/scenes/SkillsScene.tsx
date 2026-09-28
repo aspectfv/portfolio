@@ -93,7 +93,6 @@ const still = [
   { url: MODELS.grassLeafs, position: [1.0, 0, 1.6], scale: 1.0, rotation: 0.6 },
   { url: MODELS.grassLeafs, position: [-1.9, 0, 1.4], scale: 0.9, rotation: 2.2 },
   { url: MODELS.plantFlat, position: [2.7, duneHeight(2.7, 1.3), 1.3], scale: 0.9, rotation: 2.6 },
-  { url: MODELS.pathStone, position: [-0.35, 0, 1.45], scale: 0.7, rotation: 0.4 },
 ] as const
 
 /**

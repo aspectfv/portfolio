@@ -54,18 +54,19 @@ export function Stream({
           <meshStandardMaterial color="#a06a34" flatShading roughness={1} />
         </mesh>
       ))}
-      {/* The trench and the water in it */}
-      <mesh position={[0, -0.04, 0]}>
+      {/* The trench and the water in it, their tops a hair above the plateau:
+          flush with it, the ground and the water flicker through each other. */}
+      <mesh position={[0, -0.025, 0]}>
         <boxGeometry args={[length, 0.08, width]} />
         <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
       </mesh>
-      <mesh position={[0, -0.03, 0]} receiveShadow>
+      <mesh position={[0, -0.01, 0]} receiveShadow>
         <boxGeometry args={[length - 0.02, 0.06, width - 0.06]} />
         <meshStandardMaterial color="#8fc3e6" flatShading roughness={0.6} />
       </mesh>
       <group ref={group}>
         {glints.map((x) => (
-          <mesh key={x} position={[x, 0.004, (x % 0.7) * 0.4]} rotation={[-Math.PI / 2, 0, 0]}>
+          <mesh key={x} position={[x, 0.026, (x % 0.7) * 0.4]} rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[0.2, 0.03]} />
             <meshStandardMaterial
               color="#ffffff"
