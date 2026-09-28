@@ -4,9 +4,9 @@ import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Brazier } from '../props/Brazier'
 import { Fireflies } from '../props/Fireflies'
+import { Plateau } from '../props/Plateau'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Ground, LightPool } from '../props/Ground'
 import { Standard } from '../props/Standard'
 import { Watchpost } from '../props/Watchpost'
 import type { SceneProps } from '../StripView'
@@ -19,54 +19,37 @@ const smoke = ambientActors.experienceSmoke
 const fireflies = ambientActors.experienceFireflies
 
 /** Pixels per world unit at the ground, at the desktop capture. */
-const PX = 75
+const PX = 85
 
 /** Where the fire stands; the embers and the smoke rise from the same spot. */
-const fire = [0.75, 0, 0.55] as const
+const fire = [0.7, 0, 0.5] as const
 
-/** Scatter. Every model here is one of the kit's, placed by hand on the ground. */
+/** The outpost, gathered around the fire. Survival pieces at 1.2 to 1.4x. */
 const treeline = [
-  { url: MODELS.pineTallB, position: [-4.3, 0, -1.5], scale: 1.0, rotation: 0.4 },
-  { url: MODELS.coneDark, position: [-3.1, 0, -1.9], scale: 0.9, rotation: 1.3 },
-  { url: MODELS.pineTall, position: [2.9, 0, -1.95], scale: 0.9, rotation: 2.2 },
-  { url: MODELS.coneDark, position: [3.9, 0, -1.6], scale: 1.0, rotation: -0.5 },
-  { url: MODELS.pineB, position: [4.5, 0, -0.5], scale: 0.85, rotation: 0.9 },
-  { url: MODELS.pineTallB, position: [-4.6, 0, 0.4], scale: 0.85, rotation: 2.6 },
-  { url: MODELS.pineTallB, position: [-6.6, 0, -1.2], scale: 1.0, rotation: 0.8 },
-  { url: MODELS.coneDark, position: [6.4, 0, -1.4], scale: 0.95, rotation: 1.9 },
-  { url: MODELS.pineB, position: [-7.7, 0, 0.2], scale: 0.85, rotation: 2.9 },
-  { url: MODELS.pineTall, position: [7.6, 0, 0.1], scale: 0.9, rotation: 0.4 },
+  { url: MODELS.pineTallB, position: [-2.7, 0, -1.4], scale: 0.95, rotation: 0.4 },
+  { url: MODELS.coneDark, position: [-1.9, 0, -1.9], scale: 0.85, rotation: 1.3 },
+  { url: MODELS.pineTall, position: [2.3, 0, -1.8], scale: 0.9, rotation: 2.2 },
+  { url: MODELS.coneDark, position: [2.9, 0, -1.1], scale: 0.9, rotation: -0.5 },
+  { url: MODELS.pineB, position: [2.85, 0, 0.35], scale: 0.75, rotation: 0.9 },
 ] as const
 
 const camp = [
-  { url: MODELS.tentCanvas, position: [-3.35, 0, 0.35], scale: 1.4, rotation: 0.55 },
-  { url: MODELS.bedroll, position: [-2.45, 0, 1.05], scale: 1.3, rotation: -0.4 },
-  { url: MODELS.box, position: [-2.85, 0, -0.85], scale: 1.2, rotation: 0.3 },
-  { url: MODELS.barrel, position: [-2.25, 0, -1.15], scale: 1.2, rotation: 1.1 },
+  { url: MODELS.tentCanvas, position: [-2.35, 0, 0.35], scale: 1.3, rotation: 0.55 },
+  { url: MODELS.bedroll, position: [-1.6, 0, 1.05], scale: 1.2, rotation: -0.4 },
+  { url: MODELS.box, position: [-2.15, 0, -0.75], scale: 1.2, rotation: 0.3 },
+  { url: MODELS.barrel, position: [-1.7, 0, -1.1], scale: 1.2, rotation: 1.1 },
   { url: MODELS.bucket, position: [1.35, 0, 1.15], scale: 1.2, rotation: 0.8 },
-  { url: MODELS.log, position: [-0.45, 0, 1.3], scale: 0.7, rotation: 0.25 },
-  { url: MODELS.treeLog, position: [1.85, 0, 1.4], scale: 1.2, rotation: -1.2 },
-  { url: MODELS.signpostSingle, position: [3.35, 0, 0.9], scale: 1.3, rotation: -0.35 },
-  { url: MODELS.fenceFortified, position: [-0.9, 0, -1.75], scale: 1.3, rotation: 0.08 },
-  { url: MODELS.fenceFortified, position: [0.7, 0, -1.8], scale: 1.3, rotation: -0.06 },
-  { url: MODELS.fenceFortified, position: [2.2, 0, -1.65], scale: 1.3, rotation: 0.35 },
-] as const
-
-const ground = [
-  { url: MODELS.stoneTall, position: [3.0, 0, 0.15], scale: 0.8, rotation: 0.6 },
+  { url: MODELS.log, position: [-0.45, 0, 1.35], scale: 0.7, rotation: 0.25 },
+  { url: MODELS.treeLog, position: [1.95, 0, 1.25], scale: 1.2, rotation: -1.2 },
+  { url: MODELS.signpostSingle, position: [2.6, 0, 0.9], scale: 1.3, rotation: -0.35 },
+  { url: MODELS.fenceFortified, position: [-0.6, 0, -1.65], scale: 1.2, rotation: 0.08 },
+  { url: MODELS.fenceFortified, position: [0.85, 0, -1.7], scale: 1.2, rotation: -0.06 },
+  { url: MODELS.stoneTall, position: [2.35, 0, -0.35], scale: 0.8, rotation: 0.6 },
   { url: MODELS.stone, position: [-0.25, 0, 1.75], scale: 0.7, rotation: 1.9 },
-  { url: MODELS.rockB, position: [2.35, 0, 1.6], scale: 1.0, rotation: 0.7 },
-  { url: MODELS.stone, position: [-4.35, 0, 1.4], scale: 0.9, rotation: 2.8 },
-  { url: MODELS.stumpOld, position: [-1.15, 0, 1.85], scale: 0.9, rotation: 1.3 },
-  { url: MODELS.mushrooms, position: [4.0, 0, 1.55], scale: 0.9, rotation: 0.6 },
-  { url: MODELS.grassLeafs, position: [-1.9, 0, 1.6], scale: 0.9, rotation: 0.5 },
-  { url: MODELS.grassLeafs, position: [3.6, 0, -0.7], scale: 0.9, rotation: 2.2 },
+  { url: MODELS.rockB, position: [2.15, 0, 1.75], scale: 1.0, rotation: 0.7 },
+  { url: MODELS.stumpOld, position: [-1.05, 0, 1.85], scale: 0.9, rotation: 1.3 },
+  { url: MODELS.grassLeafs, position: [-2.7, 0, 1.3], scale: 0.9, rotation: 0.5 },
   { url: MODELS.grassLeafs, position: [0.1, 0, -1.2], scale: 0.8, rotation: 1.0 },
-  { url: MODELS.grassLeafs, position: [-3.9, 0, -0.6], scale: 0.8, rotation: -0.7 },
-  { url: MODELS.stone, position: [6.9, 0, 1.0], scale: 0.9, rotation: 1.1 },
-  { url: MODELS.grassLeafs, position: [-5.7, 0, 1.4], scale: 0.9, rotation: 2.0 },
-  { url: MODELS.stumpOld, position: [5.5, 0, 1.5], scale: 0.9, rotation: 0.3 },
-  { url: MODELS.rockB, position: [-6.2, 0, 0.9], scale: 1.0, rotation: 2.4 },
 ] as const
 
 /**
@@ -76,6 +59,10 @@ const ground = [
  * sky gives; the brazier and the watchpost's lantern are the lights, and the
  * ground, the tower and the standard are seen by them. That is what makes the
  * night band a night rather than a dark daytime.
+ *
+ * One object: a crag in the band's own blue-black, the tower at its back, the
+ * fire at its front. The plateau top is what the fire lights, so the pool of
+ * warmth on the ground is the light itself and not a disc painted under it.
  *
  * The watchpost is the marker: tall and narrow, somewhere you were posted.
  * The brazier is the focal object and the strip's Notice, held: point at it
@@ -90,9 +77,9 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.6, 7.0]}
+        position={[0.3, 3.5, 7.0]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 1.0, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.95, 0)}
       />
       <hemisphereLight args={['#2b3a55', '#0f1520', 0.85]} />
       {/* The moon: cool, dim, from behind and to the left, so the lit side of
@@ -103,23 +90,19 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
         color="#7ec4f2"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-6}
-        shadow-camera-right={6}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
         shadow-camera-top={5}
         shadow-camera-bottom={-4}
       />
 
       <group ref={group}>
-        <Ground opacity={0.5} color="#05080f" />
-        {/* What the fire and the lantern throw onto the ground, since the
-            ground is only shadow: warm pools on the night band. */}
-        <LightPool position={[fire[0], 0, fire[2]]} radius={1.7} />
-        <LightPool position={[-1.3, 0, -0.2]} radius={0.9} color="#f7c948" opacity={0.18} />
+        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#27344a" rim="#141c2b" rotation={0.4} />
 
-        <group position={[-1.55, 0, -0.55]} scale={0.85}>
+        <group position={[-1.35, 0, -0.5]} scale={0.8}>
           <Watchpost rotation={0.18} animate={active} />
         </group>
-        <Standard position={[1.95, 0, -0.45]} rotation={-0.3} animate={active} />
+        <Standard position={[1.85, 0, -0.55]} rotation={-0.3} height={2.4} animate={active} />
         <group ref={brazier} position={[...fire]}>
           <Brazier rotation={0.4} noticed={pointedAt || noticed} animate={active} />
         </group>
@@ -128,9 +111,6 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
           <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
         ))}
         {camp.map((prop) => (
-          <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
-        ))}
-        {ground.map((prop) => (
           <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
         ))}
 
@@ -171,20 +151,19 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
           px={PX}
           animate={active}
           spots={[
-            [-3.9, 0.55, 1.2],
-            [-2.6, 0.4, 1.7],
-            [-0.8, 0.7, 1.55],
-            [2.6, 0.45, 1.3],
-            [3.7, 0.65, 0.5],
-            [4.1, 0.35, 1.7],
-            [-3.6, 0.8, -1.0],
+            [-2.6, 0.55, 1.1],
+            [-1.4, 0.4, 1.6],
+            [-0.6, 0.7, 1.4],
+            [1.9, 0.45, 1.5],
+            [2.7, 0.65, 0.3],
+            [-2.4, 0.8, -0.9],
           ]}
         />
 
         <ContactShadows
           position={[0, 0.005, 0]}
-          opacity={0.55}
-          scale={12}
+          opacity={0.5}
+          scale={7}
           blur={2.0}
           far={3}
           resolution={512}

@@ -6,9 +6,9 @@ import { MODELS } from '../models'
 import { Bench } from '../props/Bench'
 import { Chest } from '../props/Chest'
 import { Lantern } from '../props/Lantern'
+import { Plateau } from '../props/Plateau'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Ground } from '../props/Ground'
 import type { SceneProps } from '../StripView'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
@@ -22,56 +22,35 @@ const pennant = ambientActors.skillsPennant
 const steam = ambientActors.skillsSteam
 
 /** Pixels per world unit at the ground, at the desktop capture. */
-const PX = 75
+const PX = 85
 
 /** The palms, swayed one by one about their own trunks. */
 const palmStand = [
-  { url: MODELS.palm, position: [-3.7, 0, -1.1], scale: 0.95, rotation: 0.6 },
-  { url: MODELS.palmShort, position: [3.55, 0, -0.9], scale: 0.9, rotation: -1.2 },
-  { url: MODELS.palm, position: [3.0, 0, -1.8], scale: 0.8, rotation: 2.1 },
-  { url: MODELS.palmShort, position: [-2.9, 0, -1.9], scale: 0.75, rotation: 1.4 },
-  { url: MODELS.palm, position: [-6.3, 0, -1.2], scale: 0.9, rotation: 2.3 },
-  { url: MODELS.palmShort, position: [6.5, 0, -0.9], scale: 0.85, rotation: -0.4 },
+  { url: MODELS.palm, position: [-2.6, 0, -1.3], scale: 0.9, rotation: 0.6 },
+  { url: MODELS.palmShort, position: [2.7, 0, -1.1], scale: 0.85, rotation: -1.2 },
+  { url: MODELS.palm, position: [2.0, 0, -1.9], scale: 0.75, rotation: 2.1 },
 ] as const
 
-/** Scatter. Every model here is one of the kit's, placed by hand on the sand. */
+/** The camp, gathered around the bench. Survival pieces at 1.4 to 1.7x. */
 const still = [
-  { url: MODELS.workbench, position: [2.35, 0, -0.55], scale: 1.5, rotation: -0.5 },
-  { url: MODELS.tentCanvas, position: [-2.35, 0, -0.75], scale: 1.7, rotation: 0.35 },
-  { url: MODELS.bedroll, position: [-1.55, 0, 0.35], scale: 1.5, rotation: 1.25 },
-  { url: MODELS.barrel, position: [1.85, 0, 0.55], scale: 1.4, rotation: 0.4 },
-  { url: MODELS.barrel, position: [2.3, 0, 0.85], scale: 1.2, rotation: 1.9 },
-  { url: MODELS.box, position: [-1.1, 0, -0.95], scale: 1.5, rotation: 0.3 },
-  { url: MODELS.boxOpen, position: [-1.6, 0, -0.55], scale: 1.4, rotation: -0.4 },
-  { url: MODELS.bucket, position: [0.55, 0, 0.95], scale: 1.4, rotation: 0.8 },
+  { url: MODELS.tentCanvas, position: [-1.9, 0, -0.9], scale: 1.6, rotation: 0.35 },
+  { url: MODELS.bedroll, position: [-1.5, 0, 0.25], scale: 1.4, rotation: 1.25 },
+  { url: MODELS.barrel, position: [1.75, 0, 0.5], scale: 1.4, rotation: 0.4 },
+  { url: MODELS.barrel, position: [2.2, 0, 0.9], scale: 1.2, rotation: 1.9 },
+  { url: MODELS.box, position: [-0.85, 0, -1.15], scale: 1.4, rotation: 0.3 },
+  { url: MODELS.boxOpen, position: [-1.35, 0, -0.65], scale: 1.3, rotation: -0.4 },
+  { url: MODELS.bucket, position: [0.55, 0, 1.05], scale: 1.4, rotation: 0.8 },
   { url: MODELS.bottle, position: [-0.15, 0, -0.85], scale: 1.4, rotation: 0.2 },
-  { url: MODELS.axe, position: [-0.95, 0, -0.62], scale: 1.5, rotation: 1.1 },
-  { url: MODELS.pickaxe, position: [3.0, 0, 0.25], scale: 1.5, rotation: -0.7 },
-  { url: MODELS.shovel, position: [1.35, 0, -1.25], scale: 1.5, rotation: 0.5 },
-  { url: MODELS.hammer, position: [1.55, 0, 0.1], scale: 1.5, rotation: 2.4 },
-  { url: MODELS.stoneResource, position: [2.75, 0, 1.15], scale: 1.5, rotation: 0.9 },
-  { url: MODELS.signpostSingle, position: [-3.55, 0, 0.55], scale: 1.5, rotation: 0.45 },
-  { url: MODELS.rockSandA, position: [4.0, 0, 0.45], scale: 1.6, rotation: 0.7 },
-  { url: MODELS.rockSandB, position: [-4.0, 0, -0.35], scale: 1.4, rotation: 1.9 },
-  { url: MODELS.rockSandA, position: [-2.75, 0, 1.35], scale: 1.2, rotation: 2.8 },
-  { url: MODELS.rockFlat, position: [3.35, 0, 1.45], scale: 1.0, rotation: 0.2 },
-  { url: MODELS.rockFlat, position: [0.05, 0, 1.5], scale: 0.8, rotation: 1.6 },
-  { url: MODELS.stoneTall, position: [-4.05, 0, 1.2], scale: 0.8, rotation: 0.5 },
-  { url: MODELS.cactus, position: [4.05, 0, -1.55], scale: 0.9, rotation: 0.3 },
-  { url: MODELS.cactus, position: [-3.3, 0, 1.75], scale: 0.7, rotation: 1.7 },
-  { url: MODELS.grassLeafs, position: [1.05, 0, 1.55], scale: 1.0, rotation: 0.6 },
-  { url: MODELS.grassLeafs, position: [-2.2, 0, 1.0], scale: 0.9, rotation: 2.2 },
-  { url: MODELS.grassLeafs, position: [3.7, 0, -0.2], scale: 0.85, rotation: 1.0 },
-  { url: MODELS.plantFlat, position: [-0.7, 0, 1.6], scale: 0.9, rotation: 0.9 },
-  { url: MODELS.plantFlat, position: [2.55, 0, -1.55], scale: 0.9, rotation: 2.6 },
-  { url: MODELS.pathStone, position: [-0.35, 0, 1.15], scale: 0.7, rotation: 0.4 },
-  { url: MODELS.pathStone, position: [0.35, 0, 0.55], scale: 0.7, rotation: -0.5 },
-  { url: MODELS.rockSandB, position: [-7.5, 0, 0.6], scale: 1.5, rotation: 0.9 },
-  { url: MODELS.cactus, position: [7.3, 0, 0.4], scale: 0.9, rotation: 1.2 },
-  { url: MODELS.stoneTall, position: [5.9, 0, 1.2], scale: 0.85, rotation: 2.1 },
-  { url: MODELS.grassLeafs, position: [-5.3, 0, 1.3], scale: 0.9, rotation: 0.4 },
-  { url: MODELS.plantFlat, position: [5.2, 0, -0.5], scale: 0.9, rotation: 1.6 },
-  { url: MODELS.rockFlat, position: [-6.9, 0, 1.6], scale: 1.0, rotation: 0.7 },
+  { url: MODELS.axe, position: [-0.7, 0, -0.7], scale: 1.4, rotation: 1.1 },
+  { url: MODELS.pickaxe, position: [2.4, 0, 0.15], scale: 1.4, rotation: -0.7 },
+  { url: MODELS.shovel, position: [1.2, 0, -1.3], scale: 1.4, rotation: 0.5 },
+  { url: MODELS.rockSandA, position: [2.75, 0, -0.4], scale: 1.4, rotation: 0.7 },
+  { url: MODELS.rockSandB, position: [-2.8, 0, 0.4], scale: 1.3, rotation: 1.9 },
+  { url: MODELS.cactus, position: [-2.55, 0, 1.15], scale: 0.85, rotation: 1.7 },
+  { url: MODELS.grassLeafs, position: [1.0, 0, 1.55], scale: 1.0, rotation: 0.6 },
+  { url: MODELS.grassLeafs, position: [-1.9, 0, 1.25], scale: 0.9, rotation: 2.2 },
+  { url: MODELS.plantFlat, position: [2.5, 0, -1.6], scale: 0.9, rotation: 2.6 },
+  { url: MODELS.pathStone, position: [-0.35, 0, 1.4], scale: 0.7, rotation: 0.4 },
 ] as const
 
 /**
@@ -83,8 +62,9 @@ const still = [
  * throws a long shadow across the sand, and the lantern is already lit
  * against the hour that is coming.
  *
- * The camp stands on the band itself: the sand of the section is the sand of
- * the camp, and the only thing under the objects is the shadow they throw.
+ * One object: a dune-coloured plateau a shade deeper than the band, the
+ * camp gathered on it under the awning. It sits under the kit board with air
+ * around it.
  */
 export function SkillsScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -112,9 +92,9 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.0, 6.9]}
+        position={[0.3, 3.3, 7.0]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.55, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.7, 0)}
       />
       {/* Golden hour: the key a hand above the horizon on the left, warm
           bounce off the sand in the shadows, and a thread of sky from the
@@ -126,8 +106,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
         color="#f5a03a"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-6}
-        shadow-camera-right={6}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
         shadow-camera-top={4}
         shadow-camera-bottom={-4}
         shadow-bias={-0.0005}
@@ -135,10 +115,10 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
       <directionalLight position={[5, 3, -3]} intensity={0.35} color="#7ec4f2" />
 
       <group ref={group}>
-        <Ground opacity={0.34} color="#6b4429" />
+        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#e6cf9a" rim="#c4a670" rotation={0.5} />
 
         {/* The cluster. */}
-        <Bench position={[0.95, 0, 0.05]} rotation={-0.35}>
+        <Bench position={[0.85, 0, 0.05]} rotation={-0.35}>
           <Rise
             actor={steam}
             px={PX}
@@ -153,8 +133,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
             ]}
           />
         </Bench>
-        <group ref={chest} position={[-0.75, 0, 0.75]} rotation={[0, 0.4, 0]}>
-          <Chest scale={1.8} open={pointedAt || noticed} />
+        <group ref={chest} position={[-0.7, 0, 0.75]} rotation={[0, 0.4, 0]}>
+          <Chest scale={1.7} open={pointedAt || noticed} />
         </group>
         <Lantern
           position={[0.05, 0, -0.35]}
@@ -166,7 +146,7 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
 
         {/* An awning over the bench, on two poles, its canvas breathing about
             the ridge it hangs from. */}
-        <group position={[1.15, 0, -0.55]} rotation={[0, -0.35, 0]}>
+        <group position={[1.05, 0, -0.55]} rotation={[0, -0.35, 0]}>
           {([-0.65, 0.65] as const).map((x) => (
             <mesh key={x} position={[x, 0.7, 0]} castShadow>
               <boxGeometry args={[0.05, 1.4, 0.05]} />
@@ -189,8 +169,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
           </group>
         </group>
 
-        {/* A pennant by the signpost, so the camp has a colour up high. */}
-        <group position={[-3.15, 0, 0.35]}>
+        {/* A pennant by the tent, so the camp has a colour up high. */}
+        <group position={[-2.35, 0, -0.2]}>
           <mesh position={[0, 0.8, 0]} castShadow>
             <boxGeometry args={[0.04, 1.6, 0.04]} />
             <meshStandardMaterial color="#6b4429" flatShading roughness={1} />
@@ -219,20 +199,19 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
           color="#c4a670"
           animate={active}
           spots={[
-            [-3.4, 0.35, 0.9],
-            [-2.1, 0.6, 1.3],
-            [-0.9, 0.4, 1.7],
-            [0.4, 0.55, 1.4],
-            [1.7, 0.35, 1.6],
-            [2.9, 0.6, 1.2],
-            [3.9, 0.4, 0.6],
+            [-2.4, 0.35, 0.9],
+            [-1.4, 0.6, 1.3],
+            [-0.4, 0.4, 1.6],
+            [0.5, 0.55, 1.4],
+            [1.5, 0.35, 1.5],
+            [2.4, 0.6, 1.1],
           ]}
         />
 
         <ContactShadows
           position={[0, 0.005, 0]}
           opacity={0.28}
-          scale={12}
+          scale={7}
           blur={2.2}
           far={2}
           resolution={512}

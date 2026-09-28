@@ -76,7 +76,7 @@ export function Skills() {
       <Strip
         scene="skills"
         reaction="lid"
-        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[300px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
       />
     </Section>
   )

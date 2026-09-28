@@ -24,15 +24,15 @@ export const stills = {
     compact: { src: '/images/scenes/about-compact.webp', width: 390, height: 200 },
   },
   projects: {
-    wide: { src: '/images/scenes/projects.webp', width: 1440, height: 300 },
+    wide: { src: '/images/scenes/projects.webp', width: 1440, height: 340 },
     compact: { src: '/images/scenes/projects-compact.webp', width: 390, height: 200 },
   },
   skills: {
-    wide: { src: '/images/scenes/skills.webp', width: 1440, height: 300 },
+    wide: { src: '/images/scenes/skills.webp', width: 1440, height: 340 },
     compact: { src: '/images/scenes/skills-compact.webp', width: 390, height: 200 },
   },
   experience: {
-    wide: { src: '/images/scenes/experience.webp', width: 1440, height: 300 },
+    wide: { src: '/images/scenes/experience.webp', width: 1440, height: 340 },
     compact: { src: '/images/scenes/experience-compact.webp', width: 390, height: 200 },
   },
   contact: {

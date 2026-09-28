@@ -22,89 +22,74 @@ const fireflies = ambientActors.contactFireflies
 const buoy = ambientActors.contactBuoy
 
 /** Pixels per world unit at the ground, at the desktop capture. */
-const PX = 75
+const PX = 85
 
-/** The shore's surface. The slab stands this far above the water. */
-const SHORE = 0.12
+/** The shore's surface. The islet stands this far above the water. */
+const SHORE = 0.14
 /** The deck's surface above the water. */
 const DECK = 0.42
 
-/** Scatter on the shore, the left third. Every model is one of the kit's. */
+/** On the islet, the left third of the pond. */
 const shore = [
-  { url: MODELS.treeSimple, position: [-4.0, SHORE, -1.3], scale: 1.0, rotation: 0.4 },
-  { url: MODELS.treeFat, position: [-2.7, SHORE, -1.5], scale: 0.95, rotation: 1.6 },
-  { url: MODELS.treeSimple, position: [-4.4, SHORE, 0.6], scale: 0.85, rotation: 2.3 },
-  { url: MODELS.bushLarge, position: [-3.4, SHORE, -0.3], scale: 0.9, rotation: 0.8 },
-  { url: MODELS.bush, position: [-2.1, SHORE, -0.9], scale: 0.9, rotation: 2.9 },
-  { url: MODELS.bush, position: [-4.1, SHORE, 1.6], scale: 0.8, rotation: 1.1 },
-  { url: MODELS.stone, position: [-3.8, SHORE, -0.6], scale: 0.7, rotation: 0.5 },
-  { url: MODELS.log, position: [-3.1, SHORE, 1.1], scale: 0.8, rotation: 0.9 },
-  { url: MODELS.barrel, position: [-2.4, SHORE, 0.7], scale: 1.3, rotation: 0.3 },
-  { url: MODELS.signpostSingle, position: [-1.6, SHORE, -1.2], scale: 1.4, rotation: 0.35 },
-  { url: MODELS.fishingStand, position: [-1.7, SHORE, 1.2], scale: 1.3, rotation: -0.5 },
-  { url: MODELS.pathStone, position: [-2.6, SHORE, 0.1], scale: 0.7, rotation: 0.2 },
-  { url: MODELS.pathStone, position: [-1.9, SHORE, 0.0], scale: 0.7, rotation: -0.6 },
+  { url: MODELS.treeSimple, position: [-2.7, SHORE, -1.0], scale: 0.9, rotation: 0.4 },
+  { url: MODELS.treeFat, position: [-1.9, SHORE, -1.3], scale: 0.85, rotation: 1.6 },
+  { url: MODELS.bushLarge, position: [-2.6, SHORE, 0.1], scale: 0.85, rotation: 0.8 },
+  { url: MODELS.bush, position: [-1.6, SHORE, -0.6], scale: 0.8, rotation: 2.9 },
+  { url: MODELS.stone, position: [-2.9, SHORE, -0.5], scale: 0.7, rotation: 0.5 },
+  { url: MODELS.log, position: [-2.4, SHORE, 0.75], scale: 0.75, rotation: 0.9 },
+  { url: MODELS.barrel, position: [-1.85, SHORE, 0.45], scale: 1.2, rotation: 0.3 },
+  { url: MODELS.signpostSingle, position: [-1.2, SHORE, -1.1], scale: 1.3, rotation: 0.35 },
+  { url: MODELS.fishingStand, position: [-1.35, SHORE, 0.9], scale: 1.2, rotation: -0.5 },
 ] as const
 
 /** On the deck: what someone fishing at dusk has beside them. */
 const deck = [
-  { url: MODELS.box, position: [-0.55, DECK, -0.28], scale: 0.8, rotation: 0.2 },
-  { url: MODELS.bucket, position: [0.05, DECK, -0.3], scale: 0.85, rotation: 1.0 },
-  { url: MODELS.bottle, position: [0.62, DECK, 0.1], scale: 0.8, rotation: 0.4 },
+  { url: MODELS.box, position: [-0.35, DECK, -0.28], scale: 0.8, rotation: 0.2 },
+  { url: MODELS.bucket, position: [0.25, DECK, -0.3], scale: 0.85, rotation: 1.0 },
 ] as const
 
-/** In the water: pads and stones a little proud of the surface. */
+/** In the water: pads a little proud of the surface. */
 const shallows = [
-  { url: MODELS.lilyLarge, position: [1.1, 0.02, 1.7], scale: 0.9, rotation: 0.3 },
-  { url: MODELS.lilySmall, position: [2.1, 0.02, 1.9], scale: 0.9, rotation: 1.9 },
-  { url: MODELS.lilyLarge, position: [3.9, 0.02, 0.6], scale: 0.8, rotation: 2.4 },
-  { url: MODELS.lilySmall, position: [-0.4, 0.02, 1.5], scale: 0.85, rotation: 0.7 },
-  { url: MODELS.rock, position: [-1.35, 0.0, 1.55], scale: 1.0, rotation: 1.2 },
-  { url: MODELS.rockB, position: [3.3, 0.0, -1.6], scale: 1.1, rotation: 0.6 },
+  { url: MODELS.lilyLarge, position: [0.8, 0.02, 1.4], scale: 0.9, rotation: 0.3 },
+  { url: MODELS.lilySmall, position: [1.7, 0.02, 1.6], scale: 0.9, rotation: 1.9 },
+  { url: MODELS.lilyLarge, position: [2.7, 0.02, 0.2], scale: 0.8, rotation: 2.4 },
+  { url: MODELS.lilySmall, position: [-0.3, 0.02, 1.3], scale: 0.85, rotation: 0.7 },
 ] as const
 
 /** The reeds at the water's edge, swaying together as one actor. */
 const rushes = [
-  { url: MODELS.reeds, position: [-1.4, SHORE, 0.35], scale: 0.55, rotation: 0.3 },
-  { url: MODELS.reeds, position: [-1.15, 0.0, -0.75], scale: 0.5, rotation: 1.4 },
-  { url: MODELS.reeds, position: [-1.55, 0.0, 1.75], scale: 0.5, rotation: 2.2 },
-  { url: MODELS.grassLeafs, position: [-1.0, 0.0, 1.05], scale: 0.9, rotation: 0.6 },
-  { url: MODELS.grassLeafs, position: [-1.3, SHORE, -0.35], scale: 0.9, rotation: 1.7 },
-  { url: MODELS.grassLeafs, position: [-2.3, SHORE, 1.55], scale: 0.85, rotation: 2.5 },
+  { url: MODELS.reeds, position: [-1.0, SHORE, 0.3], scale: 0.55, rotation: 0.3 },
+  { url: MODELS.reeds, position: [-0.85, 0.0, -0.8], scale: 0.5, rotation: 1.4 },
+  { url: MODELS.grassLeafs, position: [-0.7, 0.0, 1.0], scale: 0.9, rotation: 0.6 },
+  { url: MODELS.grassLeafs, position: [-0.95, SHORE, -0.35], scale: 0.9, rotation: 1.7 },
 ] as const
 
-/** Where the light lands on the water: kept off the dock and the shore. */
+/** Where the light lands on the water: kept off the dock and the islet. */
 const glints = [
-  [0.4, 1.3],
-  [1.3, 0.95],
-  [2.0, 1.45],
-  [2.6, 0.2],
-  [3.1, 1.15],
-  [3.7, -0.45],
-  [4.3, 0.85],
-  [1.7, -1.4],
-  [2.5, -1.95],
-  [3.6, -1.05],
-  [0.9, -1.75],
-  [4.6, -1.6],
-  [-0.6, 2.15],
-  [1.5, 2.3],
+  [0.4, 1.1],
+  [1.3, 0.85],
+  [2.0, 1.25],
+  [2.6, 0.5],
+  [2.9, -0.4],
+  [1.7, -1.1],
+  [2.4, -1.4],
+  [0.9, -1.35],
+  [1.1, 1.7],
 ] as const
 
 /**
  * Contact: the dock at dusk, where the trail ends.
  *
  * The sun is low behind the far bank, so the key comes warm from behind and
- * the sky band is the far shore: the water fades into it rather than ending
- * at an edge. The lantern on the end post is the one warm light in the near
- * ground and the water catches it; point at it or tap the strip and it comes
- * all the way up. The traveller sits on the deck
+ * the shadows fill with the band's blue. The lantern on the end post is the
+ * one warm light in the near ground and the water catches it; point at it or
+ * tap the strip and it comes all the way up. The traveller sits on the deck
  * edge with their feet over the water: they arrived by the boat moored beside
  * them, and this is as far as the route goes.
  *
- * The shore holds the left third and the dock reaches from it out over open
- * water, so a phone, which sees the middle, still gets the dock end, the
- * lantern and the figure.
+ * One object: a pond in the band's own blue with a stone rim, the islet in
+ * its left third and the dock reaching from it across the water. It stands
+ * beside the copy the way the island stands beside the hero.
  */
 export function ContactScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -136,22 +121,19 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.2, 8.4]}
+        position={[0.3, 3.3, 7.0]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.2, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.3, 0)}
       />
       <hemisphereLight args={['#dff0fa', '#8fa7c4', 1.2]} />
-      {/* The sun, low behind the far bank: warm, from behind, on a sky that is
-          still light. The band this sits on is pale, so the evening is early
-          and the water carries the band's own blue rather than fighting it. */}
       <directionalLight
         position={[4, 2.6, -6]}
         intensity={1.5}
         color="#f5b76a"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-7}
-        shadow-camera-right={7}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
         shadow-camera-top={4}
         shadow-camera-bottom={-4}
       />
@@ -161,32 +143,33 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
 
       <group ref={group}>
         <Water
-          size={[30, 16]}
-          position={[0, 0, 1.2]}
+          radius={3.1}
+          stretch={[1.15, 0.8]}
+          rotation={0.25}
           actor={shimmer}
           glints={glints}
           color="#8fc3e6"
           glint="#ffffff"
+          rim="#6e7787"
           animate={active}
         />
 
-        {/* The shore: a low faceted islet, the same family as About's shard,
-            its top a hand above the water and its rim going under it. */}
-        <group position={[-3.5, 0, 0]} scale={[1.35, 1, 1.1]}>
+        {/* The islet: a hand above the water, its rim going under it. */}
+        <group position={[-2.1, 0, -0.1]} scale={[1.2, 1, 1.0]}>
           <mesh position={[0, SHORE - 0.07, 0]} receiveShadow>
-            <cylinderGeometry args={[2.3, 2.15, 0.14, 8]} />
+            <cylinderGeometry args={[1.5, 1.4, 0.14, 8]} />
             <meshStandardMaterial color="#6fbf57" flatShading roughness={1} />
           </mesh>
-          <mesh position={[0, -0.08, 0]}>
-            <cylinderGeometry args={[2.15, 1.9, 0.14, 8]} />
+          <mesh position={[0, -0.06, 0]}>
+            <cylinderGeometry args={[1.4, 1.25, 0.14, 8]} />
             <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
           </mesh>
         </group>
 
-        <Dock position={[-1.35, 0, 0]} length={2.8} width={1.0} height={DECK} />
+        <Dock position={[-1.0, 0, 0]} length={2.4} width={1.0} height={DECK} />
 
         {/* The end post's lantern, at the origin the spot test aims at. */}
-        <group ref={focal} position={[1.16, DECK + 0.78, -0.36]}>
+        <group ref={focal} position={[1.15, DECK + 0.78, -0.36]}>
           <Lantern
             position={[0, -0.78, 0]}
             height={0.98}
@@ -198,18 +181,18 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
         </group>
 
         {/* Seated on the deck edge, feet over the water. */}
-        <group position={[0.7, DECK, 0.34]} rotation={[0, 0.25, 0]}>
+        <group position={[0.65, DECK, 0.34]} rotation={[0, 0.25, 0]}>
           <Traveller pose="seated" />
         </group>
 
         {/* Moored beside the dock, riding its own small swell. */}
-        <group ref={canoe} position={[2.35, 0.02, 0.75]} rotation={[0, 0.35, 0]}>
-          <Prop url={MODELS.canoe} position={[0, 0, 0]} scale={0.9} rotation={0} />
-          <Prop url={MODELS.paddle} position={[0.15, 0.16, 0.05]} scale={0.9} rotation={1.2} />
+        <group ref={canoe} position={[2.05, 0.02, 0.75]} rotation={[0, 0.35, 0]}>
+          <Prop url={MODELS.canoe} position={[0, 0, 0]} scale={0.85} rotation={0} />
+          <Prop url={MODELS.paddle} position={[0.15, 0.16, 0.05]} scale={0.85} rotation={1.2} />
         </group>
 
         {/* A float marking the channel, on its own slower rhythm. */}
-        <group ref={float} position={[3.7, 0, -1.25]}>
+        <group ref={float} position={[2.5, 0, -1.15]}>
           <mesh position={[0, 0.06, 0]} castShadow>
             <cylinderGeometry args={[0.16, 0.12, 0.16, 6]} />
             <meshStandardMaterial color="#e8552b" flatShading roughness={1} />
@@ -244,12 +227,11 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
           px={PX}
           animate={active}
           spots={[
-            [-1.6, 0.55, 0.9],
-            [-0.9, 0.4, 1.9],
-            [-2.1, 0.7, -0.6],
-            [0.3, 0.3, 2.1],
-            [-1.2, 0.5, -1.5],
-            [2.9, 0.35, 1.6],
+            [-1.3, 0.55, 0.8],
+            [-0.6, 0.4, 1.5],
+            [-1.8, 0.7, -0.5],
+            [0.3, 0.3, 1.7],
+            [2.2, 0.35, 1.3],
           ]}
         />
       </group>

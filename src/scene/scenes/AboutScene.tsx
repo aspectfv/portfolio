@@ -100,7 +100,7 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
     if (blades.current) blades.current.rotation.z = sway(grass.rotation, period(grass), 1.3)
     if (drifting.current) {
       drifting.current.position.y =
-        -1.1 + Math.sin((t * 2 * Math.PI) / period(adrift)) * (adrift.travel / PX)
+        -0.7 + Math.sin((t * 2 * Math.PI) / period(adrift)) * (adrift.travel / PX)
     }
   })
 
@@ -181,7 +181,7 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
 
       {/* A piece adrift behind, on its own slower rhythm. A single object hangs
           in space; two of them at different speeds read as floating. */}
-      <group ref={drifting} position={[3.6, -1.1, -2.4]} rotation={[Math.PI - 0.3, 0.5, 0.2]}>
+      <group ref={drifting} position={[3.0, -0.7, -2.2]} rotation={[Math.PI - 0.3, 0.5, 0.2]}>
         <mesh>
           <coneGeometry args={[0.32, 0.6, 6]} />
           <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />

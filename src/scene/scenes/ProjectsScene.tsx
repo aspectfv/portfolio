@@ -3,9 +3,9 @@ import { useRef } from 'react'
 import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Lantern } from '../props/Lantern'
+import { Plateau } from '../props/Plateau'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
-import { Ground } from '../props/Ground'
 import { Workshop } from '../props/Workshop'
 import type { SceneProps } from '../StripView'
 import { useDiorama } from '../useDiorama'
@@ -16,53 +16,39 @@ const sawdust = ambientActors.projectsSawdust
 const lantern = ambientActors.projectsLantern
 
 /** Pixels per world unit at the ground, at the desktop capture. */
-const PX = 75
+const PX = 85
 
 /**
- * Scatter. Every model here is one of the kit's, placed by hand on the yard.
- * The Survival and Fantasy Town pieces are built at half the Nature Kit's
- * scale, so they are placed at about twice their size to stand beside a tree
- * and a person at the same proportion.
+ * The yard, gathered around the workshop. The Survival and Fantasy Town
+ * pieces are built at half the Nature Kit's scale, so they are placed at
+ * about twice their size to stand beside a tree and a person at the same
+ * proportion.
  */
 const trees = [
-  { url: MODELS.oak, position: [-4.6, 0, -1.5], scale: 1.05, rotation: 0.4 },
-  { url: MODELS.treeRound, position: [4.7, 0, -1.6], scale: 1.0, rotation: 1.2 },
-  { url: MODELS.treeFat, position: [-2.5, 0, -1.9], scale: 1.1, rotation: 2.1 },
-  { url: MODELS.treeSimple, position: [6.2, 0, -1.2], scale: 1.0, rotation: 0.7 },
-  { url: MODELS.treeRound, position: [-6.3, 0, -1.0], scale: 0.9, rotation: 2.6 },
-  { url: MODELS.oak, position: [2.4, 0, -2.0], scale: 0.9, rotation: -0.8 },
-  { url: MODELS.bush, position: [-6.1, 0, 0.6], scale: 1.3, rotation: 0.3 },
-  { url: MODELS.bushLarge, position: [5.9, 0, -0.1], scale: 1.3, rotation: -1.1 },
-  { url: MODELS.bush, position: [3.3, 0, -1.4], scale: 1.2, rotation: 2.0 },
-  { url: MODELS.hedge, position: [-5.3, 0, -1.2], scale: 1.6, rotation: 0 },
-  { url: MODELS.treeSimple, position: [-7.7, 0, -0.8], scale: 1.0, rotation: 1.9 },
-  { url: MODELS.oak, position: [7.8, 0, -1.4], scale: 0.95, rotation: 0.3 },
-  { url: MODELS.bush, position: [-7.3, 0, 1.2], scale: 1.2, rotation: 2.4 },
-  { url: MODELS.grass, position: [7.1, 0, 1.5], scale: 1.0, rotation: 0.8 },
+  { url: MODELS.oak, position: [-2.4, 0, -1.3], scale: 1.0, rotation: 0.4 },
+  { url: MODELS.treeRound, position: [2.5, 0, -1.4], scale: 0.95, rotation: 1.2 },
+  { url: MODELS.treeFat, position: [-0.9, 0, -1.7], scale: 0.9, rotation: 2.1 },
+  { url: MODELS.bush, position: [-2.9, 0, 0.1], scale: 1.2, rotation: 0.3 },
+  { url: MODELS.bushLarge, position: [2.9, 0, 0.2], scale: 1.1, rotation: -1.1 },
 ] as const
 
 const yard = [
-  { url: MODELS.fence, position: [-3.6, 0, 1.7], scale: 1.0, rotation: 0 },
-  { url: MODELS.fence, position: [-2.6, 0, 1.7], scale: 1.0, rotation: 0 },
-  { url: MODELS.planks, position: [2.0, 0, 0.6], scale: 2.0, rotation: 0.25 },
-  { url: MODELS.timber, position: [2.9, 0, 1.3], scale: 2.0, rotation: -0.5 },
-  { url: MODELS.treeLog, position: [3.6, 0, 0.2], scale: 1.6, rotation: 1.25 },
-  { url: MODELS.log, position: [4.3, 0, 1.4], scale: 1.5, rotation: 0.4 },
-  { url: MODELS.logs, position: [4.9, 0, 0.3], scale: 0.9, rotation: 0.6 },
-  { url: MODELS.stump, position: [5.4, 0, 1.4], scale: 1.1, rotation: 1.0 },
-  { url: MODELS.axe, position: [5.7, 0, 1.2], scale: 2.0, rotation: 0.5 },
-  { url: MODELS.workbench, position: [-1.8, 0, 0.9], scale: 2.0, rotation: 0.3 },
-  { url: MODELS.hammer, position: [-1.72, 0.58, 0.88], scale: 2.0, rotation: 1.2 },
-  { url: MODELS.boxLarge, position: [-3.1, 0, 0.2], scale: 2.0, rotation: 0.15 },
-  { url: MODELS.box, position: [-3.1, 0.5, 0.2], scale: 2.0, rotation: 0.4 },
-  { url: MODELS.barrel, position: [-4.1, 0, 0.9], scale: 2.0, rotation: 0.8 },
-  { url: MODELS.barrel, position: [-4.5, 0, 0.1], scale: 2.0, rotation: 2.0 },
-  { url: MODELS.bucket, position: [-1.1, 0, 1.5], scale: 2.0, rotation: 0.6 },
-  { url: MODELS.cart, position: [4.0, 0, -0.6], scale: 1.6, rotation: -0.55 },
-  { url: MODELS.wheel, position: [1.35, 0, 0.75], scale: 1.6, rotation: 0.25 },
-  { url: MODELS.grassLarge, position: [0.9, 0, 1.7], scale: 0.9, rotation: 0.5 },
-  { url: MODELS.grass, position: [-5.9, 0, 1.4], scale: 1.0, rotation: 1.4 },
-  { url: MODELS.grass, position: [-0.2, 0, 1.95], scale: 0.9, rotation: 2.2 },
+  { url: MODELS.workbench, position: [-1.6, 0, 0.7], scale: 1.9, rotation: 0.35 },
+  { url: MODELS.hammer, position: [-1.52, 0.55, 0.68], scale: 1.9, rotation: 1.2 },
+  { url: MODELS.bucket, position: [-0.9, 0, 1.25], scale: 1.8, rotation: 0.6 },
+  { url: MODELS.boxLarge, position: [-2.4, 0, -0.35], scale: 1.9, rotation: 0.15 },
+  { url: MODELS.box, position: [-2.4, 0.48, -0.35], scale: 1.9, rotation: 0.4 },
+  { url: MODELS.barrel, position: [-2.15, 0, 1.2], scale: 1.9, rotation: 0.8 },
+  { url: MODELS.planks, position: [1.7, 0, 0.75], scale: 1.9, rotation: 0.25 },
+  { url: MODELS.timber, position: [2.35, 0, 1.25], scale: 1.9, rotation: -0.5 },
+  { url: MODELS.treeLog, position: [2.55, 0, 0.1], scale: 1.5, rotation: 1.25 },
+  { url: MODELS.logs, position: [1.25, 0, 1.45], scale: 0.85, rotation: 0.6 },
+  { url: MODELS.stump, position: [2.1, 0, -0.55], scale: 1.0, rotation: 1.0 },
+  { url: MODELS.axe, position: [2.35, 0, -0.75], scale: 1.9, rotation: 0.5 },
+  { url: MODELS.wheel, position: [1.05, 0, 0.35], scale: 1.5, rotation: 0.25 },
+  { url: MODELS.fence, position: [-1.1, 0, 1.75], scale: 0.9, rotation: 0.05 },
+  { url: MODELS.grass, position: [0.4, 0, 1.55], scale: 0.9, rotation: 0.5 },
+  { url: MODELS.grassLarge, position: [-0.3, 0, -1.3], scale: 0.8, rotation: 2.2 },
 ] as const
 
 /**
@@ -73,10 +59,9 @@ const yard = [
  * the first thing on the page lit from inside: the day is getting on and
  * somebody is still working.
  *
- * On the band rather than adrift: the yard stands on the section's own
- * colour, with nothing under it but shadow. On desktop this strip bleeds both
- * edges, so the yard runs the full width under the cards with the workshop
- * near the middle, and a phone sees the workshop and the nearest stacks.
+ * One object: a plateau of packed earth in the band's own warm tone, the
+ * workshop at its back, the work gathered in front of the door. It sits under
+ * the cards with air around it, the way the island sits beside the hero.
  */
 export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -89,7 +74,7 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.2, 7.2]}
+        position={[0.3, 3.3, 7.0]}
         fov={30}
         onUpdate={(camera) => camera.lookAt(0, 0.8, 0)}
       />
@@ -100,27 +85,21 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
         color="#f7b85a"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-8}
-        shadow-camera-right={8}
-        shadow-camera-top={5}
-        shadow-camera-bottom={-5}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
+        shadow-camera-top={4}
+        shadow-camera-bottom={-4}
       />
       <directionalLight position={[-4, 2, -3]} intensity={0.4} color="#7ec4f2" />
 
       <group ref={group}>
-        <Ground />
-        {/* Packed earth in front of the door, where the work happens: a patch
-            worn into the band, not a floor laid on it. */}
-        <mesh position={[-0.6, 0.008, 0.9]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <circleGeometry args={[1.5, 8]} />
-          <meshStandardMaterial color="#efdcb8" flatShading roughness={1} />
-        </mesh>
+        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#e3cfa4" rim="#a06a34" rotation={0.2} />
 
-        <group ref={workshop} position={[0.4, 0, -0.5]}>
+        <group ref={workshop} position={[0.35, 0, -0.55]}>
           <Workshop rotation={-0.18} noticed={pointedAt || noticed} animate={active} px={PX} />
         </group>
         <Lantern
-          position={[-0.7, 0, 0.45]}
+          position={[-0.65, 0, 0.5]}
           height={1.05}
           level={0.55}
           flicker={lantern}
@@ -143,18 +122,18 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
           color="#e8cf9c"
           animate={active}
           spots={[
-            [-2.1, 0.7, 0.8],
-            [-1.6, 0.75, 1.1],
-            [-1.9, 0.65, 0.6],
-            [-1.4, 0.7, 0.9],
-            [-2.3, 0.8, 1.2],
+            [-1.8, 0.7, 0.6],
+            [-1.4, 0.75, 0.9],
+            [-1.7, 0.65, 0.4],
+            [-1.2, 0.7, 0.7],
+            [-2.0, 0.8, 1.0],
           ]}
         />
 
         <ContactShadows
-          position={[0, 0.02, 0]}
+          position={[0, 0.01, 0]}
           opacity={0.3}
-          scale={15}
+          scale={7}
           blur={2.2}
           far={2.4}
           resolution={512}
