@@ -63,6 +63,7 @@ export const ambientActors = {
   projectsSawdust: { strip: 'projects', duration: '11s', travel: 10, rotation: 0 },
   projectsLantern: { strip: 'projects', duration: '3.7s', travel: 0, rotation: 0 },
   projectsSign: { strip: 'projects', duration: '6.3s', travel: 0, rotation: 2 },
+  projectsStream: { strip: 'projects', duration: '5.2s', travel: 0, rotation: 0 },
 
   /** Skills. Golden hour at the work camp. */
   skillsLantern: { strip: 'skills', duration: '4.2s', travel: 0, rotation: 0 },

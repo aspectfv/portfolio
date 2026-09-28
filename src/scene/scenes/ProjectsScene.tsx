@@ -6,6 +6,7 @@ import { Lantern } from '../props/Lantern'
 import { Plateau } from '../props/Plateau'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
+import { Stream } from '../props/Stream'
 import { Workshop } from '../props/Workshop'
 import type { SceneProps } from '../StripView'
 import { useDiorama } from '../useDiorama'
@@ -14,6 +15,7 @@ import { ambientActors } from '@/scenery/ambient'
 
 const sawdust = ambientActors.projectsSawdust
 const lantern = ambientActors.projectsLantern
+const stream = ambientActors.projectsStream
 
 /** Pixels per world unit at the ground, at the desktop capture. */
 const PX = 85
@@ -25,30 +27,35 @@ const PX = 85
  * proportion.
  */
 const trees = [
-  { url: MODELS.oak, position: [-2.4, 0, -1.3], scale: 1.0, rotation: 0.4 },
-  { url: MODELS.treeRound, position: [2.5, 0, -1.4], scale: 0.95, rotation: 1.2 },
-  { url: MODELS.treeFat, position: [-0.9, 0, -1.7], scale: 0.9, rotation: 2.1 },
-  { url: MODELS.bush, position: [-2.9, 0, 0.1], scale: 1.2, rotation: 0.3 },
-  { url: MODELS.bushLarge, position: [2.9, 0, 0.2], scale: 1.1, rotation: -1.1 },
+  { url: MODELS.oak, position: [-2.6, 0, -1.6], scale: 1.0, rotation: 0.4 },
+  { url: MODELS.treeRound, position: [0.9, 0, -2.0], scale: 0.95, rotation: 1.2 },
+  { url: MODELS.treeFat, position: [-3.1, 0, -0.2], scale: 0.85, rotation: 2.1 },
+  { url: MODELS.bush, position: [-0.4, 0, -1.9], scale: 1.2, rotation: 0.3 },
+  { url: MODELS.bushLarge, position: [3.0, 0, -0.9], scale: 1.0, rotation: -1.1 },
 ] as const
 
+/** The near bank: the yard, where the timber is worked. */
 const yard = [
-  { url: MODELS.workbench, position: [-1.6, 0, 0.7], scale: 1.9, rotation: 0.35 },
-  { url: MODELS.hammer, position: [-1.52, 0.55, 0.68], scale: 1.9, rotation: 1.2 },
-  { url: MODELS.bucket, position: [-0.9, 0, 1.25], scale: 1.8, rotation: 0.6 },
-  { url: MODELS.boxLarge, position: [-2.4, 0, -0.35], scale: 1.9, rotation: 0.15 },
-  { url: MODELS.box, position: [-2.4, 0.48, -0.35], scale: 1.9, rotation: 0.4 },
-  { url: MODELS.barrel, position: [-2.15, 0, 1.2], scale: 1.9, rotation: 0.8 },
-  { url: MODELS.planks, position: [1.7, 0, 0.75], scale: 1.9, rotation: 0.25 },
-  { url: MODELS.timber, position: [2.35, 0, 1.25], scale: 1.9, rotation: -0.5 },
-  { url: MODELS.treeLog, position: [2.55, 0, 0.1], scale: 1.5, rotation: 1.25 },
-  { url: MODELS.logs, position: [1.25, 0, 1.45], scale: 0.85, rotation: 0.6 },
-  { url: MODELS.stump, position: [2.1, 0, -0.55], scale: 1.0, rotation: 1.0 },
-  { url: MODELS.axe, position: [2.35, 0, -0.75], scale: 1.9, rotation: 0.5 },
-  { url: MODELS.wheel, position: [1.05, 0, 0.35], scale: 1.5, rotation: 0.25 },
-  { url: MODELS.fence, position: [-1.1, 0, 1.75], scale: 0.9, rotation: 0.05 },
-  { url: MODELS.grass, position: [0.4, 0, 1.55], scale: 0.9, rotation: 0.5 },
-  { url: MODELS.grassLarge, position: [-0.3, 0, -1.3], scale: 0.8, rotation: 2.2 },
+  { url: MODELS.workbench, position: [1.0, 0, 0.95], scale: 1.9, rotation: 0.35 },
+  { url: MODELS.hammer, position: [1.08, 0.55, 0.93], scale: 1.9, rotation: 1.2 },
+  { url: MODELS.bucket, position: [0.35, 0, 1.5], scale: 1.8, rotation: 0.6 },
+  { url: MODELS.planks, position: [2.2, 0, 0.35], scale: 1.9, rotation: 0.25 },
+  { url: MODELS.timber, position: [2.7, 0, 1.1], scale: 1.9, rotation: -0.5 },
+  { url: MODELS.treeLog, position: [2.9, 0, -0.2], scale: 1.5, rotation: 1.25 },
+  { url: MODELS.logs, position: [1.7, 0, 1.6], scale: 0.85, rotation: 0.6 },
+  { url: MODELS.stump, position: [2.35, 0, -0.75], scale: 1.0, rotation: 1.0 },
+  { url: MODELS.axe, position: [2.55, 0, -0.95], scale: 1.9, rotation: 0.5 },
+  { url: MODELS.wheel, position: [0.15, 0, 0.55], scale: 1.5, rotation: 0.25 },
+  { url: MODELS.grass, position: [-0.6, 0, 1.75], scale: 0.9, rotation: 0.5 },
+] as const
+
+/** The far bank: the workshop's side, and what waits by its door. */
+const bank = [
+  { url: MODELS.boxLarge, position: [-2.6, 0, 0.55], scale: 1.9, rotation: 0.15 },
+  { url: MODELS.box, position: [-2.6, 0.48, 0.55], scale: 1.9, rotation: 0.4 },
+  { url: MODELS.barrel, position: [-2.05, 0, 0.95], scale: 1.9, rotation: 0.8 },
+  { url: MODELS.fence, position: [-2.2, 0, -1.55], scale: 0.9, rotation: 0.05 },
+  { url: MODELS.grassLarge, position: [-1.4, 0, 0.95], scale: 0.8, rotation: 2.2 },
 ] as const
 
 /**
@@ -59,9 +66,11 @@ const yard = [
  * the first thing on the page lit from inside: the day is getting on and
  * somebody is still working.
  *
- * One object: a plateau of packed earth in the band's own warm tone, the
- * workshop at its back, the work gathered in front of the door. It sits under
- * the cards with air around it, the way the island sits beside the hero.
+ * One object: low ground in the band's own warm tone, cut by a stream. The
+ * workshop stands on the far bank and the yard works the near one, and the
+ * footbridge between them is the route the timber takes. A stream is what a
+ * sawmill stands beside, and it is what keeps this place from being another
+ * flat pad with a building on it.
  */
 export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -94,12 +103,20 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
 
       <group ref={group}>
         <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#e3cfa4" rim="#a06a34" rotation={0.2} />
+        <Stream
+          length={5.6}
+          rotation={-0.42}
+          actor={stream}
+          glints={[-2.3, -1.6, -0.9, 0.6, 1.3, 2.1]}
+          bridgeAt={-0.2}
+          animate={active}
+        />
 
-        <group ref={workshop} position={[0.35, 0, -0.55]}>
-          <Workshop rotation={-0.18} noticed={pointedAt || noticed} animate={active} px={PX} />
+        <group ref={workshop} position={[-1.15, 0, -0.85]}>
+          <Workshop rotation={0.28} noticed={pointedAt || noticed} animate={active} px={PX} />
         </group>
         <Lantern
-          position={[-0.65, 0, 0.5]}
+          position={[-0.35, 0, -0.05]}
           height={1.05}
           level={0.55}
           flicker={lantern}
@@ -113,6 +130,9 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
         {yard.map((prop) => (
           <Prop key={`${prop.position[0]}:${prop.position[1]}:${prop.position[2]}`} {...prop} />
         ))}
+        {bank.map((prop) => (
+          <Prop key={`${prop.position[0]}:${prop.position[1]}:${prop.position[2]}`} {...prop} />
+        ))}
 
         {/* Sawdust off the bench, adrift in the afternoon light. */}
         <Rise
@@ -122,11 +142,11 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
           color="#e8cf9c"
           animate={active}
           spots={[
-            [-1.8, 0.7, 0.6],
-            [-1.4, 0.75, 0.9],
-            [-1.7, 0.65, 0.4],
-            [-1.2, 0.7, 0.7],
-            [-2.0, 0.8, 1.0],
+            [0.8, 0.7, 0.8],
+            [1.2, 0.75, 1.1],
+            [0.9, 0.65, 0.6],
+            [1.4, 0.7, 0.9],
+            [0.6, 0.8, 1.2],
           ]}
         />
 
