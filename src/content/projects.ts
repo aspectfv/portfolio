@@ -53,6 +53,10 @@ export const projects: readonly Project[] = [
     stack: ['Go', 'PostgreSQL', 'React', 'TypeScript', 'Docker'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/distributed-enrollment.webp',
+      alt: 'A student’s course list in the enrollment system: Machine Learning and Advanced Databases are full at 3 of 3 seats with their enroll buttons disabled, Distributed Systems shows as enrolled, and two courses with open seats offer an Enroll button.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/STDISCM-P4' }],
     detail: {
       problem:
@@ -104,6 +108,10 @@ export const projects: readonly Project[] = [
     stack: ['C++20', 'CMake'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/os-emulator.webp',
+      alt: 'A terminal session of the emulator on 4 cores under round-robin: CPU utilization at 100%, one running process on each core with its instruction progress, and a list of finished processes.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/os-emulator' }],
     detail: {
       problem:
@@ -156,6 +164,10 @@ export const projects: readonly Project[] = [
     stack: ['Python', 'scikit-learn', 'Pandas', 'NumPy', 'Seaborn', 'Matplotlib'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/electricity-access-prediction.webp',
+      alt: 'Two charts: the 2012 survey’s 34,886 households with electricity against 5,285 without, and the class-weighted model’s confusion matrix on the test set, catching 847 of the 1,057 households without electricity.',
+    },
     links: [],
     detail: {
       problem:
@@ -179,6 +191,10 @@ export const projects: readonly Project[] = [
     stack: ['Python', 'Pandas', 'SQLAlchemy', 'MySQL', 'MongoDB', 'Docker'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/data-warehouse.webp',
+      alt: 'The warehouse’s star schema: a central fact table of 300,024 rows keyed to dimension tables for employees and sales from MySQL, consumer complaints from a CSV, and supplies orders, items and tags from MongoDB, each listing its columns and loaded row count.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/enriquezduane/simple-data-warehouse' }],
     detail: {
       problem:
