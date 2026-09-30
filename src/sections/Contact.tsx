@@ -26,11 +26,6 @@ export function Contact() {
       biome="sky"
     >
       <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
-        <Strip
-          scene="contact"
-          reaction="lantern"
-          className="-mx-6 h-[200px] md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:order-last md:mx-0 md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
-        />
         <div>
           <p className="text-lede prose-measure font-medium">{profile.contactStatement}</p>
 
@@ -61,6 +56,11 @@ export function Contact() {
             </ActionLink>
           </div>
         </div>
+        <Strip
+          scene="contact"
+          reaction="lantern"
+          className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:h-[52vh] md:max-h-[580px] md:min-h-[360px] md:self-end md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        />
       </div>
     </Section>
   )

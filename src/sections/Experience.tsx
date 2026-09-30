@@ -132,12 +132,12 @@ export function Experience() {
           ))}
         </ol>
       </div>
-      {/* The outpost stands at the foot of the route, full width, on the night
-          band itself. */}
+      {/* The outpost stands at the foot of the route, on the night band's
+          floor, where the section meets the next one. */}
       <Strip
         scene="experience"
         reaction="flare"
-        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        className="-mx-6 mt-10 -mb-(--spacing-section) h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
       />
     </Section>
   )

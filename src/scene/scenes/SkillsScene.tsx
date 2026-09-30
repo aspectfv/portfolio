@@ -5,12 +5,13 @@ import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Bench } from '../props/Bench'
 import { Chest } from '../props/Chest'
-import { Dunes, type Mound } from '../props/Dunes'
+import { Floor } from '../props/Floor'
 import { Lantern } from '../props/Lantern'
-import { Plateau } from '../props/Plateau'
+import { Mounds, type Mound } from '../props/Mounds'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
 import type { SceneProps } from '../StripView'
+import { useAnchor } from '../useAnchor'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
 import { type AmbientActor, ambientActors, period } from '@/scenery/ambient'
@@ -42,7 +43,7 @@ function duneHeight(x: number, z: number): number {
     const dx = (x - mound.at[0]) / mound.radius
     const dz = (z - mound.at[1]) / (mound.radius * 0.85)
     const d = dx * dx + dz * dz
-    if (d < 1) best = Math.max(best, mound.height * Math.sqrt(1 - d) - 0.06)
+    if (d < 1) best = Math.max(best, mound.height * Math.sqrt(1 - d))
   }
   return best
 }
@@ -117,6 +118,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
   const flag = useRef<Group>(null)
   // The chest is this strip's focal object: point at it and the lid lifts.
   const pointedAt = useSpot(host, chest, { radius: 56, onEnter: onNoticed })
+  // Left of the kit board's centre, so the camp sits under its first columns.
+  const shift = useAnchor({ target: -2.6, reach: 3.9, distance: 8.3, fov: 30 })
 
   useFrame((state) => {
     if (!active) return
@@ -135,9 +138,9 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.3, 7.0]}
+        position={[0.3 - shift, 2.9, 7.8]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.7, 0)}
+        onUpdate={(camera) => camera.lookAt(-shift, 0.75, 0)}
       />
       {/* Golden hour: the key a hand above the horizon on the left, warm
           bounce off the sand in the shadows, and a thread of sky from the
@@ -149,8 +152,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
         color="#f5a03a"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-5}
-        shadow-camera-right={5}
+        shadow-camera-left={-8}
+        shadow-camera-right={8}
         shadow-camera-top={4}
         shadow-camera-bottom={-4}
         shadow-bias={-0.0005}
@@ -158,8 +161,8 @@ export function SkillsScene({ host, active, parallax, noticed, onNoticed }: Scen
       <directionalLight position={[5, 3, -3]} intensity={0.35} color="#7ec4f2" />
 
       <group ref={group}>
-        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#e6cf9a" rim="#c4a670" rotation={0.5} />
-        <Dunes mounds={mounds} />
+        <Floor shade="#8a5a2b" opacity={0.22} />
+        <Mounds mounds={mounds} />
 
         {/* The cluster. */}
         <Bench position={[0.85, 0, 0.05]} rotation={-0.35}>

@@ -30,11 +30,11 @@ export function Projects() {
       </div>
       {/* The yard runs the full width under the cards, both edges bleeding:
           this is the one section whose content already fills the column, so
-          the place sits below it rather than beside it. */}
+          the place stands on the band's floor below it rather than beside it. */}
       <Strip
         scene="projects"
         reaction="screen"
-        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        className="-mx-6 mt-10 -mb-(--spacing-section) h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
       />
     </Section>
   )

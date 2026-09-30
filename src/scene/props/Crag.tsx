@@ -1,5 +1,5 @@
 /**
- * A crag: the plateau raised in tiers, each a faceted slab set back from the
+ * A crag: the ground raised in tiers, each a faceted slab set back from the
  * one below, with steps cut between them. The outpost's ground is tall
  * because a watchpost is a place you climb to, and the tiers are what let
  * the tower stand on the summit, the fire on a ledge below it, and the camp

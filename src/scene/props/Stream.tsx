@@ -4,15 +4,21 @@ import type { Group } from 'three'
 import { type AmbientActor, period } from '@/scenery/ambient'
 
 /**
- * A stream cut across a plateau, and a footbridge over it.
+ * A creek run across the yard, and a footbridge over it.
  *
- * The channel is a shallow trench in the plateau top with water sitting a
- * hair below the ground, banked in the rim's soil so the cut reads as a cut.
- * The glints on it brighten and dim on the shimmer actor's count, the same
- * Blink the pond carries. The bridge is five planks on two beams with a
- * little rise in the middle: the one thing in the yard that says the stream
- * is crossed rather than merely there.
+ * A long faceted lens of water in a soil bank, both standing on the floor
+ * rather than cut into it: the floor is the band itself and hides nothing, so
+ * a trench below it would show through. The lens tapers to a point at each
+ * end, which is how a creek leaves a small place without being cut off at its
+ * edge. The glints on it brighten and dim on the shimmer actor's count, the
+ * same Blink the pond carries. The bridge is five planks on two beams with a
+ * little rise in the middle: the one thing in the yard that says the water is
+ * crossed rather than merely there.
  */
+/** The soil bank's height, and the water's surface just proud of it. */
+const BANK = 0.06
+const SURFACE = 0.09
+
 export function Stream({
   length = 7,
   width = 0.9,
@@ -47,26 +53,31 @@ export function Stream({
 
   return (
     <group rotation={[0, rotation, 0]}>
-      {/* Banks, a little proud of the plateau so the channel has an edge */}
-      {([-1, 1] as const).map((side) => (
-        <mesh key={side} position={[0, 0.03, side * (width / 2 + 0.09)]} castShadow receiveShadow>
-          <boxGeometry args={[length, 0.06, 0.18]} />
-          <meshStandardMaterial color="#a06a34" flatShading roughness={1} />
-        </mesh>
-      ))}
-      {/* The trench and the water in it, their tops a hair above the plateau:
-          flush with it, the ground and the water flicker through each other. */}
-      <mesh position={[0, -0.025, 0]}>
-        <boxGeometry args={[length, 0.08, width]} />
-        <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
+      {/* The bank, and the water lying in it, a finger narrower all round */}
+      <mesh
+        position={[0, BANK / 2, 0]}
+        scale={[length / 2, 1, width / 2 + 0.12]}
+        castShadow
+        receiveShadow
+      >
+        <cylinderGeometry args={[1, 1, BANK, 10]} />
+        <meshStandardMaterial color="#a06a34" flatShading roughness={1} />
       </mesh>
-      <mesh position={[0, -0.01, 0]} receiveShadow>
-        <boxGeometry args={[length - 0.02, 0.06, width - 0.06]} />
+      <mesh
+        position={[0, SURFACE - 0.02, 0]}
+        scale={[length / 2 - 0.12, 1, width / 2]}
+        receiveShadow
+      >
+        <cylinderGeometry args={[1, 1, 0.04, 10]} />
         <meshStandardMaterial color="#8fc3e6" flatShading roughness={0.6} />
       </mesh>
       <group ref={group}>
         {glints.map((x) => (
-          <mesh key={x} position={[x, 0.026, (x % 0.7) * 0.4]} rotation={[-Math.PI / 2, 0, 0]}>
+          <mesh
+            key={x}
+            position={[x, SURFACE + 0.006, (x % 0.7) * 0.3]}
+            rotation={[-Math.PI / 2, 0, 0]}
+          >
             <planeGeometry args={[0.2, 0.03]} />
             <meshStandardMaterial
               color="#ffffff"

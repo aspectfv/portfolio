@@ -70,13 +70,13 @@ export function Skills() {
           })}
         </dl>
       </Panel>
-      {/* The camp runs the full width under the kit board, both edges bleeding,
-          standing on the sand of the band itself. Beside the board it took the
-          width the chips need. */}
+      {/* The camp stands on the band's floor under the kit board, both edges
+          bleeding, its bottom edge on the ridge into the next band. Beside the
+          board it took the width the chips need. */}
       <Strip
         scene="skills"
         reaction="lid"
-        className="-mx-6 mt-10 h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        className="-mx-6 mt-10 -mb-(--spacing-section) h-[200px] md:mt-14 md:h-[340px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
       />
     </Section>
   )

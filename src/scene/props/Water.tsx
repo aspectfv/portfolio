@@ -4,14 +4,14 @@ import type { Group } from 'three'
 import { type AmbientActor, period } from '@/scenery/ambient'
 
 /**
- * A pond: the plateau's cousin whose top is water.
+ * A pond standing on the floor: water in a low stone bank.
  *
- * The same faceted chunk every other place stands on, with the surface in
- * the band's own blue and a stone rim under it, so the dock and its boat sit
- * in one object with a silhouette rather than on a sheet of water that has
- * to end somewhere. What says water is the glints, a scatter of small pale
- * slivers that brighten and dim on the shimmer actor's count, each on its
- * own phase. That is the Blink pattern in three dimensions.
+ * The surface is at the group's origin and the bank reaches 0.12 below it,
+ * so a scene raises the pond by that much to stand it on the floor. The
+ * floor is the band itself and hides nothing; a basin cut below it would show
+ * through. What says water is the glints, a scatter of small pale slivers
+ * that brighten and dim on the shimmer actor's count, each on its own phase.
+ * That is the Blink pattern in three dimensions.
  */
 export function Water({
   radius = 3,
@@ -20,7 +20,7 @@ export function Water({
   glints,
   color = '#8fc3e6',
   glint = '#ffffff',
-  rim = '#6e7787',
+  rim = '#98a0ae',
   rotation = 0.3,
   animate = true,
 }: {
@@ -49,12 +49,12 @@ export function Water({
   return (
     <group>
       <group rotation={[0, rotation, 0]} scale={[stretch[0], 1, stretch[1]]}>
-        <mesh position={[0, -0.09, 0]} receiveShadow>
-          <cylinderGeometry args={[radius, radius * 0.96, 0.18, 8]} />
+        <mesh position={[0, -0.06, 0]} receiveShadow>
+          <cylinderGeometry args={[radius, radius, 0.12, 8]} />
           <meshStandardMaterial color={color} flatShading roughness={0.6} />
         </mesh>
-        <mesh position={[0, -0.34, 0]}>
-          <cylinderGeometry args={[radius * 0.96, radius * 0.8, 0.32, 8]} />
+        <mesh position={[0, -0.07, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[radius * 1.04, radius * 1.06, 0.1, 8]} />
           <meshStandardMaterial color={rim} flatShading roughness={1} />
         </mesh>
       </group>

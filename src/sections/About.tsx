@@ -29,11 +29,13 @@ const stats = [
  * The prose sits on the meadow at reading measure, the trailhead stands beside
  * it, and the numbers are tags underneath rather than a third box.
  *
- * The strip bleeds to the viewport's right edge on desktop and stacks above
- * the prose at full width on a phone. It sits in the flow either way, so it
- * cannot overlap the text at a width nobody tested. The right margin is the
- * distance from the content column to the edge of the page; the document
- * clips horizontal overflow, so the bleed can never hand the page a scrollbar.
+ * The strip bleeds to the viewport's right edge on desktop and follows the
+ * prose at full width on a phone. Either way its bottom edge is the band's
+ * floor, so the trailhead stands where the meadow meets the next band. It
+ * sits in the flow, so it cannot overlap the text at a width nobody tested.
+ * The right margin is the distance from the content column to the edge of
+ * the page; the document clips horizontal overflow, so the bleed can never
+ * hand the page a scrollbar.
  */
 export function About() {
   const [lede, ...rest] = profile.about
@@ -49,11 +51,6 @@ export function About() {
       ridge="treeline"
     >
       <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
-        <Strip
-          scene="about"
-          reaction="wave"
-          className="-mx-6 h-[200px] md:order-last md:mx-0 md:h-[40vh] md:max-h-[520px] md:min-h-[300px] md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
-        />
         <div>
           {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
           <div className="prose-measure text-ink-muted mt-6 space-y-5">
@@ -68,6 +65,11 @@ export function About() {
             <StatBlock stats={stats} label="Portfolio at a glance" />
           </Panel>
         </div>
+        <Strip
+          scene="about"
+          reaction="wave"
+          className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:h-[52vh] md:max-h-[580px] md:min-h-[360px] md:self-end md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+        />
       </div>
     </Section>
   )

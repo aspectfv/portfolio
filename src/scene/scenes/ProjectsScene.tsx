@@ -3,12 +3,13 @@ import { useRef } from 'react'
 import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Lantern } from '../props/Lantern'
-import { Plateau } from '../props/Plateau'
+import { Floor } from '../props/Floor'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
 import { Stream } from '../props/Stream'
 import { Workshop } from '../props/Workshop'
 import type { SceneProps } from '../StripView'
+import { useAnchor } from '../useAnchor'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
 import { ambientActors } from '@/scenery/ambient'
@@ -78,14 +79,16 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
   // The workshop is this strip's focal object: point at it and the window
   // brightens, held for as long as the pointer stays.
   const pointedAt = useSpot(host, workshop, { radius: 64, onEnter: onNoticed })
+  // Right of centre, under the space the last card leaves beside it.
+  const shift = useAnchor({ target: 2.8, reach: 3.9, distance: 8.3, fov: 30 })
 
   return (
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.3, 7.0]}
+        position={[0.3 - shift, 2.9, 7.8]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.8, 0)}
+        onUpdate={(camera) => camera.lookAt(-shift, 0.85, 0)}
       />
       <hemisphereLight args={['#7ec4f2', '#c98a4b', 1.3]} />
       <directionalLight
@@ -102,7 +105,7 @@ export function ProjectsScene({ host, active, parallax, noticed, onNoticed }: Sc
       <directionalLight position={[-4, 2, -3]} intensity={0.4} color="#7ec4f2" />
 
       <group ref={group}>
-        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#e3cfa4" rim="#a06a34" rotation={0.2} />
+        <Floor shade="#6b4429" opacity={0.18} />
         <Stream
           length={5.6}
           rotation={-0.42}

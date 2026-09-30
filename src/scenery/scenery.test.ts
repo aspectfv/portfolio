@@ -55,7 +55,7 @@ describe('ambient roster', () => {
   })
 
   it('reads a scene rhythm off the same duration a drawing would', () => {
-    expect(period(ambientActors.aboutShard)).toBe(9)
+    expect(period(ambientActors.aboutFoliage)).toBe(7)
     expect(period({ strip: 'hero', duration: '9s, 15s', travel: 0, rotation: 0 })).toBe(9)
   })
 })

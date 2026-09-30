@@ -21,7 +21,7 @@ export const stills = {
   },
   about: {
     wide: { src: '/images/scenes/about.webp', width: 800, height: 360 },
-    compact: { src: '/images/scenes/about-compact.webp', width: 390, height: 200 },
+    compact: { src: '/images/scenes/about-compact.webp', width: 390, height: 220 },
   },
   projects: {
     wide: { src: '/images/scenes/projects.webp', width: 1440, height: 340 },
@@ -37,7 +37,7 @@ export const stills = {
   },
   contact: {
     wide: { src: '/images/scenes/contact.webp', width: 800, height: 360 },
-    compact: { src: '/images/scenes/contact-compact.webp', width: 390, height: 200 },
+    compact: { src: '/images/scenes/contact-compact.webp', width: 390, height: 220 },
   },
 } as const satisfies Record<string, { wide: SceneImage; compact: SceneImage }>
 

@@ -5,12 +5,13 @@ import { MODELS } from '../models'
 import { Brazier } from '../props/Brazier'
 import { Crag } from '../props/Crag'
 import { Fireflies } from '../props/Fireflies'
-import { Plateau } from '../props/Plateau'
+import { Floor } from '../props/Floor'
 import { Prop } from '../props/Prop'
 import { Rise } from '../props/Rise'
 import { Standard } from '../props/Standard'
 import { Watchpost } from '../props/Watchpost'
 import type { SceneProps } from '../StripView'
+import { useAnchor } from '../useAnchor'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
 import { ambientActors } from '@/scenery/ambient'
@@ -83,22 +84,24 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
   const brazier = useRef<Group>(null)
   const pointedAt = useSpot(host, brazier, { radius: 56, onEnter: onNoticed })
+  // Right of centre, beside the timeline rather than under its cards.
+  const shift = useAnchor({ target: 3.0, reach: 3.7, distance: 9.1, fov: 30 })
 
   return (
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 4.3, 8.2]}
+        position={[0.3 - shift, 3.6, 8.6]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 1.35, 0)}
+        onUpdate={(camera) => camera.lookAt(-shift, 1.3, 0)}
       />
-      <hemisphereLight args={['#2b3a55', '#0f1520', 0.85]} />
+      <hemisphereLight args={['#6a82ad', '#1a2233', 1.5]} />
       {/* The moon: cool, dim, from behind and to the left, so the lit side of
           everything is the fire's side. */}
       <directionalLight
         position={[-4, 6, -3]}
-        intensity={0.35}
-        color="#7ec4f2"
+        intensity={1.0}
+        color="#9fd0f2"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-5}
@@ -108,8 +111,8 @@ export function ExperienceScene({ host, active, parallax, noticed, onNoticed }: 
       />
 
       <group ref={group}>
-        <Plateau radius={3.1} stretch={[1.15, 0.8]} top="#27344a" rim="#141c2b" rotation={0.4} />
-        <Crag ledge={TIERS.ledge} summit={TIERS.summit} />
+        <Floor shade="#05080f" opacity={0.45} />
+        <Crag ledge={TIERS.ledge} summit={TIERS.summit} top="#52668a" rim="#3a4a66" />
 
         <group position={[-1.15, TIERS.summit, -0.75]} scale={0.65}>
           <Watchpost rotation={0.18} animate={active} />

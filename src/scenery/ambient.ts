@@ -47,13 +47,11 @@ export const ambientActors = {
   heroIsland: { strip: 'hero', duration: '10.5s', travel: 8, rotation: 2.9 },
   heroScreen: { strip: 'hero', duration: '3.9s', travel: 0, rotation: 0 },
 
-  /** About. Late morning on the shard. */
-  aboutShard: { strip: 'about', duration: '9s', travel: 4, rotation: 2 },
+  /** About. Late morning at the trailhead. */
   aboutFoliage: { strip: 'about', duration: '7s', travel: 0, rotation: 1.2 },
   aboutGrass: { strip: 'about', duration: '4.6s', travel: 0, rotation: 2.4 },
   aboutLeaves: { strip: 'about', duration: '11s', travel: 12, rotation: 0 },
   aboutPennant: { strip: 'about', duration: '5.5s', travel: 0, rotation: 2.6 },
-  aboutAdrift: { strip: 'about', duration: '13s', travel: 8, rotation: 0 },
   aboutButterflies: { strip: 'about', duration: '17s', travel: 6, rotation: 0 },
 
   /** Projects. Afternoon in the workshop yard. */

@@ -5,6 +5,7 @@ import type { Group } from 'three'
 import { MODELS } from '../models'
 import { Dock } from '../props/Dock'
 import { Fireflies } from '../props/Fireflies'
+import { Floor } from '../props/Floor'
 import { Lantern } from '../props/Lantern'
 import { Prop } from '../props/Prop'
 import { Traveller } from '../props/Traveller'
@@ -23,6 +24,9 @@ const buoy = ambientActors.contactBuoy
 
 /** Pixels per world unit at the ground, at the desktop capture. */
 const PX = 85
+
+/** The pond's surface above the floor: its bank stands this tall. */
+const POND = 0.12
 
 /** The shore's surface. The islet stands this far above the water. */
 const SHORE = 0.14
@@ -87,9 +91,10 @@ const glints = [
  * edge with their feet over the water: they arrived by the boat moored beside
  * them, and this is as far as the route goes.
  *
- * One object: a pond in the band's own blue with a stone rim, the islet in
- * its left third and the dock reaching from it across the water. It stands
- * beside the copy the way the island stands beside the hero.
+ * One object: a pond in a low stone bank, standing on the band itself, the
+ * islet in its left third and the dock reaching from it across the water.
+ * The sky band is the ground here, so the pond sits where the trail comes
+ * down to the page's last edge.
  */
 export function ContactScene({ host, active, parallax, noticed, onNoticed }: SceneProps) {
   const group = useDiorama(host, { active, parallax, bob: 0, yaw: 0, period: 10 })
@@ -121,9 +126,9 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.3, 7.0]}
+        position={[0.3, 3.4, 10.6]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.3, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.35, 0)}
       />
       <hemisphereLight args={['#dff0fa', '#8fa7c4', 1.2]} />
       <directionalLight
@@ -142,98 +147,101 @@ export function ContactScene({ host, active, parallax, noticed, onNoticed }: Sce
       <directionalLight position={[-3, 2, 5]} intensity={0.45} color="#7ec4f2" />
 
       <group ref={group}>
-        <Water
-          radius={3.1}
-          stretch={[1.15, 0.8]}
-          rotation={0.25}
-          actor={shimmer}
-          glints={glints}
-          color="#8fc3e6"
-          glint="#ffffff"
-          rim="#6e7787"
-          animate={active}
-        />
-
-        {/* The islet: a hand above the water, its rim going under it. */}
-        <group position={[-2.1, 0, -0.1]} scale={[1.2, 1, 1.0]}>
-          <mesh position={[0, SHORE - 0.07, 0]} receiveShadow>
-            <cylinderGeometry args={[1.5, 1.4, 0.14, 8]} />
-            <meshStandardMaterial color="#6fbf57" flatShading roughness={1} />
-          </mesh>
-          <mesh position={[0, -0.06, 0]}>
-            <cylinderGeometry args={[1.4, 1.25, 0.14, 8]} />
-            <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
-          </mesh>
-        </group>
-
-        <Dock position={[-1.0, 0, 0]} length={2.4} width={1.0} height={DECK} />
-
-        {/* The end post's lantern, at the origin the spot test aims at. */}
-        <group ref={focal} position={[1.15, DECK + 0.78, -0.36]}>
-          <Lantern
-            position={[0, -0.78, 0]}
-            height={0.98}
-            level={pointedAt || noticed ? 1 : 0.35}
-            flicker={lantern}
-            power={2.6}
+        <Floor shade="#2a4d6e" opacity={0.12} />
+        <group position={[0, POND, 0]}>
+          <Water
+            radius={2.8}
+            stretch={[1.1, 0.72]}
+            rotation={0.25}
+            actor={shimmer}
+            glints={glints}
+            color="#8fc3e6"
+            glint="#ffffff"
+            rim="#98a0ae"
             animate={active}
           />
-        </group>
 
-        {/* Seated on the deck edge, feet over the water. */}
-        <group position={[0.65, DECK, 0.34]} rotation={[0, 0.25, 0]}>
-          <Traveller pose="seated" />
-        </group>
+          {/* The islet: a hand above the water, its rim going under it. */}
+          <group position={[-2.1, 0, -0.1]} scale={[1.2, 1, 1.0]}>
+            <mesh position={[0, SHORE - 0.07, 0]} receiveShadow>
+              <cylinderGeometry args={[1.5, 1.4, 0.14, 8]} />
+              <meshStandardMaterial color="#6fbf57" flatShading roughness={1} />
+            </mesh>
+            <mesh position={[0, -0.06, 0]}>
+              <cylinderGeometry args={[1.4, 1.25, 0.14, 8]} />
+              <meshStandardMaterial color="#7a4d31" flatShading roughness={1} />
+            </mesh>
+          </group>
 
-        {/* Moored beside the dock, riding its own small swell. */}
-        <group ref={canoe} position={[2.05, 0.02, 0.75]} rotation={[0, 0.35, 0]}>
-          <Prop url={MODELS.canoe} position={[0, 0, 0]} scale={0.85} rotation={0} />
-          <Prop url={MODELS.paddle} position={[0.15, 0.16, 0.05]} scale={0.85} rotation={1.2} />
-        </group>
+          <Dock position={[-1.0, 0, 0]} length={2.4} width={1.0} height={DECK} />
 
-        {/* A float marking the channel, on its own slower rhythm. */}
-        <group ref={float} position={[2.5, 0, -1.15]}>
-          <mesh position={[0, 0.06, 0]} castShadow>
-            <cylinderGeometry args={[0.16, 0.12, 0.16, 6]} />
-            <meshStandardMaterial color="#e8552b" flatShading roughness={1} />
-          </mesh>
-          <mesh position={[0, 0.2, 0]} castShadow>
-            <cylinderGeometry args={[0.05, 0.05, 0.14, 6]} />
-            <meshStandardMaterial color="#e8cf9c" flatShading roughness={1} />
-          </mesh>
-          <mesh position={[0, 0.31, 0]}>
-            <coneGeometry args={[0.07, 0.09, 4]} />
-            <meshStandardMaterial color="#e8552b" flatShading roughness={1} />
-          </mesh>
-        </group>
+          {/* The end post's lantern, at the origin the spot test aims at. */}
+          <group ref={focal} position={[1.15, DECK + 0.78, -0.36]}>
+            <Lantern
+              position={[0, -0.78, 0]}
+              height={0.98}
+              level={pointedAt || noticed ? 1 : 0.35}
+              flicker={lantern}
+              power={2.6}
+              animate={active}
+            />
+          </group>
 
-        <group ref={rush}>
-          {rushes.map((prop) => (
+          {/* Seated on the deck edge, feet over the water. */}
+          <group position={[0.65, DECK, 0.34]} rotation={[0, 0.25, 0]}>
+            <Traveller pose="seated" />
+          </group>
+
+          {/* Moored beside the dock, riding its own small swell. */}
+          <group ref={canoe} position={[2.05, 0.02, 0.75]} rotation={[0, 0.35, 0]}>
+            <Prop url={MODELS.canoe} position={[0, 0, 0]} scale={0.85} rotation={0} />
+            <Prop url={MODELS.paddle} position={[0.15, 0.16, 0.05]} scale={0.85} rotation={1.2} />
+          </group>
+
+          {/* A float marking the channel, on its own slower rhythm. */}
+          <group ref={float} position={[2.5, 0, -1.15]}>
+            <mesh position={[0, 0.06, 0]} castShadow>
+              <cylinderGeometry args={[0.16, 0.12, 0.16, 6]} />
+              <meshStandardMaterial color="#e8552b" flatShading roughness={1} />
+            </mesh>
+            <mesh position={[0, 0.2, 0]} castShadow>
+              <cylinderGeometry args={[0.05, 0.05, 0.14, 6]} />
+              <meshStandardMaterial color="#e8cf9c" flatShading roughness={1} />
+            </mesh>
+            <mesh position={[0, 0.31, 0]}>
+              <coneGeometry args={[0.07, 0.09, 4]} />
+              <meshStandardMaterial color="#e8552b" flatShading roughness={1} />
+            </mesh>
+          </group>
+
+          <group ref={rush}>
+            {rushes.map((prop) => (
+              <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
+            ))}
+          </group>
+          {shore.map((prop) => (
             <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
           ))}
-        </group>
-        {shore.map((prop) => (
-          <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
-        ))}
-        {deck.map((prop) => (
-          <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
-        ))}
-        {shallows.map((prop) => (
-          <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
-        ))}
+          {deck.map((prop) => (
+            <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
+          ))}
+          {shallows.map((prop) => (
+            <Prop key={`${prop.position[0]}:${prop.position[2]}`} {...prop} />
+          ))}
 
-        <Fireflies
-          actor={fireflies}
-          px={PX}
-          animate={active}
-          spots={[
-            [-1.3, 0.55, 0.8],
-            [-0.6, 0.4, 1.5],
-            [-1.8, 0.7, -0.5],
-            [0.3, 0.3, 1.7],
-            [2.2, 0.35, 1.3],
-          ]}
-        />
+          <Fireflies
+            actor={fireflies}
+            px={PX}
+            animate={active}
+            spots={[
+              [-1.3, 0.55, 0.8],
+              [-0.6, 0.4, 1.5],
+              [-1.8, 0.7, -0.5],
+              [0.3, 0.3, 1.7],
+              [2.2, 0.35, 1.3],
+            ]}
+          />
+        </group>
       </group>
     </>
   )
