@@ -3,7 +3,8 @@ import type { Project } from './types'
 /**
  * Transcribed from docs/CONTENT.md §4.
  *
- * Order in this array is order on the page. Exactly one entry carries
+ * Order in this array is order on the page: the flagship first, then the
+ * rest newest first by when the work ended. Exactly one entry carries
  * `featured: true`; promoting a different project to flagship is that one edit
  * and nothing else. Adding a project is appending one object.
  *
@@ -33,11 +34,35 @@ export const projects: readonly Project[] = [
       problem:
         'Turn execution had grown into one long branching method. Adding an ability meant editing the same function everyone else was editing, and effects interacted in ways nobody could trace.',
       built:
-        'A modular battle engine using Chain of Responsibility, so abilities and effects became independent links instead of branches. gRPC between services, a STOMP WebSocket lobby and matchmaking service, and a React frontend built on auto-generated GraphQL hooks so the client cannot drift from the schema.',
+        'A modular battle engine using Chain of Responsibility, so abilities and effects became independent links instead of branches. gRPC between services, a STOMP WebSocket lobby and matchmaking service, and a React frontend typed by GraphQL Code Generator across its 8 queries and mutations, so the client cannot drift from the schema.',
       decision:
         'Making turn resolution a chain rather than a switch. Each ability and effect handles what it understands and passes the rest along, which turns "add an ability" into adding a link rather than editing shared control flow.',
       result:
-        'Sub-150ms gameplay latency, roughly 40% less duplicated code across services, and a turn pipeline 143 lines shorter where adding an ability became additive rather than invasive.',
+        'Four turn handlers took the core battle service from 257 to 182 lines (29%), and shared models, mappers and security config moved into a common library of 40 classes reused by 29 service files.',
+    },
+  },
+  {
+    id: 'distributed-enrollment',
+    name: 'Distributed Online Enrollment System',
+    tagline:
+      'A course enrollment platform split into Go services, built so one node going down does not take sign-in or seats with it.',
+    summary:
+      'Five Go services on Docker Compose behind a React client, with local Ed25519 JWT verification, row-level locking against over-enrollment, a PostgreSQL streaming replica, and a notifier that emails enrollment and grade events.',
+    category: 'Distributed Systems',
+    role: 'Design and implementation',
+    stack: ['Go', 'PostgreSQL', 'React', 'TypeScript', 'Docker'],
+    status: 'complete',
+    featured: false,
+    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/STDISCM-P4' }],
+    detail: {
+      problem:
+        'Enrollment is the moment everyone asks for the same courses at once. A seat count read and then written in two steps lets two students take the last seat, and a system that sends every request through one auth node goes down with that node.',
+      built:
+        'Five Go services on Docker Compose behind a React and TypeScript client, PostgreSQL row-level locking on seat allocation, a PostgreSQL 17 streaming replica set up with pg_basebackup, and a cursor-based notifier service that emails enrollment and grade events and resumes after a restart.',
+      decision:
+        'Verifying Ed25519-signed JWTs locally in each service instead of asking the auth service on every request, so signed-in users kept working while the auth node was down.',
+      result:
+        'Integration tests race 20 concurrent enrollments into a 5-seat course, and exactly 5 are admitted.',
     },
   },
   {
@@ -68,12 +93,36 @@ export const projects: readonly Project[] = [
     },
   },
   {
+    id: 'os-emulator',
+    name: 'Multi-Core OS Process Emulator',
+    tagline:
+      'A process emulator that schedules instruction streams across up to 255 simulated CPU cores.',
+    summary:
+      'A C++20 emulator running processes of 1,000 to 2,000 instructions under FCFS and Round-Robin scheduling with configurable time quanta, each busy core stepped on its own thread against a shared cycle clock.',
+    category: 'Systems',
+    role: 'Design and implementation',
+    stack: ['C++20', 'CMake'],
+    status: 'complete',
+    featured: false,
+    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/os-emulator' }],
+    detail: {
+      problem:
+        'A scheduler can only be reasoned about if every core agrees on what time it is. Cores left to run freely drift apart, and a Round-Robin quantum stops meaning the same thing on each of them.',
+      built:
+        'An emulator of up to 255 CPU cores running processes of 1,000 to 2,000 instructions under FCFS and Round-Robin scheduling with configurable time quanta, and an interpreter for 5 instruction types including nested loops.',
+      decision:
+        'Stepping each CPU tick in parallel with one std::jthread per busy core, synchronized on a global cycle clock with mutexes and condition variables, so the cores run concurrently but never out of step.',
+      result:
+        'Both scheduling policies run across up to 255 cores from configuration, with the time quantum a setting rather than a constant.',
+    },
+  },
+  {
     id: 'plaza-transpo',
     name: 'Plaza Transportation Booking',
     tagline:
       'A logistics booking platform where the booking lifecycle is an enforced state machine, not a status column.',
     summary:
-      'A booking backend for a transportation company, with a documented 26-endpoint OpenAPI contract and a lifecycle that refuses illegal transitions rather than recording them.',
+      'A booking backend for a transportation company, with a documented 25-endpoint OpenAPI contract and a lifecycle that refuses illegal transitions rather than recording them.',
     category: 'Full-Stack / Client',
     role: 'Backend',
     stack: ['TypeScript', 'Express', 'Prisma', 'PostgreSQL', 'OpenAPI'],
@@ -88,11 +137,58 @@ export const projects: readonly Project[] = [
       problem:
         'Bookings were being edited after dispatch, and nothing recorded who changed what or when.',
       built:
-        'The booking lifecycle modeled as an enforced state machine with terminal-state locking and an edit cutoff window, JWT authentication, an audit log written on every status change, and a documented 26-endpoint OpenAPI contract.',
+        'The booking lifecycle modeled as an enforced state machine with terminal-state locking and an edit cutoff window, JWT authentication, an audit log written on every status change, and a documented 25-endpoint OpenAPI contract.',
       decision:
         'Putting the lifecycle in the domain rather than in the UI. A status column plus disabled buttons is a convention; a state machine that rejects an illegal transition is a guarantee that survives a direct API call.',
       result:
         'Illegal transitions became impossible rather than discouraged, and every status change is attributable.',
+    },
+  },
+  {
+    id: 'electricity-access-prediction',
+    name: 'Household Electricity Access Prediction',
+    tagline:
+      'A classifier that predicts household electricity access in the Philippines, tuned for the minority class rather than for accuracy.',
+    summary:
+      'A scikit-learn logistic regression trained on 40,171 records from the 2012 Family Income and Expenditure Survey, with a preprocessing pipeline for missing values and class weighting for an 87/13 imbalance.',
+    category: 'Data Science',
+    role: 'Pipeline and model',
+    stack: ['Python', 'scikit-learn', 'Pandas', 'NumPy', 'Seaborn', 'Matplotlib'],
+    status: 'complete',
+    featured: false,
+    links: [],
+    detail: {
+      problem:
+        'With the classes split 87 to 13, a model that always predicts the majority is 87% accurate and useless. The households worth finding are the minority it would never flag.',
+      built:
+        'A preprocessing pipeline on ColumnTransformer, with median and mode imputation for more than 14,000 missing values, one-hot encoding and standard scaling, expanding 8 raw socioeconomic and housing features into 90 model inputs for a logistic regression classifier.',
+      decision:
+        'Optimizing for minority-class recall instead of accuracy: class weighting in the model, and RandomizedSearchCV tuning under 5-fold cross-validation.',
+      result: 'Minority-class recall rose from 42% to 80%, at a ROC AUC of 0.89.',
+    },
+  },
+  {
+    id: 'data-warehouse',
+    name: 'Multi-Source Data Warehouse',
+    tagline:
+      'A star-schema warehouse that brings four differently shaped sources into one place to query.',
+    summary:
+      'Python and Pandas ETL from two cloud MySQL databases, a CSV dataset and a MongoDB collection into a MySQL star schema, containerized with Docker Compose.',
+    category: 'Data Engineering',
+    role: 'ETL pipeline',
+    stack: ['Python', 'Pandas', 'SQLAlchemy', 'MySQL', 'MongoDB', 'Docker'],
+    status: 'complete',
+    featured: false,
+    links: [],
+    detail: {
+      problem:
+        'The four sources disagreed on shape: relational tables, a flat CSV, and nested MongoDB documents. None of them could be queried against the others as they stood.',
+      built:
+        'A MySQL star schema of 6 dimension tables around a central fact table, ETL from 2 cloud MySQL databases, a CSV dataset and a MongoDB collection, and a consumer complaints pipeline in Pandas with deduplication, date normalization and NaN-to-NULL cleaning.',
+      decision:
+        'Flattening the nested MongoDB order documents into normalized order, item and tag tables, so orders join the rest of the warehouse the way any relational source does.',
+      result:
+        '5,000 nested order documents load as rows, and the whole pipeline runs with one command on macOS, Linux and Windows through Docker Compose.',
     },
   },
   {
