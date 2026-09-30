@@ -182,7 +182,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'boseskotrabahoko',
-    name: 'BosesKoTrabahoKo',
+    name: 'BosesKoTrabahoKo (EMPATHY)',
     tagline:
       'An AI career guide that turns a graduate’s course, skills and goals into matched job suggestions.',
     summary:
