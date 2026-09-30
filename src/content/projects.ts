@@ -175,11 +175,11 @@ export const projects: readonly Project[] = [
     summary:
       'Python and Pandas ETL from two cloud MySQL databases, a CSV dataset and a MongoDB collection into a MySQL star schema, containerized with Docker Compose.',
     category: 'Data Engineering',
-    role: 'ETL pipeline',
+    role: 'ETL pipeline, in a team of four',
     stack: ['Python', 'Pandas', 'SQLAlchemy', 'MySQL', 'MongoDB', 'Docker'],
     status: 'complete',
     featured: false,
-    links: [],
+    links: [{ kind: 'repo', url: 'https://github.com/enriquezduane/simple-data-warehouse' }],
     detail: {
       problem:
         'The four sources disagreed on shape: relational tables, a flat CSV, and nested MongoDB documents. None of them could be queried against the others as they stood.',
