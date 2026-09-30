@@ -20,7 +20,7 @@ export const stills = {
     compact: { src: '/images/scenes/hero-compact.webp', width: 342, height: 342 },
   },
   about: {
-    wide: { src: '/images/scenes/about.webp', width: 800, height: 360 },
+    wide: { src: '/images/scenes/about.webp', width: 560, height: 300 },
     compact: { src: '/images/scenes/about-compact.webp', width: 390, height: 220 },
   },
   projects: {

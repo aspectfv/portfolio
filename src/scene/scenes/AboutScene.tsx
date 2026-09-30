@@ -101,9 +101,9 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 3.5, 11.2]}
+        position={[0.3, 2.9, 8.4]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.6, 0)}
+        onUpdate={(camera) => camera.lookAt(0, 0.7, 0)}
       />
       <hemisphereLight args={['#7ec4f2', '#c98a4b', 1.5]} />
       <directionalLight

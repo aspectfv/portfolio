@@ -50,7 +50,7 @@ export function About() {
       nextBiome="canvas"
       ridge="treeline"
     >
-      <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
+      <div className="grid gap-8 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center md:gap-12">
         <div>
           {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
           <div className="prose-measure text-ink-muted mt-6 space-y-5">
@@ -68,7 +68,7 @@ export function About() {
         <Strip
           scene="about"
           reaction="wave"
-          className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:h-[52vh] md:max-h-[580px] md:min-h-[360px] md:self-end md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+          className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:h-[300px] md:self-end md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
         />
       </div>
     </Section>
