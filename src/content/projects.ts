@@ -268,7 +268,7 @@ export const projects: readonly Project[] = [
     tagline:
       'A permit tracking system that keeps a chain of stores’ business permits current, with approvals, payments and expiry reminders.',
     summary:
-      'A full-stack permit management app in React, Express and PostgreSQL, built by a team of nine: the largest share of commits, mostly on the backend.',
+      'A full-stack permit management app built for the Environmental Management Unit (EMU) of Jollibee Foods Corporation (JFC), in React, Express and PostgreSQL, by a team of nine: the largest share of commits, mostly on the backend.',
     category: 'Full-Stack',
     role: 'Backend, in a team of nine',
     stack: ['React', 'TypeScript', 'Tailwind CSS', 'Express', 'Sequelize', 'PostgreSQL', 'Swagger'],
