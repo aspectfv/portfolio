@@ -265,7 +265,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'jfc-emu-permit-system',
-    name: 'JFC EMU Permit System',
+    name: 'JFC EMU Permit System (CSSWENG)',
     tagline:
       'A permit tracking system that keeps a chain of stores’ business permits current, with approvals, payments and expiry reminders.',
     summary:
@@ -275,6 +275,10 @@ export const projects: readonly Project[] = [
     stack: ['React', 'TypeScript', 'Tailwind CSS', 'Express', 'Sequelize', 'PostgreSQL', 'Swagger'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/jfc-emu-permit-system.webp',
+      alt: 'The Permits Expiring page: colour-coded counts of valid, expiring, expired and pending permits above a table of expiring permits listing store, region, permit type, issuing agency, permit number, release date and valid-until date, all on sample data.',
+    },
     links: [],
     detail: {
       problem:
