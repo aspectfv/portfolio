@@ -330,6 +330,10 @@ export const projects: readonly Project[] = [
     stack: ['C', 'Winsock2', 'Win32 API', 'TCP', 'UDP'],
     status: 'complete',
     featured: false,
+    image: {
+      src: '/images/file-exchange-system.webp',
+      alt: 'The File Exchange Client window: Join, Leave, Help, Directory and Register buttons above a console showing a session that joins the server, registers a handle, uploads Hello.txt, lists the server directory and sends a broadcast, with Broadcast, Unicast, Store and Command Builder buttons below.',
+    },
     links: [{ kind: 'repo', url: 'https://github.com/aspectfv/CSNETWK-MCO' }],
     detail: {
       problem:
