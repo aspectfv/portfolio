@@ -43,7 +43,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'distributed-enrollment',
-    name: 'Distributed Online Enrollment System',
+    name: 'Distributed Online Enrollment System (STDISCM)',
     tagline:
       'A course enrollment platform split into Go services, built so one node going down does not take sign-in or seats with it.',
     summary:
