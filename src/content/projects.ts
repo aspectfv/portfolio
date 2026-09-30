@@ -98,7 +98,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'os-emulator',
-    name: 'Multi-Core OS Process Emulator',
+    name: 'Multi-Core OS Process Emulator (CSOPESY)',
     tagline:
       'A process emulator that schedules instruction streams across up to 255 simulated CPU cores.',
     summary:
@@ -153,8 +153,92 @@ export const projects: readonly Project[] = [
     },
   },
   {
+    id: 'euclidean-distance-kernel',
+    name: 'x86-64 Euclidean Distance Kernel (LBYARCH)',
+    tagline:
+      'A distance kernel hand-written in x86-64 assembly and benchmarked against the same kernel in C.',
+    summary:
+      'Computes Euclidean distances over vectors of up to 2^28 points with scalar SSE instructions in NASM, called from a C harness that times both versions over 30 runs and checks that their results agree.',
+    category: 'Systems / Low-Level',
+    role: 'Assembly kernel and benchmark, in a pair',
+    stack: ['x86-64 Assembly', 'NASM', 'C', 'SSE'],
+    status: 'complete',
+    featured: false,
+    image: {
+      src: '/images/euclidean-distance-kernel.webp',
+      alt: 'The benchmark’s console output at three vector sizes, 2^20, 2^24 and 2^28 elements, each showing the average C and assembly kernel times over 30 runs and a passing correctness check.',
+    },
+    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/LBYARCH-MP2' }],
+    detail: {
+      problem:
+        'A benchmark comparison only means something if both versions compute the same thing. Timing an assembly kernel without checking its output proves nothing.',
+      built:
+        'The kernel in x86-64 assembly using scalar SSE instructions under the Windows x64 calling convention, the same kernel in C, and a harness that runs both 30 times at 2^20, 2^24 and 2^28 elements and compares every output element within a tolerance.',
+      decision:
+        'Holding the five array pointers and the loop counter in registers for the whole loop, saving and restoring the callee-saved ones around it, so the loop body touches memory only for the data itself.',
+      result:
+        'The assembly kernel ran about 2.7 to 2.8 times faster than the C kernel at every size, with every output matching. The C version was timed in a Debug build, so the gap overstates what an optimizing compiler would leave.',
+    },
+  },
+  {
+    id: 'boseskotrabahoko',
+    name: 'BosesKoTrabahoKo',
+    tagline:
+      'An AI career guide that turns a graduate’s course, skills and goals into matched job suggestions.',
+    summary:
+      '“My Voice, My Job”: a React and Express app where a multi-step onboarding feeds a Groq-hosted model that validates the course of study and generates job suggestions with match scores.',
+    category: 'AI Engineering',
+    role: 'Design and implementation',
+    stack: ['React', 'Vite', 'Material UI', 'Express', 'Groq'],
+    status: 'in-progress',
+    featured: false,
+    image: {
+      src: '/images/boseskotrabahoko.webp',
+      alt: 'The onboarding’s skills step, 2 of 4, asking about current skills and interests, with Google Workspace, Project Management, Web Development and Research selected from a grid of skill chips and a field for adding a custom skill.',
+    },
+    links: [],
+    detail: {
+      problem:
+        'A job suggestion is only as good as the profile behind it. Given a misspelled or made-up course, a model will still recommend jobs for it, confidently.',
+      built:
+        'A multi-step onboarding for background, skills and career goals, an Express API that sends the profile to a Groq-hosted model for job suggestions with match scores, job browsing and detail views in Material UI, and Hurl tests for the course validation and job generation endpoints.',
+      decision:
+        'Validating the course of study with a separate model call before generating anything, and falling back to templates built from the profile when the AI service fails, so a user never gets an empty page or suggestions for a course that does not exist.',
+      result:
+        'The onboarding-to-suggestions flow works end to end. The dashboard, skills tracking and profile pages were still in development.',
+    },
+  },
+  {
+    id: 'nutrimate',
+    name: 'NutriMate (CCINOV8)',
+    tagline:
+      'A meal-planning app concept that builds a week of meals around diet, budget and what is already in the pantry.',
+    summary:
+      'A clickable Next.js prototype: a short onboarding for dietary needs, goals, a per-meal budget in pesos and cooking time, then a weekly meal plan, recipe pages with reviews, and a grocery checklist, all on sample data.',
+    category: 'Product Prototype',
+    role: 'Design and implementation',
+    stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'shadcn/ui'],
+    status: 'complete',
+    featured: false,
+    image: {
+      src: '/images/nutrimate.webp',
+      alt: 'The prototype’s weekly meal plan on a phone-width screen, Monday selected, with breakfast, lunch and dinner cards each showing a dish, its calories and its cost in pesos, above Plan, Grocery and Profile tabs.',
+    },
+    links: [],
+    detail: {
+      problem:
+        'An innovation pitch lives or dies on whether people can picture using the product. A slide deck describing a meal planner asks them to imagine it.',
+      built:
+        'Ten screens in one Next.js app: onboarding for dietary restrictions and allergies, goals and a per-meal budget, kitchen equipment, cooking time and pantry staples, then a dashboard, a generating step, a day-by-day meal plan, recipe details with reviews, a grocery checklist and a profile.',
+      decision:
+        'Building it front-end only on sample data, so the whole flow could be clicked through and judged before any backend or model existed to generate real plans.',
+      result:
+        'A complete path from first question to grocery list that can be walked through end to end. The meal plans are sample data, not generated.',
+    },
+  },
+  {
     id: 'electricity-access-prediction',
-    name: 'Household Electricity Access Prediction',
+    name: 'Household Electricity Access Prediction (STINTSY)',
     tagline:
       'A classifier that predicts household electricity access in the Philippines, tuned for the minority class rather than for accuracy.',
     summary:
@@ -180,8 +264,32 @@ export const projects: readonly Project[] = [
     },
   },
   {
+    id: 'jfc-emu-permit-system',
+    name: 'JFC EMU Permit System',
+    tagline:
+      'A permit tracking system that keeps a chain of stores’ business permits current, with approvals, payments and expiry reminders.',
+    summary:
+      'A full-stack permit management app in React, Express and PostgreSQL, built by a team of nine: the largest share of commits, mostly on the backend.',
+    category: 'Full-Stack',
+    role: 'Backend, in a team of nine',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Express', 'Sequelize', 'PostgreSQL', 'Swagger'],
+    status: 'complete',
+    featured: false,
+    links: [],
+    detail: {
+      problem:
+        'A business permit that lapses is a store that cannot operate. Tracking them by hand across many stores means a renewal is noticed when it is already late.',
+      built:
+        'Express routes and Sequelize models over PostgreSQL for permits, stores and their regional hierarchy, JWT authentication with role-based views, document uploads, email notifications on submissions and uploads, scheduled reminders for expiring permits, report counts for dashboards, and Swagger documentation for the routes.',
+      decision:
+        'Keeping each permit as a history of submission tickets rather than one record that gets overwritten, so a rejected submission falls back to the latest accepted one instead of erasing it.',
+      result:
+        'Expiring permits trigger reminder emails on a schedule rather than on someone’s memory, and every route the frontend uses is documented.',
+    },
+  },
+  {
     id: 'data-warehouse',
-    name: 'Multi-Source Data Warehouse',
+    name: 'Multi-Source Data Warehouse (STADVDB)',
     tagline:
       'A star-schema warehouse that brings four differently shaped sources into one place to query.',
     summary:
@@ -205,6 +313,28 @@ export const projects: readonly Project[] = [
         'Flattening the nested MongoDB order documents into normalized order, item and tag tables, so orders join the rest of the warehouse the way any relational source does.',
       result:
         '5,000 nested order documents load as rows, and the whole pipeline runs with one command on macOS, Linux and Windows through Docker Compose.',
+    },
+  },
+  {
+    id: 'file-exchange-system',
+    name: 'TCP/UDP File Exchange System (CSNETWK)',
+    tagline: 'A client-server file exchange in C, with files over TCP and messages over UDP.',
+    summary:
+      'A Winsock2 server that gives each client its own thread, a command-line client and a native Windows GUI client, supporting file store, list and fetch plus broadcast and direct messages.',
+    category: 'Networking',
+    role: 'Design and implementation',
+    stack: ['C', 'Winsock2', 'Win32 API', 'TCP', 'UDP'],
+    status: 'complete',
+    featured: false,
+    links: [{ kind: 'repo', url: 'https://github.com/aspectfv/CSNETWK-MCO' }],
+    detail: {
+      problem:
+        'A client that waits on its TCP connection for command replies cannot also be listening for messages that other clients send at any moment.',
+      built:
+        'A TCP server that accepts clients and hands each one a thread, nine commands (join, leave, register, store, dir, get, help, broadcast and unicast), a command-line client, and a Win32 GUI client built with Common Controls and Rich Edit.',
+      decision:
+        'Splitting the client in two: a stateful TCP connection for commands and file transfer, and a separate thread on a UDP socket that receives broadcast and direct messages as they arrive.',
+      result: 'Every command in the specification works, and the GUI client was added beyond it.',
     },
   },
   {
