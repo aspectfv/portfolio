@@ -26,8 +26,8 @@ const stats = [
 /**
  * No panel. This is the one place on the page that is only a person talking,
  * and a frame around it made it look like another module in a stack of modules.
- * The prose sits on the meadow at reading measure, the trailhead stands beside
- * it, and the numbers are tags underneath rather than a third box.
+ * The prose sits on the meadow at reading measure. Beside it, the numbers sit
+ * at the top of the column and the trailhead stands at its foot.
  *
  * The strip bleeds to the viewport's right edge on desktop and follows the
  * prose at full width on a phone. Either way its bottom edge is the band's
@@ -50,7 +50,7 @@ export function About() {
       nextBiome="canvas"
       ridge="treeline"
     >
-      <div className="grid gap-8 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center md:gap-12">
+      <div className="grid gap-8 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
         <div>
           {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
           <div className="prose-measure text-ink-muted mt-6 space-y-5">
@@ -58,18 +58,23 @@ export function About() {
               <p key={paragraph.slice(0, 32)}>{paragraph}</p>
             ))}
           </div>
+        </div>
+        {/* The numbers head the right column and the trailhead stands under
+            them on the band's floor, so the column beside the prose is used
+            top to bottom rather than only at its foot. */}
+        <div className="flex flex-col gap-8">
           {/* The one frame in a section that otherwise carries none. The prose
               stays open on the band; the numbers are a different kind of object
               and a sheet is what they are. */}
-          <Panel className="mt-8 max-w-sm">
+          <Panel className="max-w-sm">
             <StatBlock stats={stats} label="Portfolio at a glance" />
           </Panel>
+          <Strip
+            scene="about"
+            reaction="wave"
+            className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:mt-auto md:h-[300px] md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+          />
         </div>
-        <Strip
-          scene="about"
-          reaction="wave"
-          className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:h-[300px] md:self-end md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
-        />
       </div>
     </Section>
   )
