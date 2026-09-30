@@ -361,7 +361,7 @@ export const projects: readonly Project[] = [
       alt: 'A retro pixel-art forum index with a neon NexusHub banner over grouped discussion boards listing post and reply counts and the most recent post in each.',
     },
     links: [
-      { kind: 'demo', url: 'https://nexushub-3snn.onrender.com/' },
+      { kind: 'demo', url: 'https://nexushub.joshuatating.com/' },
       { kind: 'repo', url: 'https://github.com/aspectfv/NexusHub' },
     ],
     detail: {
