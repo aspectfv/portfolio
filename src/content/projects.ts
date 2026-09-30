@@ -190,7 +190,7 @@ export const projects: readonly Project[] = [
     category: 'AI Engineering',
     role: 'Design and implementation',
     stack: ['React', 'Vite', 'Material UI', 'Express', 'Groq'],
-    status: 'in-progress',
+    status: 'complete',
     featured: false,
     image: {
       src: '/images/boseskotrabahoko.webp',
@@ -204,8 +204,7 @@ export const projects: readonly Project[] = [
         'A multi-step onboarding for background, skills and career goals, an Express API that sends the profile to a Groq-hosted model for job suggestions with match scores, job browsing and detail views in Material UI, and Hurl tests for the course validation and job generation endpoints.',
       decision:
         'Validating the course of study with a separate model call before generating anything, and falling back to templates built from the profile when the AI service fails, so a user never gets an empty page or suggestions for a course that does not exist.',
-      result:
-        'The onboarding-to-suggestions flow works end to end. The dashboard, skills tracking and profile pages were still in development.',
+      result: 'The onboarding-to-suggestions flow works end to end.',
     },
   },
   {
