@@ -11,6 +11,7 @@ import { Rise } from '../props/Rise'
 import { Trailhead } from '../props/Trailhead'
 import { Traveller } from '../props/Traveller'
 import type { SceneProps } from '../StripView'
+import { useAnchor } from '../useAnchor'
 import { useDiorama } from '../useDiorama'
 import { useSpot } from '../useSpot'
 import { ambientActors, period } from '@/scenery/ambient'
@@ -87,6 +88,8 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
   const blades = useRef<Group>(null)
   // The traveller is this strip's focal object: point at them and they wave.
   const pointedAt = useSpot(host, traveller, { radius: 56, onEnter: onNoticed })
+  // Right of centre, under the stats sheet rather than under the prose.
+  const shift = useAnchor({ target: 4.0, reach: 4.2, distance: 8.7, fov: 30 })
 
   useFrame((state) => {
     if (!active) return
@@ -101,9 +104,9 @@ export function AboutScene({ host, active, parallax, noticed, onNoticed }: Scene
     <>
       <PerspectiveCamera
         makeDefault
-        position={[0.3, 2.9, 8.4]}
+        position={[0.3 - shift, 2.9, 8.4]}
         fov={30}
-        onUpdate={(camera) => camera.lookAt(0, 0.7, 0)}
+        onUpdate={(camera) => camera.lookAt(-shift, 0.7, 0)}
       />
       <hemisphereLight args={['#7ec4f2', '#c98a4b', 1.5]} />
       <directionalLight

@@ -26,16 +26,15 @@ const stats = [
 /**
  * No panel. This is the one place on the page that is only a person talking,
  * and a frame around it made it look like another module in a stack of modules.
- * The prose sits on the meadow at reading measure. Beside it, the numbers sit
- * at the top of the column and the trailhead stands at its foot.
+ * The lede runs at reading measure. The rest of the prose sits beside the
+ * numbers, so the row the sheet occupies is a row the prose uses too, and
+ * neither floats in a column of its own.
  *
- * The strip bleeds to the viewport's right edge on desktop and follows the
- * prose at full width on a phone. Either way its bottom edge is the band's
- * floor, so the trailhead stands where the meadow meets the next band. It
- * sits in the flow, so it cannot overlap the text at a width nobody tested.
- * The right margin is the distance from the content column to the edge of
- * the page; the document clips horizontal overflow, so the bleed can never
- * hand the page a scrollbar.
+ * The strip runs under the copy and bleeds both edges on desktop, with its
+ * bottom edge on the band's floor, so the trailhead stands where the meadow
+ * meets the next band. It sits in the flow, so it cannot overlap the text at
+ * a width nobody tested. The document clips horizontal overflow, so the bleed
+ * can never hand the page a scrollbar.
  */
 export function About() {
   const [lede, ...rest] = profile.about
@@ -50,32 +49,27 @@ export function About() {
       nextBiome="canvas"
       ridge="treeline"
     >
-      <div className="grid gap-8 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
-        <div>
-          {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
-          <div className="prose-measure text-ink-muted mt-6 space-y-5">
-            {rest.map((paragraph) => (
-              <p key={paragraph.slice(0, 32)}>{paragraph}</p>
-            ))}
-          </div>
+      {lede && <p className="text-lede prose-measure font-medium">{lede}</p>}
+      <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-start md:gap-12">
+        <div className="prose-measure text-ink-muted space-y-5">
+          {rest.map((paragraph) => (
+            <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+          ))}
         </div>
-        {/* The numbers head the right column and the trailhead stands under
-            them on the band's floor, so the column beside the prose is used
-            top to bottom rather than only at its foot. */}
-        <div className="flex flex-col gap-8">
-          {/* The one frame in a section that otherwise carries none. The prose
-              stays open on the band; the numbers are a different kind of object
-              and a sheet is what they are. */}
-          <Panel className="max-w-sm">
-            <StatBlock stats={stats} label="Portfolio at a glance" />
-          </Panel>
-          <Strip
-            scene="about"
-            reaction="wave"
-            className="-mx-6 -mb-(--spacing-section) h-[220px] md:mx-0 md:mt-auto md:h-[300px] md:-mr-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
-          />
-        </div>
+        {/* The one frame in a section that otherwise carries none. The prose
+            stays open on the band; the numbers are a different kind of object
+            and a sheet is what they are. */}
+        <Panel className="max-w-sm">
+          <StatBlock stats={stats} label="Portfolio at a glance" />
+        </Panel>
       </div>
+      {/* The trailhead stands on the band's floor under the copy, both edges
+          bleeding, the same way the places in the other sections do. */}
+      <Strip
+        scene="about"
+        reaction="wave"
+        className="-mx-6 mt-10 -mb-(--spacing-section) h-[220px] md:mt-6 md:h-[300px] md:-mx-[calc((100vw-min(100vw,var(--container-content)))/2+1.5rem)]"
+      />
     </Section>
   )
 }
