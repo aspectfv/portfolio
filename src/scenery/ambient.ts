@@ -41,11 +41,13 @@ export type AmbientActor = {
 }
 
 export const ambientActors = {
-  /** Hero. The sky backdrops are drawn; the island and the screen are in the view. */
+  /** Hero. The sky backdrops are drawn; everything else is in the view. */
   clouds: { strip: 'hero', duration: '34s', travel: null, rotation: 0 },
   birds: { strip: 'hero', duration: '52s', travel: null, rotation: 0 },
   heroIsland: { strip: 'hero', duration: '10.5s', travel: 8, rotation: 2.9 },
   heroScreen: { strip: 'hero', duration: '3.9s', travel: 0, rotation: 0 },
+  heroFalls: { strip: 'hero', duration: '2.7s', travel: 0, rotation: 0 },
+  heroFoliage: { strip: 'hero', duration: '6.8s', travel: 0, rotation: 1.4 },
 
   /** About. Late morning at the trailhead. */
   aboutFoliage: { strip: 'about', duration: '7s', travel: 0, rotation: 1.2 },
