@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { pressBase } from './ActionLink'
+import { ShardBurst } from './ShardBurst'
 import { useAchievements } from '@/hooks/useAchievements'
 
 type Status = 'idle' | 'copied' | 'failed'
@@ -58,8 +59,10 @@ export function CopyEmail({ email }: { email: string }) {
       }`}
     >
       {/* Feedback belongs where the visitor is looking, which for a copy is the
-          control they just pressed. A ring that expands and resolves, not a
-          burst: the world never rewards, and an interface pop is not the world. */}
+          control they just pressed: a ring that expands and resolves, and a
+          handful of shards thrown off it. The world itself still never
+          rewards; this is the interface answering a press. */}
+      {status === 'copied' && <ShardBurst key={`burst-${copies}`} />}
       {status === 'copied' && (
         <span
           key={copies}

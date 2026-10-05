@@ -33,15 +33,20 @@ function TrackHeading({
  * where it sits. The marker is decorative; the ordered list and the printed
  * period carry the sequence on their own.
  *
- * The offset puts the node on the rail, which is the container's left border.
- * A border rather than a drawn line, so the rail is continuous by construction
- * and cannot break at a gap between two lists.
+ * The offset puts the node on the rail. The rail is one span the height of the
+ * whole route, so it is continuous by construction and cannot break at a gap
+ * between two lists.
+ *
+ * On arrival the route is walked: the rail draws down, each node lights like a
+ * lantern as its turn comes, and the card slides out from the rail. `--station`
+ * carries the position in its list so the sequence is one stylesheet rule.
  */
-function Station({ children }: { children: React.ReactNode }) {
+function Station({ index, children }: { index: number; children: React.ReactNode }) {
   return (
-    <li className="relative">
+    <li style={{ '--station': index } as React.CSSProperties} className="relative">
       <span
         data-ornament=""
+        data-station-node=""
         aria-hidden="true"
         className="bg-surface border-ember-strong absolute top-5 -left-[35px] size-4 rounded-full border-4"
       />
@@ -63,6 +68,7 @@ function Station({ children }: { children: React.ReactNode }) {
 export function Experience() {
   // Each track is its own trigger: the education list sits a full screen below
   // the work list, and a shared one would cascade it off-screen.
+  const route = useReveal<HTMLDivElement>()
   const work = useReveal<HTMLOListElement>()
   const study = useReveal<HTMLOListElement>()
 
@@ -76,11 +82,17 @@ export function Experience() {
       nextBiome="sky"
       ridge="hills"
     >
-      <div className="border-edge max-w-3xl border-l-2 pl-7">
+      <div ref={route} data-route="" className="relative max-w-3xl pl-[30px]">
+        <span
+          data-ornament=""
+          data-rail=""
+          aria-hidden="true"
+          className="bg-edge absolute inset-y-0 left-0 w-0.5"
+        />
         <TrackHeading>Work</TrackHeading>
-        <ol ref={work} data-stagger="" className="space-y-5">
-          {experience.map((entry) => (
-            <Station key={entry.id}>
+        <ol ref={work} data-stations="" className="space-y-5">
+          {experience.map((entry, index) => (
+            <Station key={entry.id} index={index}>
               <div className="flex items-start gap-3">
                 <span
                   data-ornament=""
@@ -105,9 +117,9 @@ export function Experience() {
         </ol>
 
         <TrackHeading className="mt-10">Education</TrackHeading>
-        <ol ref={study} data-stagger="" className="space-y-5">
-          {education.map((entry) => (
-            <Station key={entry.id}>
+        <ol ref={study} data-stations="" className="space-y-5">
+          {education.map((entry, index) => (
+            <Station key={entry.id} index={index}>
               <div className="flex items-start gap-3">
                 <span
                   data-ornament=""

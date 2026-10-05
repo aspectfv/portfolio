@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { achievements, type AchievementId } from '@/achievements'
 import { Icon } from './Icon'
+import { ShardBurst } from './ShardBurst'
 import { useAchievements } from '@/hooks/useAchievements'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
@@ -53,9 +54,11 @@ export function AchievementToast() {
         <div className="bg-surface border-leaf-strong toast-life flex items-center gap-3 rounded-md border-2 border-b-(length:--edge-md) px-4 py-3">
           <span
             data-ornament=""
-            className="spark-pop bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
+            className="spark-pop relative bg-canvas border-edge inline-flex size-9 shrink-0 items-center justify-center rounded-sm border-2"
           >
             <Icon name="spark" className="size-5" />
+            {/* Thrown as the spark lands, so the burst and the pop are one beat. */}
+            <ShardBurst className="[--burst-delay:260ms]" />
           </span>
           <p className="text-meta">
             <span className="font-display text-leaf-ink block font-semibold">Unlocked</span>

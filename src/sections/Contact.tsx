@@ -3,6 +3,7 @@ import { CopyEmail } from '@/components/CopyEmail'
 import { Section } from '@/components/Section'
 import { Strip } from '@/scene/Strip'
 import { profile, sections } from '@/content/profile'
+import { useReveal } from '@/hooks/useReveal'
 
 const meta = sections.find((section) => section.id === 'contact')!
 
@@ -17,6 +18,8 @@ const meta = sections.find((section) => section.id === 'contact')!
  * this band, so the daytime clouds the hero drifts do not return.
  */
 export function Contact() {
+  const actions = useReveal<HTMLDivElement>()
+
   return (
     <Section
       id={meta.id}
@@ -40,7 +43,10 @@ export function Contact() {
             </a>
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          {/* The routes out set into place one at a time, each landing on its
+              own edge the way a pressed control does, so the last thing the
+              page does is hand the visitor the controls. */}
+          <div ref={actions} data-sockets="" className="mt-8 flex flex-wrap gap-3">
             <ActionLink href={`mailto:${profile.email}`} variant="primary">
               Email me
             </ActionLink>

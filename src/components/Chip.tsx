@@ -1,3 +1,5 @@
+import { useReveal } from '@/hooks/useReveal'
+
 /**
  * The slot: the unit that repeats everywhere a set of values is listed. A
  * technology, an inventory item, a thing found along the way — all the same
@@ -13,6 +15,12 @@
  * `Git` each taking half the width is most of that , and height is the scarce
  * resource on a phone. The cell is identical either way, so the narrow layout
  * loses an arrangement rather than an identity.
+ *
+ * The grid fills like an inventory: each item drops into its slot in turn
+ * when the list comes into view. The index rides on `--slot` so the cascade
+ * is one stylesheet rule rather than a timer per item. The flow list does not:
+ * a stack list on a card arrives with its card, and the inventory beat belongs
+ * to the one section whose subject is the kit.
  */
 export function Chip({ children }: { children: React.ReactNode }) {
   return (
@@ -33,11 +41,19 @@ export function ChipList({ items, label }: { items: readonly string[]; label: st
 }
 
 export function ChipGrid({ items, label }: { items: readonly string[]; label: string }) {
+  const ref = useReveal<HTMLUListElement>()
+
   return (
-    <ul aria-label={label} className="flex flex-wrap gap-2 sm:grid sm:grid-cols-3 lg:grid-cols-4">
-      {items.map((item) => (
+    <ul
+      ref={ref}
+      data-slots=""
+      aria-label={label}
+      className="flex flex-wrap gap-2 sm:grid sm:grid-cols-3 lg:grid-cols-4"
+    >
+      {items.map((item, index) => (
         <li
           key={item}
+          style={{ '--slot': index } as React.CSSProperties}
           className="bg-canvas border-edge text-meta flex items-center gap-1.5 rounded-sm border-2 border-b-(length:--edge-sm) px-2 py-1 font-medium"
         >
           {/* The notch. Decorative, and the reason a cell reads as a slot
@@ -47,6 +63,7 @@ export function ChipGrid({ items, label }: { items: readonly string[]; label: st
               rule the scenery follows. */}
           <span
             data-ornament=""
+            data-slot-notch=""
             aria-hidden="true"
             className="bg-edge hidden size-1.5 shrink-0 rotate-45 sm:block"
           />

@@ -21,11 +21,12 @@ export function ProjectCard({ project }: { project: Project }) {
     // Grid items stretch, which keeps a collapsed row level. Once one card in a
     // two-column row opens, its partner stops stretching so it does not grow a
     // blank panel beside the detail.
-    <article className="md:[article:has([aria-expanded=true])+&:nth-child(even)]:self-start md:[&:nth-child(odd):has(+article_[aria-expanded=true])]:self-start">
+    <article className="md:even:[--deal-tilt:5deg] md:even:[--entrance-delay:90ms] md:[article:has([aria-expanded=true])+&:nth-child(even)]:self-start md:[&:nth-child(odd):has(+article_[aria-expanded=true])]:self-start">
       <Panel
         title={project.name}
         icon="gem"
         tone="leaf"
+        entrance="deal"
         className="h-full overflow-hidden transition-[translate] duration-(--dur-base) ease-(--ease-standard) hover:-translate-y-1 focus-within:-translate-y-1"
       >
         <ProjectVisual {...(project.image ? { image: project.image } : {})} seed={project.id} />

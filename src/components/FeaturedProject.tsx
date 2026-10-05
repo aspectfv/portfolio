@@ -4,6 +4,7 @@ import { ProjectLinks } from '@/components/ProjectLinks'
 import { ProjectVisual } from '@/components/ProjectVisual'
 import { StatusPill } from '@/components/StatusPill'
 import type { Project } from '@/content/types'
+import { useReveal } from '@/hooks/useReveal'
 
 /**
  * The flagship, and the one thing on the page allowed to break the container.
@@ -35,6 +36,8 @@ const rivets = [
 ]
 
 export function FeaturedProject({ project }: { project: Project }) {
+  const mount = useReveal<HTMLDivElement>()
+
   return (
     <article className="mb-12 md:mb-16">
       <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center md:gap-12">
@@ -85,8 +88,14 @@ export function FeaturedProject({ project }: { project: Project }) {
         <div className="md:-mr-10 lg:-mr-24 2xl:-mr-44">
           {/* The mount. The capture is the one photograph in a world of drawn
               objects, and hanging it in a frame with a solid bottom edge is
-              what stops it reading as a stray rectangle dropped on the band. */}
-          <div className="bg-surface border-edge relative rounded-lg border-2 border-b-(length:--edge-lg) p-2 md:p-3">
+              what stops it reading as a stray rectangle dropped on the band.
+              On arrival the frame sets first and the capture slides into it
+              from the side it bleeds off. */}
+          <div
+            ref={mount}
+            data-mount=""
+            className="bg-surface border-edge relative rounded-lg border-2 border-b-(length:--edge-lg) p-2 md:p-3"
+          >
             <ProjectVisual
               {...(project.image ? { image: project.image } : {})}
               seed={project.id}

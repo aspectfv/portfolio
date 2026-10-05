@@ -3,16 +3,11 @@ import { ProjectCard } from '@/components/ProjectCard'
 import { Section } from '@/components/Section'
 import { Strip } from '@/scene/Strip'
 import { sections } from '@/content/profile'
-import { useReveal } from '@/hooks/useReveal'
 import { additionalProjects, featuredProject } from '@/content/projects'
 
 const meta = sections.find((section) => section.id === 'projects')!
 
 export function Projects() {
-  // The grid carries its own reveal trigger. Released by the section's observer
-  // it would cascade a full viewport below the fold, where nobody sees it.
-  const grid = useReveal<HTMLDivElement>()
-
   return (
     <Section
       id={meta.id}
@@ -23,7 +18,10 @@ export function Projects() {
     >
       {featuredProject && <FeaturedProject project={featuredProject} />}
 
-      <div ref={grid} data-stagger="" className="grid gap-6 md:grid-cols-2">
+      {/* No cascade on the grid itself: each card is dealt when it reaches
+          the screen, and the right-hand column lands a beat after the left,
+          tilted the other way, so a row reads as two cards thrown down. */}
+      <div className="grid gap-6 md:grid-cols-2">
         {additionalProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}

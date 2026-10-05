@@ -161,7 +161,6 @@
      separates a control that feels physical from one that feels toggled. */
   --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-ambient: cubic-bezier(0.45, 0, 0.55, 1);
-  --stagger-step: 40ms;
 
   /* ── Layout ──────────────────────────────────────────────────────────────
      Spacing follows an 8px rhythm: use the even steps of Tailwind's 4px
@@ -303,50 +302,270 @@
   }
 }
 
-/* Stagger.
-   A section's children arriving in sequence is what makes it read as assembled
-   rather than switched on.
+/* Entrances.
+   Each kind of object arrives the way that object would, so the page does not
+   repeat one effect down every section: the kit board opens like a game
+   window, the stat sheet hangs like a sign, quest cards are dealt, the
+   flagship capture slides into its mount, the route is walked, and the
+   contact controls set into their sockets.
 
-   The trigger is [data-revealed] on the list itself, not on an ancestor. A
-   section is far taller than a viewport, so its own reveal fires when its
-   heading appears — which for a grid near the foot of the section is a full
-   screen before anyone can see it cascade. Each staggered list therefore runs
-   its own observer, via useReveal.
-
-   The cascade is clamped at the eighth child. Past that the last item lands
-   late enough to read as broken rather than as sequence. */
-[data-stagger] > * {
-  transition:
-    opacity var(--dur-slow) var(--ease-out-soft),
-    transform var(--dur-slow) var(--ease-out-soft);
-}
-
-[data-stagger] > *:nth-child(2) {
-  transition-delay: calc(var(--stagger-step) * 1);
-}
-[data-stagger] > *:nth-child(3) {
-  transition-delay: calc(var(--stagger-step) * 2);
-}
-[data-stagger] > *:nth-child(4) {
-  transition-delay: calc(var(--stagger-step) * 3);
-}
-[data-stagger] > *:nth-child(5) {
-  transition-delay: calc(var(--stagger-step) * 4);
-}
-[data-stagger] > *:nth-child(6) {
-  transition-delay: calc(var(--stagger-step) * 5);
-}
-[data-stagger] > *:nth-child(7) {
-  transition-delay: calc(var(--stagger-step) * 6);
-}
-[data-stagger] > *:nth-child(n + 8) {
-  transition-delay: calc(var(--stagger-step) * 7);
-}
-
+   Same safety split as the section reveal throughout: the not-yet-arrived
+   state exists only inside no-preference, and only [data-revealed] releases
+   it, so anything the observer never reaches is simply drawn. Every part is
+   fill-mode backwards, so once an object has arrived no animation holds it
+   and hover lifts and glyph reactions behave exactly as before. */
 @media (prefers-reduced-motion: no-preference) {
-  [data-stagger]:not([data-revealed]) > * {
+  :is([data-entrance], [data-mount]):not([data-revealed]),
+  [data-sockets]:not([data-revealed]) > *,
+  [data-stations]:not([data-revealed]) > * {
     opacity: 0;
-    transform: translateY(10px);
+  }
+
+  /* Window: the frame unrolls from its bar, the bar slides in, the glyph tile
+     pops, and the rivets set last, one corner at a time. */
+  [data-entrance='window'][data-revealed] {
+    transform-origin: 50% 0;
+    animation: window-open 520ms var(--ease-overshoot) backwards;
+
+    & [data-window-part='ribbon'] {
+      animation: window-ribbon var(--dur-slow) var(--ease-out-soft) 80ms backwards;
+    }
+
+    & [data-window-part='icon'] {
+      animation: pop-in var(--dur-slow) var(--ease-overshoot) 160ms backwards;
+    }
+
+    & [data-window-part='rule'] {
+      animation: window-rule var(--dur-slow) var(--ease-out-soft) 140ms backwards;
+    }
+
+    /* Each corner carries its own --rivet offset from the component. */
+    & [data-window-part='rivet'] {
+      animation: pop-in var(--dur-base) var(--ease-overshoot) var(--rivet, 220ms) backwards;
+    }
+  }
+
+  /* Sign: hung from its top edge, it drops in, swings past level, and rocks
+     to rest. Readable from the first swing; the rocking is the settle. */
+  [data-entrance='sign'][data-revealed] {
+    transform-origin: 50% 0;
+    animation: sign-hang 900ms var(--ease-ambient) backwards;
+  }
+
+  /* Deal: thrown down from below with a tilt and landing flat. The right-hand
+     column tilts the other way and lands a beat later, both set by the card. */
+  [data-entrance='deal'][data-revealed] {
+    animation: card-deal 560ms var(--ease-out-soft) var(--entrance-delay, 0ms) backwards;
+  }
+
+  /* Mount: the frame sets, then the capture slides in from the side it bleeds
+     off, so the photograph reads as hung in the frame rather than printed on
+     it. */
+  [data-mount][data-revealed] {
+    animation: window-rule var(--dur-slow) var(--ease-out-soft) backwards;
+
+    & > :first-child {
+      animation: mount-slide 700ms var(--ease-out-soft) 120ms backwards;
+    }
+  }
+
+  /* Route: the rail draws down the whole route, and each station's node
+     lights like a lantern as its turn comes, flaring once, while its card
+     slides out from the rail. The two lists run their own sequences because
+     the second sits a screen below the first. */
+  [data-route] [data-rail] {
+    transform-origin: 50% 0;
+  }
+
+  [data-route]:not([data-revealed]) [data-rail] {
+    scale: 1 0;
+  }
+
+  [data-route][data-revealed] [data-rail] {
+    animation: rail-draw 1400ms var(--ease-out-soft) backwards;
+  }
+
+  [data-stations][data-revealed] > * {
+    --station-at: calc(200ms + min(var(--station, 0), 5) * 180ms);
+
+    animation: station-out 480ms var(--ease-out-soft) var(--station-at) backwards;
+
+    & [data-station-node] {
+      animation: pop-in var(--dur-slow) var(--ease-overshoot) var(--station-at) backwards;
+    }
+
+    & [data-station-node]::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 2px solid var(--color-ember-ink);
+      border-radius: 9999px;
+      opacity: 0;
+      animation: lantern-flare 700ms var(--ease-out-soft) calc(var(--station-at) + 180ms);
+    }
+  }
+
+  /* Sockets: each control drops onto its own edge and squashes, the press
+     physics run once in reverse, in reading order. */
+  [data-sockets][data-revealed] > * {
+    animation: socket-set 420ms var(--ease-overshoot) calc(80ms + var(--socket, 0) * 70ms) backwards;
+  }
+
+  [data-sockets] > :nth-child(2) {
+    --socket: 1;
+  }
+  [data-sockets] > :nth-child(3) {
+    --socket: 2;
+  }
+  [data-sockets] > :nth-child(4) {
+    --socket: 3;
+  }
+  [data-sockets] > :nth-child(5) {
+    --socket: 4;
+  }
+}
+
+@keyframes window-open {
+  from {
+    opacity: 0;
+    scale: 0.94 0.84;
+    translate: 0 14px;
+  }
+  45% {
+    opacity: 1;
+  }
+}
+
+@keyframes window-ribbon {
+  from {
+    opacity: 0;
+    translate: -18px 0;
+  }
+}
+
+@keyframes window-rule {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+}
+
+@keyframes sign-hang {
+  from {
+    opacity: 0;
+    translate: 0 -28px;
+    rotate: -9deg;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 5deg;
+  }
+  55% {
+    rotate: -2.5deg;
+  }
+  78% {
+    rotate: 1deg;
+  }
+  to {
+    rotate: 0deg;
+  }
+}
+
+@keyframes card-deal {
+  from {
+    opacity: 0;
+    translate: 0 56px;
+    rotate: calc(var(--deal-tilt, -5deg) * -1);
+    scale: 0.96;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes mount-slide {
+  from {
+    opacity: 0;
+    translate: 64px 0;
+  }
+}
+
+@keyframes rail-draw {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes station-out {
+  from {
+    opacity: 0;
+    translate: -24px 0;
+  }
+}
+
+@keyframes lantern-flare {
+  from {
+    opacity: 0.9;
+    scale: 0.6;
+  }
+  to {
+    opacity: 0;
+    scale: 2;
+  }
+}
+
+@keyframes socket-set {
+  from {
+    opacity: 0;
+    translate: 0 -16px;
+  }
+  60% {
+    opacity: 1;
+    translate: 0 2px;
+    scale: 1.03 0.92;
+  }
+}
+
+/* Inventory fill.
+   Each item drops into its slot in turn, overshoots the floor of it and
+   settles, which is what an item landing in an inventory grid does. The index
+   comes from --slot on the item. Past the sixteenth the delay clamps, so a
+   long kit row still finishes inside a second. The first item waits 120ms so a
+   list inside a window lands after the window has opened around it.
+
+   The diamond notch on a grid slot clicks in a beat after its item lands. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-slots]:not([data-revealed]) > * {
+    opacity: 0;
+  }
+
+  [data-slots][data-revealed] > * {
+    animation: slot-drop 380ms var(--ease-overshoot) calc(120ms + min(var(--slot, 0), 16) * 35ms)
+      backwards;
+  }
+
+  [data-slots][data-revealed] [data-slot-notch] {
+    animation: pop-in var(--dur-base) var(--ease-overshoot)
+      calc(300ms + min(var(--slot, 0), 16) * 35ms) backwards;
+  }
+}
+
+@keyframes slot-drop {
+  from {
+    opacity: 0;
+    translate: 0 -10px;
+    scale: 0.55;
+  }
+  40% {
+    opacity: 1;
   }
 }
 
@@ -452,10 +671,10 @@
 }
 
 /* The two interface moments allowed to pop.
-   The world never rewards: a particle that fires because something happened is
-   motion as a reward and belongs to a game rather than to a place. Feedback on
-   a control the visitor just used is a different thing, and a pop that resolves
-   is what the Response family already is. No particles at either.
+   The world never rewards: the scenery has no bursts, because a place does not
+   applaud. Feedback on a control the visitor just used is a different thing,
+   and a pop that resolves is what the Response family already is. Both moments
+   also throw a burst of faceted shards, below.
 
    Feedback belongs where the visitor is looking, which is why these are two
    reactions rather than one: for a copy it is the button under the cursor, and
@@ -490,6 +709,33 @@
 @utility spark-pop {
   /* Delayed to the toast's own entrance, which lands at 11% of its 4s life. */
   animation: spark-pop var(--dur-base) var(--ease-overshoot) 260ms both;
+}
+
+/* Shard burst.
+   Triangles cut in the same facets as the glyphs and the world, thrown out
+   along their own angle, spun, and gone inside half a second. One transform
+   per shard, so the throw, the spin and the shrink compose in the order they
+   are written: aim, travel, then tumble at the far end. */
+@utility shard {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  animation: shard-throw 650ms var(--ease-standard) var(--burst-delay, 0ms) both;
+}
+
+@keyframes shard-throw {
+  from {
+    opacity: 1;
+    transform: rotate(var(--shard-angle)) translateX(4px) rotate(0deg) scale(0.6);
+  }
+  35% {
+    opacity: 1;
+    transform: rotate(var(--shard-angle)) translateX(calc(var(--shard-distance) * 0.75))
+      rotate(calc(var(--shard-spin) * 0.5)) scale(1.1);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(var(--shard-angle)) translateX(var(--shard-distance))
+      rotate(var(--shard-spin)) scale(0.5);
+  }
 }
 
 /* The dark band.
@@ -528,6 +774,12 @@
    Under reduce, the page must stay visually complete: reveals render in their
    final state, parallax is off, and every 3D canvas falls back to its image. */
 @media (prefers-reduced-motion: reduce) {
+  /* A burst is nothing but motion; collapsed to its last frame it would be
+     ten invisible spans, so it is removed rather than stilled. */
+  [data-burst] {
+    display: none;
+  }
+
   *,
   *::before,
   *::after {

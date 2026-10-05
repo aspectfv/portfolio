@@ -59,7 +59,7 @@ export function About() {
         {/* The one frame in a section that otherwise carries none. The prose
             stays open on the band; the numbers are a different kind of object
             and a sheet is what they are. */}
-        <Panel className="max-w-sm">
+        <Panel entrance="sign" className="max-w-sm">
           <StatBlock stats={stats} label="Portfolio at a glance" />
         </Panel>
       </div>

@@ -47,12 +47,12 @@ describe('flagship selection', () => {
   })
 })
 
-describe('staggered arrival', () => {
+describe('card arrival', () => {
   // The cascade used to hang off the section's reveal, which fires when the
   // heading appears — a full viewport above the grid, so the sequence it exists
-  // to draw had always finished by the time anyone scrolled to it. The grid
+  // to draw had always finished by the time anyone scrolled to it. Each card
   // owning its own observer is the fix, and this is what would regress.
-  it('observes the card grid itself rather than an ancestor', () => {
+  it('observes every card itself rather than an ancestor', () => {
     const observed: Element[] = []
     vi.stubGlobal(
       'IntersectionObserver',
@@ -73,8 +73,9 @@ describe('staggered arrival', () => {
         <Projects />
       </World>,
     )
-    const grid = container.querySelector('[data-stagger]')!
-    expect(observed).toContain(grid)
+    const cards = container.querySelectorAll('article [data-entrance]')
+    expect(cards).toHaveLength(additionalProjects.length)
+    for (const card of cards) expect(observed).toContain(card)
     vi.unstubAllGlobals()
   })
 })
