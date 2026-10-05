@@ -18,7 +18,10 @@ import type { Project } from '@/content/types'
  */
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="h-full">
+    // Grid items stretch, which keeps a collapsed row level. Once one card in a
+    // two-column row opens, its partner stops stretching so it does not grow a
+    // blank panel beside the detail.
+    <article className="md:[article:has([aria-expanded=true])+&:nth-child(even)]:self-start md:[&:nth-child(odd):has(+article_[aria-expanded=true])]:self-start">
       <Panel
         title={project.name}
         icon="gem"
