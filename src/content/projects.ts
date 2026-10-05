@@ -71,7 +71,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'socratic-ai-tutor',
-    name: 'Socratic AI Tutor',
+    name: 'Socratic AI Tutor (Thesis)',
     tagline: 'An LLM tutor that diagnoses why a student’s code is wrong instead of just fixing it.',
     summary:
       'An agentic tutoring system that detects programming misconceptions through structured tool-calling, with educators in the loop governing what context the model is allowed to see.',
@@ -373,7 +373,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'nexushub',
-    name: 'NexusHub',
+    name: 'NexusHub (CCAPDEV)',
     tagline:
       'A themed forum with rank progression, moderation tooling, and cascading data integrity.',
     summary:
