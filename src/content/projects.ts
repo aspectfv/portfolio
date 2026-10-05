@@ -153,6 +153,33 @@ export const projects: readonly Project[] = [
     },
   },
   {
+    id: 'minecraft-cpu',
+    name: 'Minecraft 16-Bit CPU (CSARCH2)',
+    tagline: 'A 16-bit Von Neumann CPU built in Minecraft redstone, from datapath to microcode.',
+    summary:
+      'A course-supplied, partly built redstone computer finished by filling in its missing components and microcoding its instruction set against the machine’s own control signals, with a five-operation ALU and registers shown live in hex.',
+    category: 'Computer Architecture',
+    role: 'Components and microcode, as the group’s sole builder',
+    stack: ['Minecraft Java 1.20.4', 'Redstone', 'Microcode'],
+    status: 'complete',
+    featured: false,
+    image: {
+      src: '/images/minecraft-cpu.webp',
+      alt: 'The computer’s register display wall in Minecraft: block-lettered columns for IR, PC and R0 to R7, the general registers also labelled AX, BX, CX, DX, SI, DI, SP and BP, each above four hex digits. Most read 0000, while SI and DI hold 00FF and 000F.',
+    },
+    links: [],
+    detail: {
+      problem:
+        'Textbook microcode assumes control signals this machine does not have. There is no XOR line or wait-for-memory step, only ALU select bits, a carry input and a handful of bus gates, so every instruction has to be re-expressed in what the redstone actually exposes.',
+      built:
+        'The missing components of the computer and the microcode for 13 opcodes, from register and memory moves to ADD, ADDC, SUB, INC, XOR, OR and NOT, wired to a three-bit step counter in the control unit, with a written conversion of each opcode from textbook microcode to the machine’s signals.',
+      decision:
+        'Treating the ALU’s three select bits as the only way to name an operation. ADD is all bits off, NOT is two bits together, and INC is an ADD with the carry input forced on rather than a separate incrementer, so the whole instruction set runs through one ALU.',
+      result:
+        'Submitted as a partial implementation, with every opcode’s microcode conversion written up alongside the world.',
+    },
+  },
+  {
     id: 'euclidean-distance-kernel',
     name: 'x86-64 Euclidean Distance Kernel (LBYARCH)',
     tagline:
