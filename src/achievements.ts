@@ -13,8 +13,7 @@
  * useSyncExternalStore shape as the rest of the app's external stores.
  */
 
-export type AchievementId =
-  'read-a-project' | 'copied-email' | 'noticed-the-world' | 'reached-end'
+export type AchievementId = 'read-a-project' | 'copied-email' | 'noticed-the-world' | 'reached-end'
 
 export interface Achievement {
   readonly id: AchievementId
