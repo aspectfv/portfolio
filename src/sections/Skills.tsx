@@ -18,14 +18,17 @@ const groupGlyphs: Record<string, IconName> = {
   backend: 'hammer',
   frontend: 'gem',
   data: 'chest',
+  'data-science': 'scroll',
   ai: 'spark',
+  networking: 'pin',
   infrastructure: 'signpost',
+  testing: 'flag',
 }
 
 /**
- * One kit board rather than six cases.
+ * One kit board rather than a case per group.
  *
- * Six panels, each with a ribbon, its own padding and its own border, cost more
+ * A panel per group, each with a ribbon, its own padding and its own border, cost more
  * vertical space than the words inside them and made the longest section on the
  * page out of the shortest content. A single board with a row per group says
  * the same thing in a third of the height, and the row is a real term and
